@@ -1,6 +1,8 @@
 <script setup>
+import EmptyState from './components/EmptyState.vue';
+
 </script>
 
 <template>
-  <h1>Testing</h1>
+  <EmptyState/>
 </template>
