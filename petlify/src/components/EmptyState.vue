@@ -14,6 +14,6 @@ const props = defineProps({
 </script>
 
 <template>
-    <img :src="src" :alt="alt" class="m-4">
+    <img :src="src" :alt="alt" class="mx-auto my-8">
     <p class="text-center font-light text-lg my-4"> {{ text }} </p>
 </template>
