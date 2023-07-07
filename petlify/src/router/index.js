@@ -19,6 +19,13 @@ const routes = [
         component: () => import('@/pages/Home.vue')
     },
     {
+        path: '/about',
+        name: 'About',
+        component: () => import('@/pages/About.vue')
+    },
+
+    // Auth
+    {
         path: '/signup',
         name: 'Sign Up',
        component: () => import('@/pages/SignUp.vue')
@@ -29,21 +36,6 @@ const routes = [
         component: () => import('@/pages/Login.vue')
     },
     {
-        path: '/about',
-        name: 'About',
-        component: () => import('@/pages/About.vue')
-    },
-    {
-        path: '/profile',
-        name: 'User Profile',
-        component: () => import('@/pages/UserProfile.vue')
-    },
-    // {
-    //     path: '/createPet',
-    //     name: 'Create Pet Profile',
-    //     component: () => import('@/pages/CreatePet.vue')
-    // },
-    {
         path: '/forgotPassword',
         name: 'Forgot Password',
         component: () => import('@/pages/ForgotPassword.vue')
@@ -52,7 +44,26 @@ const routes = [
         path: '/resetPassword',
         name: 'Reset Password',
         component: () => import('@/pages/ResetPassword.vue')
-    }
+    },
+    {
+        path: '/changePassword',
+        name: 'Change Password',
+        component: () => import('@/pages/ChangePassword.vue')
+    },
+
+    // Users
+    {
+        path: '/profile',
+        name: 'User Profile',
+        component: () => import('@/pages/UserProfile.vue')
+    },
+
+    // Pets
+    {
+        path: '/createPet',
+        name: 'Create Pet Profile',
+        component: () => import('@/pages/Pets/CreatePet.vue')
+    },
 ]
 
 const router = createRouter({
