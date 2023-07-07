@@ -19,6 +19,12 @@ import ButtonNew from '../components/ButtonNew.vue';
             <InputNew label="Name"/>
             <InputNew label="Email"/>
             <InputNew label="Password"/>
+            <v-select
+                clearable
+                label="Choose A Role"
+                :items="['Pet Owner', 'Pet Groomer']"
+                variant="outlined"
+            ></v-select>
 
             <div class="flex flex-col justify-center items-center gap-2">
                 <ButtonNew text="Sign Up" rounded="sm"/>
