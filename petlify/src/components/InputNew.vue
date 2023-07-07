@@ -1,6 +1,20 @@
 <script setup>
 import { ref } from 'vue';
 
+const props = defineProps({
+    label: {
+        type: String
+    },
+    showRules: {
+      type: Boolean,
+      default: true
+    },
+    showCounter: {
+      type: Boolean,
+      default: false
+    }
+})
+
 const valid = ref(false);
 
 const name = ref('');
@@ -46,11 +60,6 @@ const pwdRules = [
     }
 ]
 
-const props = defineProps({
-    label: {
-        type: String
-    }
-})
 
 const getFieldValue = (label) => {
     if(label === 'Email') {
@@ -64,11 +73,13 @@ const getFieldValue = (label) => {
 
 const getFieldRules = (label) => {
     if(label === 'Email') {
-        return emailRules
+        return props.showRules ? emailRules : []
     } else if (label === 'Password') {
-        return pwdRules
+        return props.showRules ? pwdRules : []
+    } else if (label  === 'Name') {
+        return props.showRules ? nameRules : []
     } else {
-        return nameRules
+      return []
     }
 }
 
@@ -78,7 +89,7 @@ const getFieldRules = (label) => {
      <v-text-field
               :v-model="getFieldValue(label)"
               :rules="getFieldRules(label)"
-              :counter="10"
+              :counter="showCounter ? 10 : undefined"
               :label="label"
               variant="outlined"
               required
