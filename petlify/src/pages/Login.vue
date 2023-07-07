@@ -31,7 +31,7 @@ import ButtonNew from '../components/ButtonNew.vue';
             </div>
 
             <div class="flex flex-col justify-center items-center gap-2">
-                <ButtonNew text="Login" rounded="lg"/>
+                <ButtonNew text="Login" rounded="sm"/>
                 <label class="font-light text-slate-600">
                 Don't have an account? 
                 <router-link to="/signup">

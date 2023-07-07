@@ -1,6 +1,6 @@
 <script setup>
 import Navbar from '../components/Navbar.vue';
-import Input from '../components/Input.vue';
+import Footer from '../components/Footer.vue';
 import InputNew from '../components/InputNew.vue';
 import ButtonNew from '../components/ButtonNew.vue';
 
@@ -9,7 +9,7 @@ import ButtonNew from '../components/ButtonNew.vue';
 <template>
     <Navbar/>
 
-    <div class="flex flex-col items-center justify-center gap-12 m-auto w-screen">
+    <div class="flex flex-col items-center justify-center gap-12 m-auto min-h-screen w-screen">
         <div class="flex flex-col text-center gap-2 p-4">
             <label class="text-3xl font-semibold">Sign Up</label>
             <label class="text-sm font-light">Let's get started</label>
@@ -21,7 +21,7 @@ import ButtonNew from '../components/ButtonNew.vue';
             <InputNew label="Password"/>
 
             <div class="flex flex-col justify-center items-center gap-2">
-                <ButtonNew text="Sign Up" rounded="lg"/>
+                <ButtonNew text="Sign Up" rounded="sm"/>
 
             <label class="font-light text-slate-600">
                 Have an account? 
@@ -32,4 +32,6 @@ import ButtonNew from '../components/ButtonNew.vue';
             </div>
         </div>
     </div>
+
+    <Footer/>
 </template>
