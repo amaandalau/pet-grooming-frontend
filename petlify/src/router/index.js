@@ -32,6 +32,26 @@ const routes = [
         path: '/about',
         name: 'About',
         component: () => import('@/pages/About.vue')
+    },
+    {
+        path: '/profile',
+        name: 'User Profile',
+        component: () => import('@/pages/UserProfile.vue')
+    },
+    // {
+    //     path: '/createPet',
+    //     name: 'Create Pet Profile',
+    //     component: () => import('@/pages/CreatePet.vue')
+    // },
+    {
+        path: '/forgotPassword',
+        name: 'Forgot Password',
+        component: () => import('@/pages/ForgotPassword.vue')
+    },
+    {
+        path: '/resetPassword',
+        name: 'Reset Password',
+        component: () => import('@/pages/ResetPassword.vue')
     }
 ]
 
