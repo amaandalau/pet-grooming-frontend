@@ -28,8 +28,16 @@ import ButtonNew from '../components/ButtonNew.vue';
                         </label>
                     </router-link>
                 </div>
+            </div>
 
+            <div class="flex flex-col justify-center items-center gap-2">
                 <ButtonNew text="Login" rounded="lg"/>
+                <label class="font-light text-slate-600">
+                Don't have an account? 
+                <router-link to="/signup">
+                    <label class="text-black hover:underline hover:cursor-pointer">Sign up</label>
+                </router-link>
+            </label>
             </div>
 
         </div>
