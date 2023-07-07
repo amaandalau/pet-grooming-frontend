@@ -12,7 +12,7 @@ import ButtonNew from '../components/ButtonNew.vue';
     <div class="flex flex-col items-center justify-center gap-12 m-auto w-screen">
         <div class="flex flex-col text-center gap-2 p-4">
             <label class="text-3xl font-semibold">Forgot password?</label>
-            <label class="text-sm font-light">No worries, we gotchu!</label>
+            <label class="text-sm font-light">No worries, we'll send you the reset instructions</label>
         </div>
 
         <div class="flex flex-col gap-16">
@@ -27,15 +27,6 @@ import ButtonNew from '../components/ButtonNew.vue';
                     </label>
                 </div>
             </router-link>
-            <!-- <div class="flex flex-col justify-center items-center gap-2">
-                <ButtonNew text="Login" rounded="lg"/>
-                <label class="font-light text-slate-600">
-                Don't have an account? 
-                <router-link to="/signup">
-                    <label class="text-black hover:underline hover:cursor-pointer">Sign up</label>
-                </router-link>
-            </label>
-            </div> -->
 
         </div>
     </div>
