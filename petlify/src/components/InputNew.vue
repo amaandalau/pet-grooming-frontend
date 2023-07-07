@@ -12,6 +12,13 @@ const props = defineProps({
     showCounter: {
       type: Boolean,
       default: false
+    },
+    variant: {
+      type: String,
+      default: 'outlined'
+    },
+    placeholder: {
+      type: String
     }
 })
 
@@ -91,7 +98,8 @@ const getFieldRules = (label) => {
               :rules="getFieldRules(label)"
               :counter="showCounter ? 10 : undefined"
               :label="label"
-              variant="outlined"
+              :variant="variant"
+              :placeholder="placeholder"
               required
               class="fixed-text-field"
     ></v-text-field>
