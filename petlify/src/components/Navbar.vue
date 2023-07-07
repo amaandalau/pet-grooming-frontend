@@ -19,16 +19,15 @@ const props = defineProps({
 
         <div class="flex flex-row justify-evenly gap-4">
             <router-link to="/">
-                <Buttons class="link" title="Home"/>
+                <ButtonNew class="link" text="Home" size="large" elevation="0"/>
             </router-link>
 
             <router-link to="/about">
-                <Buttons class="link" title="About"/>
+                <ButtonNew class="link" text="About" size="large" elevation="0"/>
             </router-link>
 
             <router-link to="/signup">
-                <Buttons class="default" title="Sign Up"/>
-                <!-- <ButtonNew text="Sign Up"/> -->
+                <ButtonNew text="Sign Up" rounded="sm" size="large"/>
             </router-link>
         </div>
 
