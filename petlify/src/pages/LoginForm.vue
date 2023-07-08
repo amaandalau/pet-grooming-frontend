@@ -60,7 +60,8 @@ const visible = ref(false)
           Log In
         </v-btn>
   
-        <v-card-text class="text-center">
+        <v-card-text class="text-center text-slate-700 font-light">
+            Don't have an account?
           <a
             class="text-black hover:underline"
             href="/signup"
