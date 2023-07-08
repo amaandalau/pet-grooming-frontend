@@ -56,7 +56,7 @@ const visible = ref(false);
 
       <v-card-text class="text-center text-slate-700 font-light">
         Have an account?
-        <a class="text-black hover:underline" href="/signup" rel="noopener noreferrer">
+        <a class="text-black hover:underline" href="/login" rel="noopener noreferrer">
           Log in
         </a>
       </v-card-text>
