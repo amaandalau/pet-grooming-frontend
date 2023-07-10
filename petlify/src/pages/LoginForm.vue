@@ -18,7 +18,8 @@ const login = async () => {
   await store.login(emailValue, passwordValue)
   console.log('User logged in 1')
 
-  router.push('/profile2')
+  // router.push('/')
+  router.push('/profile')
 }
 
 </script>
