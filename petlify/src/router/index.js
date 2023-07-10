@@ -57,13 +57,13 @@ const routes = [
     },
 
     // Users
+    // {
+    //     path: '/profile',
+    //     name: 'User Profile',
+    //     component: () => import('@/pages/UserProfile.vue')
+    // },
     {
         path: '/profile',
-        name: 'User Profile',
-        component: () => import('@/pages/UserProfile.vue')
-    },
-    {
-        path: '/profile2',
         name: 'User Profile 2',
         component: () => import('@/pages/ProfilePage.vue')
     },
