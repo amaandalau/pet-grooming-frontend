@@ -8,7 +8,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="bg-white flex flex-row items-center justify-between p-4 z-50 drop-shadow-sm">
+    <div class="bg-transparent flex flex-row items-center justify-between p-4 z-50 drop-shadow-sm">
 
         <router-link to="/">
             <div class="flex flex-row justify-start gap-1 hover:cursor-pointer">
