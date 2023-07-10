@@ -67,6 +67,11 @@ const routes = [
         name: 'User Profile 2',
         component: () => import('@/pages/ProfilePage.vue')
     },
+    {
+        path: '/editProfile',
+        name: 'Edit Profile',
+        component: () => import('@/pages/EditProfilePage.vue')
+    },
 
     // Pets
     {
