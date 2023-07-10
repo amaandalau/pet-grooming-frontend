@@ -1,36 +1,65 @@
 <script setup>
+import { ref } from 'vue';
 import Navbar from '../components/Navbar.vue';
-import Footer from '../components/Footer.vue';
-import InputNew from '../components/InputNew.vue';
-import ButtonNew from '../components/ButtonNew.vue';
 
+const visible = ref(false)
 </script>
 
 <template>
     <Navbar/>
+    <div class="mt-8">
+  
+      <v-card
+        class="mx-auto pa-12 pb-8"
+        elevation="0"
+        max-width="448"
+        rounded="lg"
+      >
+      <div class="text-center text-2xl font-semibold">Change Password</div>
+      <div class="text-center text-sm font-light mb-8">Change your password at any time</div>
 
-    <div class="flex flex-col items-center justify-center gap-12 m-auto min-h-screen w-screen">
-        <div class="flex flex-col text-center gap-2 p-4">
-            <label class="text-3xl font-semibold">Change your password</label>
-            <label class="text-sm font-light">Change your password at any time</label>
-        </div>
+  
+        <v-text-field
+        label="Current Password"
+          density="comfortable"
+          placeholder="Enter your current password"
+          variant="outlined"
+          hint="Enter your current password"
+        ></v-text-field>
+  
+  
+        <v-text-field
+        class="mt-4"
+        label="New Password"
+        hint="Enter your new password"
+          :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+          :type="visible ? 'text' : 'password'"
+          density="comfortable"
+          placeholder="Enter your new password"
+          variant="outlined"
+          @click:append-inner="visible = !visible"
+        ></v-text-field>
 
-        <div class="flex flex-col gap-16">
-            <InputNew label="Current Password" :show-rules="true" placeholder="Enter your old password"/>
-            <InputNew label="New Password" :show-rules="true" placeholder="Enter your new password"/>
-
-            <ButtonNew text="Change password" rounded="sm"/>
-
-            <router-link to="/">
-                <div class="flex justify-center">
-                    <label class="font-light text-sm text-slate-800 hover:underline hover:cursor-pointer">
-                        Home
-                    </label>
-                </div>
-            </router-link>
-
-        </div>
+        <v-text-field
+        class="mt-4"
+        label="Confirm New Password"
+        hint="Re-enter your new password"
+          :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+          :type="visible ? 'text' : 'password'"
+          density="comfortable"
+          variant="outlined"
+          @click:append-inner="visible = !visible"
+        ></v-text-field>
+  
+        <v-btn
+          block
+          class="my-8 bg-black text-white"
+          size="large"
+          variant="outlined"
+        >
+          Save
+        </v-btn>
+      </v-card>
     </div>
-
-    <Footer/>
-</template>
+  </template>
+  
