@@ -25,15 +25,20 @@ const routes = [
     },
 
     // Auth
+    // {
+    //     path: '/signup',
+    //     name: 'Sign Up',
+    //    component: () => import('@/pages/SignUp.vue')
+    // },
     {
         path: '/signup',
         name: 'Sign Up',
-       component: () => import('@/pages/SignUp.vue')
+       component: () => import('@/pages/SignUpForm.vue')
     },
     {
         path: '/login',
         name: 'Login',
-        component: () => import('@/pages/Login.vue')
+        component: () => import('@/pages/LoginForm.vue')
     },
     {
         path: '/forgotPassword',
@@ -57,6 +62,11 @@ const routes = [
         name: 'User Profile',
         component: () => import('@/pages/UserProfile.vue')
     },
+    {
+        path: '/profile2',
+        name: 'User Profile 2',
+        component: () => import('@/pages/ProfilePage.vue')
+    },
 
     // Pets
     {
@@ -64,6 +74,13 @@ const routes = [
         name: 'Create Pet Profile',
         component: () => import('@/pages/Pets/CreatePet.vue')
     },
+
+    // Appointments (Groomer's Dashboard)
+    {
+        path: '/appointments',
+        name: 'Appointments',
+        component: () => import ('@/pages/Appointments.vue')
+    }
 ]
 
 const router = createRouter({
