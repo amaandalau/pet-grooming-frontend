@@ -1,8 +1,26 @@
 <script setup>
 import { ref } from 'vue';
 import Navbar from '../components/Navbar.vue';
+import { useRouter } from 'vue-router';
+import { useAuthStores } from '../stores/auth';
 
 const visible = ref(false)
+const router = useRouter()
+const store = useAuthStores()
+
+const email = ref('')
+const password = ref('')
+
+const login = async () => {
+  const emailValue = email.value
+  const passwordValue = password.value
+
+  await store.login(emailValue, passwordValue)
+  console.log('User logged in 1')
+
+  router.push('/profile2')
+}
+
 </script>
 
 <template>
@@ -20,6 +38,7 @@ const visible = ref(false)
 
   
         <v-text-field
+        v-model="email"
         label="Email"
           density="comfortable"
           placeholder="Enter your email"
@@ -33,6 +52,7 @@ const visible = ref(false)
         </div> -->
   
         <v-text-field
+        v-model="password"
         label="Password"
         hint="Enter your password"
           :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
@@ -56,6 +76,7 @@ const visible = ref(false)
           class="my-8 bg-black text-white"
           size="large"
           variant="outlined"
+          @click="login"
         >
           Log In
         </v-btn>
