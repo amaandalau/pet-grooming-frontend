@@ -38,7 +38,14 @@ import Footer from '../components/Footer.vue'
             <router-link to="/signup">
                 <ButtonNew text="Get Started" rounded="sm"/>
             </router-link>
+            <div class="mt-4">
+                    <label class="font-light text-sm">
+                        Already have an account? 
+                        <a class="hover:underline hover:cursor-pointer" href="/login">Log in</a>
+                    </label> 
+            </div>
         </div>
+
     </div>
 
     <Footer/>
