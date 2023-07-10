@@ -1,8 +1,36 @@
 <script setup>
 import { ref } from "vue";
+import { useAuthStores } from "../stores/auth";
 import Navbar from "../components/Navbar.vue";
 
 const visible = ref(false);
+
+const store = useAuthStores()
+
+const name = ref('')
+const email = ref('')
+const password = ref('')
+const role = ref('')
+
+const mapRoleValue = (selectedRole) => {
+    if (selectedRole === 'Pet Groomer') {
+      return 'groomer'
+    } else if (selectedRole === 'Pet Owner') {
+      return 'owner'
+    }
+  }
+
+const signup = async () => {
+  const nameValue = name.value
+  const emailValue = email.value
+  const passwordValue = password.value
+  const roleValue = mapRoleValue(role.value)
+
+
+
+  await store.registerUser(nameValue, emailValue, passwordValue, roleValue)
+  console.log('User Registered 1')
+}
 
 </script>
 
@@ -14,6 +42,7 @@ const visible = ref(false);
       <div class="text-center text-sm font-light mb-8">Let's get started</div>
 
       <v-text-field
+      v-model="name"
         label="Name"
         density="comfortable"
         placeholder="Enter your name"
@@ -23,6 +52,7 @@ const visible = ref(false);
       ></v-text-field>
 
       <v-text-field
+      v-model="email"
         label="Email"
         density="comfortable"
         placeholder="Enter your email"
@@ -33,6 +63,7 @@ const visible = ref(false);
 
 
       <v-text-field
+      v-model="password"
         label="Password"
         hint="Enter your password"
         :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
@@ -45,6 +76,7 @@ const visible = ref(false);
       ></v-text-field>
 
       <v-select
+      v-model="role"
         clearable
         label="Choose A Role"
         :items="['Pet Owner', 'Pet Groomer']"
@@ -52,7 +84,7 @@ const visible = ref(false);
         density="comfortable"
       ></v-select>
 
-      <v-btn block class="my-8 bg-black text-white" size="large" variant="outlined"> Sign Up </v-btn>
+      <v-btn block class="my-8 bg-black text-white" size="large" variant="outlined" @click="signup"> Sign Up </v-btn>
 
       <v-card-text class="text-center text-slate-700 font-light">
         Have an account?
