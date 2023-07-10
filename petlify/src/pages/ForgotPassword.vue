@@ -3,7 +3,13 @@ import Navbar from '../components/Navbar.vue';
 import Footer from '../components/Footer.vue';
 import InputNew from '../components/InputNew.vue';
 import ButtonNew from '../components/ButtonNew.vue';
+import { useRouter } from 'vue-router';
 
+const goToResetPwd = () => {
+        const router = useRouter()
+        router.push('/resetPassword')
+}
+ 
 </script>
 
 <template>
@@ -18,7 +24,7 @@ import ButtonNew from '../components/ButtonNew.vue';
         <div class="flex flex-col gap-16">
             <InputNew label="Email" :show-rules="true" placeholder="Enter your email"/>
 
-            <ButtonNew text="Reset password" rounded="sm"/>
+            <ButtonNew text="Reset password" rounded="sm" @click="goToResetPwd"/>
 
             <router-link to="/login">
                 <div class="flex justify-center">
