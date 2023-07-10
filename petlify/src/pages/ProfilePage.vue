@@ -11,50 +11,6 @@ const goToEditProfile = () => {
     router.push('/editProfile')
 }
 
-const getUser = {
-    method: 'GET'
-}
-
-const getUserData = async () => {
-    try {
-        const response = await fetch('http://localhost:8080/users/:userID', getUser)
-        const data = await response.json()
-        console.log(data)
-
-        // Update name label
-        name.value = data.name
-
-        // Update email label
-        email.value = data.email
-
-        // Update role label
-        role.value = data.role
-
-        console.log('Get user data API')
-    } catch (error) {
-        console.error(error )
-    }
-}
-
-const deleteUser = {
-    method: 'DELETE',
-    headers: {
-        Authorization: ''
-    }
-}
-
-const deactivateAccount = async () => {
-    try {
-        // const response = await fetch('http://localhost:8080/users/:userID', deleteUser)
-        // const data = await response.json()
-        // console.log(data)
-        
-        console.log('deactivate acc API')
-    } catch (error) {
-        console.error(error)
-    }
-}
-
 const name = ref('John Doe')
 const email = ref('johndoe@email.com')
 const role = ref('User Role')
