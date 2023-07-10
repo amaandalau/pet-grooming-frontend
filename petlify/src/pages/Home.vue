@@ -36,7 +36,7 @@ import Footer from '../components/Footer.vue'
 
         <div>
             <router-link to="/signup">
-                <ButtonNew text="Get Started"/>
+                <ButtonNew text="Get Started" rounded="sm"/>
             </router-link>
         </div>
     </div>
