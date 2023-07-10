@@ -77,6 +77,9 @@ export const usePetStores = defineStore({
         },
 
         async updatePet(name, dateOfBirth, species, breed, weightInKG, color) {
+
+            try {
+                
             const accessToken = this.accessToken
 
             const options = {
@@ -100,10 +103,15 @@ export const usePetStores = defineStore({
 
             console.log(data)
             console.log('Update Pet - Success - Thrown from Pinia')
+            } catch (error) {
+                console.error(error)
+            }
+
         },
 
         async deletePet() {
-            const accessToken = this.accessToken
+            try {
+                const accessToken = this.accessToken
 
             const options = {
                 method: 'DELETE',
@@ -117,6 +125,10 @@ export const usePetStores = defineStore({
 
             console.log(data)
             console.log('Pet Deleted Successfully - Thrown from Pinia')
+            } catch (error) {
+                console.error(error)
+            }
+            
         }
     }
 })
