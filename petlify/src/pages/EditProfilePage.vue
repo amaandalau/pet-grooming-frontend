@@ -4,6 +4,13 @@ import Footer from '../components/Footer.vue'
 import InputNew from '../components/InputNew.vue'
 import ButtonNew from '../components/ButtonNew.vue'
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
+
+const goToProfile = () => {
+    router.push('/profile2')
+}
 
 const deactivateAccount = async () => {
     try {
@@ -58,7 +65,7 @@ const userLoggedIn = ref(true)
                         <InputNew label="Role" :readonly="true" value="Pet Owner"/>
                         <!-- Role cannot be updated -->
 
-                        <ButtonNew text="Save" rounded="sm"/>
+                        <ButtonNew text="Save" rounded="sm" @click="goToProfile"/>
                     </div>
 
                 </div>
