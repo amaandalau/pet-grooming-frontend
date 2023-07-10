@@ -2,6 +2,14 @@
 import Navbar from '../components/Navbar.vue';
 import Footer from '../components/Footer.vue'
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+
+const router = useRouter()
+
+const goToEditProfile = () => {
+    router.push('/editProfile')
+}
 
 const getUser = {
     method: 'GET'
@@ -67,9 +75,9 @@ const role = ref('User Role')
         <div class="w-1/2 min-h-screen max-h-screen flex flex-1 flex-col items-center justify-between">
 
             <div class="flex flex-col w-full">
-                <div class="mx-4 my-2 justify-self-end text-right hover:underline">
-                    <label class="font-light text-sm hover:cursor-pointer">Edit Profile</label>
-                </div>
+                    <div class="mx-4 my-2 justify-self-end text-right hover:underline" @click="goToEditProfile">
+                        <label class="font-light text-sm hover:cursor-pointer">Edit Profile</label>
+                    </div>
 
                 <div class="flex flex-col items-center">
 
