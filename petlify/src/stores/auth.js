@@ -113,6 +113,14 @@ export const useAuthStores = defineStore({
             } catch (error) {
                 console.error(error)
             }
+        },
+
+        async logout() {
+            Cookies.remove('access_token', {
+                path: '/'
+            })
+
+            console.log('Successfully logged out - Thrown from Pinia')
         }
     }
 })
