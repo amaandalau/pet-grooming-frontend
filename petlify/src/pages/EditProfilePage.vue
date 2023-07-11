@@ -9,20 +9,9 @@ import { useRouter } from 'vue-router';
 const router = useRouter()
 
 const goToProfile = () => {
-    router.push('/profile2')
+    router.push('/profile')
 }
 
-const deactivateAccount = async () => {
-    try {
-        // const response = await fetch('http://localhost:8080/users/:userID', deleteUser)
-        // const data = await response.json()
-        // console.log(data)
-        
-        console.log('deactivate acc API')
-    } catch (error) {
-        console.error(error)
-    }
-}
 
 const name = ref('John Doe')
 const email = ref('johndoe@email.com')
