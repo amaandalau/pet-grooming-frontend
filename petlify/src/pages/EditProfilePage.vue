@@ -16,12 +16,11 @@ const goToProfile = () => {
 const name = ref('John Doe')
 const email = ref('johndoe@email.com')
 const role = ref('User Role')
-const userLoggedIn = ref(true)
 
 </script>
 
 <template>
-    <Navbar :userLoggedIn="userLoggedIn"/>
+    <Navbar :userLoggedIn="true"/>
 
     <div class="flex flex-row justify-center items-center min-h-screen">
         <div class="w-1/2">
