@@ -84,6 +84,16 @@ const routes = [
         name: 'Create Pet Profile',
         component: () => import('@/pages/Pets/CreatePet.vue')
     },
+    {
+        path: '/editPet',
+        name: 'Edit Pet Profile',
+        component: () => import('@/pages/Pets/EditPet.vue')
+    },
+    {
+        path: '/petProfile',
+        name: 'Pet Profile',
+        component: () => import('@/pages/Pets/PetProfile.vue')
+    },
 
     // Appointments (Groomer's Dashboard)
     {
