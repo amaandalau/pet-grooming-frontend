@@ -3,15 +3,24 @@ import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue'
 import InputNew from '@/components/InputNew.vue';
 import ButtonNew from '@/components/ButtonNew.vue'
+
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { usePetStores } from '../../stores/pets';
 
 const router = useRouter()
-const name= ref('John Doe')
+const store = usePetStores()
 
 const goToPetProfile = () => {
     router.push('/petProfile')
-} 
+}
+
+const deletePet = async () => {
+
+    await store.deletePet()
+    console.log('Pet Deleted')
+    router.push('/pets')
+}
 
 </script>
 
@@ -20,6 +29,7 @@ const goToPetProfile = () => {
     <div class="min-h-screen flex flex-col items-center">
 
         <label class="font-semibold text-2xl">Edit Pet</label>
+
         <div class="border border-black rounded-full h-40 w-40 m-8">
             <!-- Avatar -->
             <img src="https://images.unsplash.com/photo-1600585594245-0eb3fe7f1474?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=930&q=80" alt=""
@@ -46,6 +56,10 @@ const goToPetProfile = () => {
 
 
             <ButtonNew text="Save" rounded="sm" @click="goToPetProfile"/>
+        </div>
+
+        <div class="mx-4 my-16 justify-self-end text-right hover:underline hover:text-red-600" @click="deletePet">
+            <label class="font-light text-sm hover:cursor-pointer">Delete Pet</label>
         </div>
     </div>
     <Footer/>
