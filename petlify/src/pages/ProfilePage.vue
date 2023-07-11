@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar.vue';
 import Footer from '../components/Footer.vue'
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import LoggedInNavbar from '../components/LoggedInNavbar.vue';
 
 
 const router = useRouter()
@@ -18,7 +19,7 @@ const role = ref('User Role')
 </script>
 
 <template>
-    <Navbar/>
+    <Navbar :user-logged-in="true"/>
 
     <div class="flex flex-row justify-center items-center min-h-screen">
         <div class="w-1/2">
