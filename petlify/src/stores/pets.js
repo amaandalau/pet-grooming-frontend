@@ -4,11 +4,23 @@ export const usePetStores = defineStore({
     id: 'pets',
 
     state: () => {
-
+        return {
+            pet: null
+        }
     },
 
     getters: {
+        getPetAge: (state) => {
+            const pet = state.pet
+            if(!pet) return null
 
+            const dob = newDate(pet.dateOfBirth)
+            const today = new Date()
+            const ageTime = today - dob
+            const petAge = Math.floor(ageTime / (1000 * 60 * 60 * 24 * 365.25))
+
+            return petAge
+        }
     },
 
     actions: {
