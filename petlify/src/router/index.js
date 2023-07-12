@@ -94,12 +94,17 @@ const routes = [
         name: 'Pet Profile',
         component: () => import('@/pages/Pets/PetProfile.vue')
     },
+    {
+        path: '/createPetAppt',
+        name: 'Create Pet Appointment',
+        component: () => import('@/pages/Pets/CreatePetAppt.vue')
+    },
 
     // Appointments (Groomer's Dashboard)
     {
         path: '/appointments',
         name: 'Appointments',
-        component: () => import ('@/pages/Appointments.vue')
+        component: () => import ('@/pages/Appointments/Appointments.vue')
     }
 ]
 
