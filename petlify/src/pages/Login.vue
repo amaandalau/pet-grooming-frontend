@@ -4,6 +4,13 @@ import Input from '../components/Input.vue';
 import InputNew from '../components/InputNew.vue';
 import ButtonNew from '../components/ButtonNew.vue';
 
+import { useRouter } from 'vue-router';
+const router = useRouter()
+
+const goToProfile = () => {
+    router.push('/profile')
+}
+
 </script>
 
 <template>
@@ -31,7 +38,8 @@ import ButtonNew from '../components/ButtonNew.vue';
             </div>
 
             <div class="flex flex-col justify-center items-center gap-2">
-                <ButtonNew text="Login" rounded="sm"/>
+                <ButtonNew text="Login" rounded="sm" @click="goToProfile"/>
+                
                 <label class="font-light text-slate-600">
                 Don't have an account? 
                 <router-link to="/signup">
