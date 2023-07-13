@@ -63,12 +63,12 @@ const routes = [
     //     component: () => import('@/pages/UserProfile.vue')
     // },
     {
-        path: '/profile',
-        name: 'User Profile 2',
+        path: '/profile/:id',
+        name: 'User Profile',
         component: () => import('@/pages/ProfilePage.vue')
     },
     {
-        path: '/editProfile',
+        path: '/editProfile/:id',
         name: 'Edit Profile',
         component: () => import('@/pages/EditProfilePage.vue')
     },
@@ -105,6 +105,18 @@ const routes = [
         path: '/appointments',
         name: 'Appointments',
         component: () => import ('@/pages/Appointments/Appointments.vue')
+    },
+    {
+        path: '/apptDetails',
+        name: 'Appointment Details',
+        component: () => import('@/pages/Appointments/ApptDetails.vue')
+    },
+
+    // Settings
+    {
+        path: '/settings',
+        name: 'Settings',
+        component: () => import('')
     }
 ]
 

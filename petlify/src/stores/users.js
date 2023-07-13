@@ -4,26 +4,41 @@ export const useUserStores = defineStore({
     id: 'users',
 
     state: () => {
-
+        return {
+            user: {
+                id: null,
+                name: null,
+                email: null,
+                isVerified: null,
+                role: null,
+                
+                
+            }
+        }
     },
 
     getters: {
-
+        getUser: (state) => state.user,
     },
 
     actions: {
         
-        async getUserByID() {
+        async getUserByID(userID) {
             try {
                 const options = {
                     method: 'GET'
                 }
-
-                const response = await fetch('http://localhost:8080/users/:userID', options)
+                const response = await fetch(`http://localhost:8080/users/${userID}`, options)
                 const data = response.json()
 
+                this.user = data // Set the user information in the state
+                // const userID = data.id
+
+                console.log('User ID:' , userID)
                 console.log(data)
                 console.log('Get user id - thrown from pinia')
+
+                return data
             } catch (error) {
                 console.error(error)
             }

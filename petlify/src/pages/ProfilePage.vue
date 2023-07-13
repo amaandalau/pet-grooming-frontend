@@ -1,20 +1,44 @@
 <script setup>
 import Navbar from '../components/Navbar.vue';
 import Footer from '../components/Footer.vue'
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import LoggedInNavbar from '../components/LoggedInNavbar.vue';
+
+import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useUserStores } from '../stores/users';
 
 
 const router = useRouter()
+const route = useRoute()
+const userStore = useUserStores()
 
 const goToEditProfile = () => {
-    router.push('/editProfile')
+    router.push(`/editProfile/${route.params.id}`)
 }
 
-const name = ref('John Doe')
-const email = ref('johndoe@email.com')
-const role = ref('User Role')
+const name = ref(null)
+const email = ref(null)
+const role = ref(null)
+let userID = ref(null)
+
+onMounted(async () => {
+    userID.value = route.params.id
+    const user = await userStore.getUserByID(userID.value)
+
+    if(user) {
+        name.value = user.name
+        email.value = user.email
+
+        if (user.role === 'owner') {
+            return role.value = 'Pet Owner'
+        } else if (user.role === 'groomer') {
+            return role.value = 'Pet Groomer'
+        } else if (user.role === 'admin') {
+            return role.value = 'Admin'
+        } else {
+            return 'User Role'
+        }
+    } 
+})
 
 </script>
 
