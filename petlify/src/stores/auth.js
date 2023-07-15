@@ -7,11 +7,10 @@ export const useAuthStores = defineStore({
         return {
             currentUser: {
                 id: null,
+                name: null,
                 email: null,
                 role: null
-                // accessToken: null
             }
-            // currentUser: null
         }
     },
 
@@ -40,7 +39,7 @@ export const useAuthStores = defineStore({
                 }
 
                 const userData = await response.json()
-                state.currentUser = userData
+                // state.currentUser = userData
 
                 return userData
             } catch (error) {
@@ -78,10 +77,15 @@ export const useAuthStores = defineStore({
                 const data = await response.json()
 
                 const accessToken = data.accessToken
-                this.accessToken = accessToken
+                console.log('Access Token', accessToken)
+                // this.accessToken = accessToken
+                
+                this.currentUser = await this.getCurrentUser()
+                console.log('Current User', this.currentUser);
 
                 // Save access token to local storage
                 localStorage.setItem('access_token', accessToken)
+                console.log('Local storage access token', accessToken);
 
                 // Fetch current user
                 const userResponse = await fetch('http://localhost:8080/auth/me', {

@@ -5,6 +5,10 @@ import DropdownMenu from './DropdownMenu.vue';
 import Logo from './icons/Logo.vue';
 
 import { ref } from 'vue';
+import { computed } from 'vue';
+import { useAuthStores } from '../stores/auth';
+import { onMounted } from 'vue';
+import { useUserStores } from '../stores/users';
 
 const props = defineProps({
     userLoggedIn: {
@@ -13,15 +17,42 @@ const props = defineProps({
     }
 })
 
-const user = ref({
-    name: 'John Doe',
-    email: 'johndoe@example.com'
-})
+const name = ref(null)
+const email = ref(null)
+let userID = ref(null)
 
 const router = useRouter()
-const logout = () => {
-  router.push('/')
+const authStore = useAuthStores()
+const userStore = useUserStores()
+
+const logout = async () => {
+    await authStore.logout()
+    router.push('/')
 }
+
+const currentUser = ref(null)
+
+// onMounted(async () => {
+//     if(props.userLoggedIn) {
+//         // currentUser.value = await authStore.getCurrentUser()
+//         await authStore.getCurrentUser()
+//         currentUser.value = authStore.currentUser
+//     }
+// })
+
+const getUserData = async () => {
+    try {
+        const currentUser = await authStore.getCurrentUser()
+        return currentUser
+    } catch (error) {
+        console.error(error)
+        return null
+    }
+}
+
+const user = computed(() => currentUser.value || {})
+const isLoggedIn = computed(() => props.userLoggedIn && user.value !== null && user.value.id !== null)
+
 
 </script>
 
@@ -48,8 +79,8 @@ const logout = () => {
                 <ButtonNew text="Sign Up" rounded="sm" size="large"/>
             </router-link> -->
 
-            <template v-if="userLoggedIn">
-                <DropdownMenu @logout="logout" :name="user.name" :email="user.email"/>
+            <template v-if="props.userLoggedIn">
+                <DropdownMenu @logout="logout" :user="getUserData()"/>
             </template>
 
             <template v-else>
