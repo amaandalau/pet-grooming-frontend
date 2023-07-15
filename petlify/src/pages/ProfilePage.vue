@@ -2,17 +2,23 @@
 import Navbar from '../components/Navbar.vue';
 import Footer from '../components/Footer.vue'
 
-import { ref, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useAuthStores } from '../stores/auth';
 import { useUserStores } from '../stores/users';
+import { onMounted } from 'vue';
 
 
 const router = useRouter()
 const route = useRoute()
+const authStore = useAuthStores()
 const userStore = useUserStores()
 
+const currentUser = computed(() => authStore.currentUser)
+
 const goToEditProfile = () => {
-    router.push(`/editProfile/${route.params.id}`)
+    console.log('Current User Value ID', currentUser.value.id)
+    router.push(`/editProfile/${currentUser.value.id}`)
 }
 
 const name = ref(null)
@@ -40,16 +46,25 @@ onMounted(async () => {
     } 
 })
 
+
+// onMounted(async () => {
+//     const userData = await authStore.getCurrentUser()
+
+//     if(userData) {
+//         currentUser.value = userData
+//     }
+// })
+
 </script>
 
 <template>
     <Navbar :user-logged-in="true"/>
 
     <div class="flex flex-row justify-center items-center min-h-screen">
-        <div class="w-1/2">
+        <div class="w-1/2 h-screen flex items-center justify-center rounded-r-3xl bg-slate-100 drop-shadow-md">
             <!-- Dog Pic -->
-            <img src="https://images.unsplash.com/photo-1521673461164-de300ebcfb17?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" alt=""
-                class="object-cover h-screen w-full rounded-r-3xl overflow-hidden"
+            <img src="../assets/illustrations/purr-22.png" alt=""
+                class="object-contain"
             >
         </div>
 
@@ -65,12 +80,12 @@ onMounted(async () => {
                     
                     <div class="border border-black rounded-full h-40 w-40 m-8">
                         <!-- Avatar -->
-                        <img src="https://images.unsplash.com/photo-1600585594245-0eb3fe7f1474?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=930&q=80" alt=""
-                        class="object-fit h-full w-full rounded-full"
+                        <img src="../assets//illustrations//purr-half-cat-1.png" alt=""
+                        class="object-contain h-full w-full rounded-full"
                         >
                     </div>
                     
-                    <div class="flex flex-col items-center gap-2">
+                    <div class="flex flex-col items-center gap-2" v-if="currentUser">
                         <label class="font-semibold text-xl">{{ name }}</label>
                         <label class="font-light text-base">{{ email }}</label>
                         <label class="mt-4">{{ role }}</label>
@@ -80,7 +95,7 @@ onMounted(async () => {
 
             <div class="flex justify-center my-4">
                 <label @click="deactivateAccount()"
-                    class="font-light text-red-600 hover:font-bold hover:cursor-pointer hover:underline">
+                    class="font-light text-sm text-red-600 hover:font-bold hover:cursor-pointer hover:underline">
                     Deactivate account
                 </label>
             </div>
