@@ -2,62 +2,75 @@
 import Navbar from '../components/Navbar.vue';
 import Footer from '../components/Footer.vue'
 
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useAuthStores } from '../stores/auth';
 import { useUserStores } from '../stores/users';
-import { onMounted } from 'vue';
 
-
-const router = useRouter()
-const route = useRoute()
+const { currentUser } = useAuthStores()
 const authStore = useAuthStores()
 const userStore = useUserStores()
-
-const currentUser = computed(() => authStore.currentUser)
-
-const goToEditProfile = () => {
-    // console.log('Current User Value ID', currentUser.value.id)
-    // router.push(`/editProfile/${currentUser.value.id}`)
-
-    router.push(`/editProfile/${route.params.id}`)
-}
-
-const deactivateAccount = async () => {
-
-    await userStore.deleteUser(route.params.id)
-    console.log('User Deleted')
-    router.push('/')
-}
+const router = useRouter()
+const route = useRoute()
 
 const name = ref(null)
 const email = ref(null)
 const role = ref(null)
-let userID = ref(null)
+
+
+const goToEditProfile = async () => {
+    console.log('Current User', await authStore.getCurrentUser())    
+    const user = await authStore.getCurrentUser()
+    
+    console.log('Edit Profile - User', user)
+    console.log('Testing Edit Profile User ID', user.id)
+
+    router.push(`/editProfile/${user.id}`)
+}
+
+const deactivateAccount = async () => {
+    const user = await authStore.getCurrentUser()
+
+    console.log('Delete User', user.id)
+
+    if(user.id) {
+        await userStore.deleteUser(user.id)
+        console.log('User Deleted')
+        router.push('/')
+    }
+}
 
 onMounted(async () => {
-    console.log('On Mounted CU - ', currentUser.value.id)
-    userID.value = route.params.id
-    const user = await userStore.getUserByID(userID.value)
-    console.log('On Mounted - ', user)
+    const currentUser = await authStore.getCurrentUser()
+    const userID = currentUser.id
+
+    console.log('On Mounted User Id: ', userID)
+
+    const user = await userStore.getUserByID(userID)
+    console.log('On Mounted User', user) 
 
     if(user) {
         name.value = user.name
         email.value = user.email
 
-        if (user.role === 'owner') {
-            return role.value = 'Pet Owner'
-        } else if (user.role === 'groomer') {
-            return role.value = 'Pet Groomer'
-        } else if (user.role === 'admin') {
-            return role.value = 'Admin'
-        } else {
-            return 'User Role'
+        switch (user.role) {
+            case 'owner' :
+                role.value = 'Pet Owner'
+                break;
+            
+            case 'groomer' :
+                role.value = 'Pet Groomer'
+                break;
+            
+            case 'admin' :
+                role.value = 'Admin'
+                break;
+
+            default: 
+                role.value = 'User Role'
         }
-    } 
+    }
 })
-
-
 
 </script>
 
