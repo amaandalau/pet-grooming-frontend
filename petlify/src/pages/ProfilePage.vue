@@ -88,8 +88,8 @@ onMounted(async () => {
         <div class="w-1/2 min-h-screen flex flex-1 flex-col items-center justify-between">
 
             <div class="flex flex-col w-full">
-                    <div class="mx-4 my-2 justify-self-end text-right hover:underline" @click="goToEditProfile">
-                        <label class="font-light text-sm hover:cursor-pointer">Edit Profile</label>
+                    <div class="mx-4 my-2 justify-self-end text-right">
+                        <label class="font-light text-sm hover:cursor-pointer hover:underline" @click="goToEditProfile">Edit Profile</label>
                     </div>
 
                 <div class="flex flex-col items-center">
