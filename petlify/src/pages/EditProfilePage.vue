@@ -1,36 +1,79 @@
 <script setup>
 import Navbar from '../components/Navbar.vue';
 import Footer from '../components/Footer.vue'
+import Input from '../components/Input.vue';
 import InputNew from '../components/InputNew.vue'
 import ButtonNew from '../components/ButtonNew.vue'
+
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { onMounted } from 'vue';
+import { useUserStores } from '../stores/users';
+import { useAuthStores } from '../stores/auth';
 
 const router = useRouter()
+const route = useRoute()
+
+const authStore = useAuthStores()
+const userStore = useUserStores()
+
+const name = ref(null)
+const email = ref(null)
+const role = ref(null)
+let userID = ref(null)
 
 const goToProfile = () => {
-    router.push('/profile')
+    router.push(`/profile/${route.params.id}`)
 }
 
+const editUser = async () => {
 
-const name = ref('John Doe')
-const email = ref('johndoe@email.com')
-const role = ref('User Role')
+    const updatedName = name.value
+    const updatedEmail = email.value
+    // const password = userStore.getUser().password
+
+    console.log('CP1', updatedName, updatedEmail)
+
+    await userStore.updateUser(userID.value, updatedName, updatedEmail)
+    
+    console.log('CP2')
+    router.push(`/profile/${route.params.id}`)
+}
+
+onMounted(async () => {
+    userID.value = route.params.id
+    const user = await userStore.getUserByID(userID.value)
+
+    if(user) {
+        name.value = user.name
+        email.value = user.email
+
+        if(user.role === 'owner') {
+            return role.value = 'Pet Owner'
+        } else if (user.role === 'groomer') {
+            return role.value = 'Pet Groomer'
+        } else if (user.role === 'admin') {
+            return role.value === 'Admin'
+        } else {
+            return 'User Role'
+        }
+    }
+})
 
 </script>
 
 <template>
     <Navbar :userLoggedIn="true"/>
 
-    <div class="flex flex-row justify-center items-center min-h-screen">
-        <div class="w-1/2">
+    <div class="flex flex-row justify-center items-centern">
+        <div class="w-1/2 flex items-center justify-center rounded-r-3xl bg-slate-100 drop-shadow-md">
             <!-- Dog Pic -->
-            <img src="https://images.unsplash.com/photo-1521673461164-de300ebcfb17?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" alt=""
-                class="object-cover h-screen w-full rounded-r-3xl overflow-hidden"
+            <img src="../assets/illustrations/purr-22.png" alt=""
+                class="object-contain"
             >
         </div>
 
-        <div class="w-1/2 min-h-screen max-h-screen flex flex-1 flex-col items-center justify-start">
+        <div class="w-1/2 min-h-screen mb-4 flex flex-1 flex-col items-center justify-between">
 
             <div class="flex flex-col w-full">
                 <div class="mx-4 my-2 justify-self-end text-center">
@@ -42,29 +85,29 @@ const role = ref('User Role')
                     
                     <div class="border border-black rounded-full h-40 w-40 m-8">
                         <!-- Avatar -->
-                        <img src="https://images.unsplash.com/photo-1600585594245-0eb3fe7f1474?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=930&q=80" alt=""
-                        class="object-fit h-full w-full rounded-full"
+                        <img src="../assets//illustrations/purr-half-cat-1.png" alt=""
+                        class="object-contain h-full w-full rounded-full"
                         >
                     </div>
 
-                    <div class="flex flex-col items-center gap-16">
-                        <InputNew label="Name" :readonly="true" value="John Doe"/>
-                        <InputNew label="Email" :readonly="false" value="johndoe@email.com"/>
-                        <InputNew label="Role" :readonly="true" value="Pet Owner"/>
+                    <div class="flex flex-col justify-between items-center gap-8">
+                        <Input :value="name"/>
+                        <Input :value="email"/>
+                        <Input :disabled="true" :value="role"/>
                         <!-- Role cannot be updated -->
 
-                        <ButtonNew text="Save" rounded="sm" @click="goToProfile"/>
+                        <ButtonNew text="Save" rounded="sm" @click="editUser"/>
                     </div>
 
                 </div>
             </div>
 
-            <!-- <div class="flex justify-center my-4">
+            <div class="flex justify-center mt-4">
                 <label @click="deactivateAccount()"
                     class="font-light text-red-600 hover:font-bold hover:cursor-pointer hover:underline">
                     Deactivate account
                 </label>
-            </div> -->
+            </div>
         </div>
     </div>
     <Footer/>
