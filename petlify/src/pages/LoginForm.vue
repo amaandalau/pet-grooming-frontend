@@ -23,10 +23,10 @@ const login = async () => {
 
   const userID = await authStore.login(emailValue, passwordValue)
   console.log('User logged in 1')
-  console.log(currentUser.id)
+  console.log('Login ID Check - ', userID)
 
   if (userID) {
-    router.push(`/profile/${currentUser.id}`)
+    router.push(`/profile/${userID}`)
   }
 }
 
