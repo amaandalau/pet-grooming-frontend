@@ -10,8 +10,6 @@ const visible = ref(false)
 const router = useRouter()
 const authStore = useAuthStores()
 
-const { currentUser } = useAuthStores()
-
 const email = ref('')
 const password = ref('')
 

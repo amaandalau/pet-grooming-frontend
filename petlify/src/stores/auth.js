@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import * as jose from 'jose'
 
 export const useAuthStores = defineStore({
     id: 'auth',
@@ -22,24 +23,45 @@ export const useAuthStores = defineStore({
             try {
                 const accessToken = localStorage.getItem('access_token')
 
-                if(!accessToken) {
-                    throw new Error('Access token not found')
-                } 
+                if(!accessToken) throw 'Access token not found'
 
-                const response = await fetch('http://localhost:8080/auth/me', {
-                    method: 'GET',
-                    headers: {
-                        Authorization: accessToken
-                    }
-                })
+                // Decode JWT token
+                const decodedToken = jose.decodeJwt(accessToken)
 
-                if(!response.ok) {
-                    throw new Error('Failed to fetch current user')
+                if(!decodedToken || !decodedToken.id) throw 'Invalid token or missing user ID'
+
+                // Extract user details from the decoded token
+                // const userDetails = {
+                //     id: decodedToken.payload.id,
+                //     email: decodedToken.payload.email,
+                //     role: decodedToken.payload.role
+                // }
+
+                const userDetails = {
+                    id: decodedToken.id,
+                    email: decodedToken.email,
+                    role: decodedToken.role
                 }
 
-                const userData = await response.json()
+                // const response = await fetch('http://localhost:8080/auth/me', {
+                //     method: 'GET',
+                //     headers: {
+                //         Authorization: accessToken
+                //     }
+                // })
 
-                return userData
+                // if(!response.ok) throw 'Failed to fetch current user'
+
+                // const userData = await response.json()
+
+                // // Return merged details
+                // return {
+                //     ...userDetails,
+                //     ...userData
+                // }
+
+                console.log('Get Current User', userDetails)
+                return userDetails
             } catch (error) {
                 console.error(error)
             }
