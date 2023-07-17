@@ -1,97 +1,40 @@
 <script setup>
 
-// const props = defineProps({
-//     text: {
-//         type: String
-//     },
-//     placeholder: {
-//         type: String
-//     }
-// })
-
-import { ref } from 'vue';
-
-const valid = ref(false);
-const firstname = ref('');
-const lastname = ref('');
-const nameRules = [
-  (value) => {
-    if (value) return true;
-
-    return 'Name is required.';
+const props = defineProps({
+  value: {
+    type: String,
+    default: ''
   },
-  (value) => {
-    if (value?.length <= 10) return true;
-
-    return 'Name must be less than 10 characters.';
+  placeholder: {
+    type: String
   },
-];
-const email = ref('');
-const emailRules = [
-  (value) => {
-    if (value) return true;
-
-    return 'E-mail is required.';
+  label: {
+    type: String
   },
-  (value) => {
-    if (/.+@.+\..+/.test(value)) return true;
+  disabled: {
+    type: Boolean,
+    default: false
+  }
 
-    return 'E-mail must be valid.';
-  },
-];
+})
 
+const emits = defineEmits(['update:value'])
 </script>
 
-<!-- <template>
-    <div>
-        <label> {{ text }}</label>
-        <input :placeholder="placeholder"
-            class="border border-black rounded-md px-4 py-2">
-    </div>
-</template> -->
-
 <template>
-    <v-form v-model="valid">
-      <v-container>
-        <v-row>
-          <v-col
-            cols="12"
-            md="4"
-          >
-            <v-text-field
-              v-model="firstname"
-              :rules="nameRules"
-              :counter="10"
-              label="First name"
-              required
-            ></v-text-field>
-          </v-col>
-  
-          <v-col
-            cols="12"
-            md="4"
-          >
-            <v-text-field
-              v-model="lastname"
-              :rules="nameRules"
-              :counter="10"
-              label="Last name"
-              required
-            ></v-text-field>
-          </v-col>
-  
-          <v-col
-            cols="12"
-            md="4"
-          >
-            <v-text-field
-              v-model="email"
-              :rules="emailRules"
-              label="E-mail"
-              required
-            ></v-text-field>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-form>
-  </template>
+  <div class="flex flex-col items-center gap-2 w-auto">
+    <label v-if="label !== ''"> {{ label }}</label>
+    <input 
+    type="text"
+    :value="value"
+    :placeholder="placeholder"
+    :disabled="disabled"
+    @input="$emit('update:value', $event.target.value)"
+
+    :class="{
+        'w-80  px-4 py-4 outline rounded-sm focus:outline-1 focus:outline-slate-950': true,
+        'opacity-30 cursor-not-allowed': disabled
+      }"
+    >
+  </div>
+</template>
