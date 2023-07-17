@@ -30,7 +30,7 @@ export const useAuthStores = defineStore({
                 const response = await fetch('http://localhost:8080/auth/me', {
                     method: 'GET',
                     headers: {
-                        Authorization: `Bearer ${accessToken}`
+                        Authorization: accessToken
                     }
                 })
 
@@ -39,7 +39,6 @@ export const useAuthStores = defineStore({
                 }
 
                 const userData = await response.json()
-                // state.currentUser = userData
 
                 return userData
             } catch (error) {
@@ -77,47 +76,22 @@ export const useAuthStores = defineStore({
                 const data = await response.json()
 
                 const accessToken = data.accessToken
-                console.log('Access Token', accessToken)
-                // this.accessToken = accessToken
+                this.accessToken = accessToken
+                console.log('Login - Access Token', accessToken)
                 
-                this.currentUser = await this.getCurrentUser()
-                console.log('Current User', this.currentUser);
-
                 // Save access token to local storage
                 localStorage.setItem('access_token', accessToken)
-                console.log('Local storage access token', accessToken);
-
+                console.log('Local storage access token', accessToken)
+                
                 // Fetch current user
-                const userResponse = await fetch('http://localhost:8080/auth/me', {
-                    method:'GET',
-                    headers: {
-                        Authorization: accessToken
-                    }
-                })
+                this.currentUser = await this.getCurrentUser()
+                console.log('Login - Current User', this.currentUser)
 
-                // const userResponse = await fetch('http://localhost:8080/auth/me', {
-                //     method: 'GET',
-                //     headers: {
-                //         Authorization: `Bearer ${accessToken}`
-                //     }
-                // })
-
-                if (userResponse.ok) {
-                    const userData = await userResponse.json()
-
-                    // Update user info 
-                    this.currentUser = userData
+                if(this.currentUser) {
                     this.userLoggedIn = true
-
-                    const userID = userData.id
-                    console.log('User ID: ', userID)
-                    
-                    return userID
-
+                    return this.currentUser.id
                 }
-
-                console.log(data)
-                console.log('User successfully logged in - Thrown from Pinia')
+                
             } catch (error) {
                 console.error(error)
             }

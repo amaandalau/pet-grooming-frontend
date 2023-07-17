@@ -17,8 +17,17 @@ const userStore = useUserStores()
 const currentUser = computed(() => authStore.currentUser)
 
 const goToEditProfile = () => {
-    console.log('Current User Value ID', currentUser.value.id)
-    router.push(`/editProfile/${currentUser.value.id}`)
+    // console.log('Current User Value ID', currentUser.value.id)
+    // router.push(`/editProfile/${currentUser.value.id}`)
+
+    router.push(`/editProfile/${route.params.id}`)
+}
+
+const deactivateAccount = async () => {
+
+    await userStore.deleteUser(route.params.id)
+    console.log('User Deleted')
+    router.push('/')
 }
 
 const name = ref(null)
@@ -27,8 +36,10 @@ const role = ref(null)
 let userID = ref(null)
 
 onMounted(async () => {
+    console.log('On Mounted CU - ', currentUser.value.id)
     userID.value = route.params.id
     const user = await userStore.getUserByID(userID.value)
+    console.log('On Mounted - ', user)
 
     if(user) {
         name.value = user.name
@@ -47,13 +58,6 @@ onMounted(async () => {
 })
 
 
-// onMounted(async () => {
-//     const userData = await authStore.getCurrentUser()
-
-//     if(userData) {
-//         currentUser.value = userData
-//     }
-// })
 
 </script>
 
