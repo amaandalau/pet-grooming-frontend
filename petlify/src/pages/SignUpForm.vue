@@ -2,9 +2,11 @@
 import { ref } from "vue";
 import { useAuthStores } from "../stores/auth";
 import Navbar from "../components/Navbar.vue";
+import Footer from "../components/Footer.vue"
+import { useRouter } from "vue-router";
 
 const visible = ref(false);
-
+const router = useRouter()
 const store = useAuthStores()
 
 const name = ref('')
@@ -30,6 +32,8 @@ const signup = async () => {
 
   await store.registerUser(nameValue, emailValue, passwordValue, roleValue)
   console.log('User Registered 1')
+
+  router.push('/login')
 }
 
 </script>
@@ -84,7 +88,8 @@ const signup = async () => {
         density="comfortable"
       ></v-select>
 
-      <v-btn block class="my-8 bg-black text-white" size="large" variant="outlined" @click="signup"> Sign Up </v-btn>
+      <v-btn block class="my-8 bg-black text-white" size="large" variant="outlined"           
+        @click="() => { if (name && email && password) signup() }"> Sign Up </v-btn>
 
       <v-card-text class="text-center text-slate-700 font-light">
         Have an account?
@@ -94,4 +99,5 @@ const signup = async () => {
       </v-card-text>
     </v-card>
   </div>
+  <Footer/>
 </template>
