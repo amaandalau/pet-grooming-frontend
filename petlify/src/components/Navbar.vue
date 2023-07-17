@@ -80,7 +80,8 @@ const isLoggedIn = computed(() => props.userLoggedIn && user.value !== null && u
             </router-link> -->
 
             <template v-if="props.userLoggedIn">
-                <DropdownMenu @logout="logout" :user="getUserData()"/>
+                <!-- <DropdownMenu @logout="logout" :user="getUserData()"/> -->
+                <DropdownMenu :user="getUserData()"/>
             </template>
 
             <template v-else>
