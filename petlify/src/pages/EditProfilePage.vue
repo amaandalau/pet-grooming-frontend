@@ -36,6 +36,16 @@ const editUser = async () => {
     router.push(`/profile/${userID}`)
 }
 
+const deactivateAccount = async () => {
+    const user = await authStore.getCurrentUser()
+
+    if(user.id) {
+        await userStore.deleteUser(user.id)
+        console.log('User Deleted')
+        router.push('/')
+    }
+}
+
 onMounted(async () => {
     const currentUser = await authStore.getCurrentUser()
     const userID = currentUser.id
@@ -109,9 +119,9 @@ onMounted(async () => {
                 </div>
             </div>
 
-            <div class="flex justify-center mt-4">
+            <div class="flex justify-center my-4">
                 <label @click="deactivateAccount()"
-                    class="font-light text-red-600 hover:font-bold hover:cursor-pointer hover:underline">
+                    class="font-light text-sm text-red-600 hover:font-bold hover:cursor-pointer hover:underline">
                     Deactivate account
                 </label>
             </div>
