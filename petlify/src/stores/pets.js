@@ -25,13 +25,13 @@ export const usePetStores = defineStore({
 
     actions: {
         
-        async getPetsByOwnerID() {
+        async getPetsByOwnerID(userID) {
             try {
                 const options = {
                     method: 'GET'
                 }
 
-                const response = await fetch('http://localhost:8080/pets/users/:userID', options)
+                const response = await fetch(`http://localhost:8080/pets/users/${userID}`, options)
                 const data = response.json()
 
                 console.log(data)
@@ -41,13 +41,13 @@ export const usePetStores = defineStore({
             }
         },
 
-        async getPetByID() {
+        async getPetByID(petID) {
             try {
                 const options = {
                     method: 'GET'
                 }
 
-                const response = await fetch('http://localhost:8080/pets/:petID', options)
+                const response = await fetch(`http://localhost:8080/pets/${petID}`, options)
                 const data = response.json()
 
                 console.log(data)
@@ -59,7 +59,8 @@ export const usePetStores = defineStore({
 
         async createPet(name, dateOfBirth, species, breed, weightInKG, color, ownerID) {
             try {
-                const accessToken = this.accessToken
+                // Retrieve access token from local storage
+                const accessToken = localStorage.getItem('access_token')
 
                 const options = {
                     method: 'POST',
@@ -74,7 +75,7 @@ export const usePetStores = defineStore({
                         breed,
                         weightInKG,
                         color,
-                        ownerID
+                        ownerID: useAuthStores.currentUser.id
                     })
                 }
 
@@ -88,11 +89,11 @@ export const usePetStores = defineStore({
             }
         },
 
-        async updatePet(name, dateOfBirth, species, breed, weightInKG, color) {
+        async updatePet(petID, name, dateOfBirth, species, breed, weightInKG, color) {
 
             try {
                 
-            const accessToken = this.accessToken
+            const accessToken = localStorage.getItem('access_token')
 
             const options = {
                 method: 'PUT',
@@ -110,7 +111,7 @@ export const usePetStores = defineStore({
                 })
             }
 
-            const response = await fetch('http://localhost:8080/pets/:petID', options)
+            const response = await fetch(`http://localhost:8080/pets/${petID}`, options)
             const data = response.json()
 
             console.log(data)
@@ -121,9 +122,9 @@ export const usePetStores = defineStore({
 
         },
 
-        async deletePet() {
+        async deletePet(petID) {
             try {
-                const accessToken = this.accessToken
+                const accessToken = localStorage.getItem('acccess_token')
 
             const options = {
                 method: 'DELETE',
@@ -132,7 +133,7 @@ export const usePetStores = defineStore({
                 }
             }
 
-            const response = await fetch('http://localhost:8080/pets/:petID', options)
+            const response = await fetch(`http://localhost:8080/pets/${petID}`, options)
             const data = response.json()
 
             console.log(data)

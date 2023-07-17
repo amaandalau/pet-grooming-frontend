@@ -30,13 +30,13 @@ export const useApptStores = defineStore({
             
         },
 
-        async getApptByID() {
+        async getApptByID(apptID) {
             try {
                 const options = {
                     method: 'GET'
                 }
 
-                const response = await fetch('http://localhost:8080/appointments/:apptID', options)
+                const response = await fetch(`http://localhost:8080/appointments/${apptID}`, options)
                 const data = response.json()
 
                 console.log(data)
@@ -48,7 +48,8 @@ export const useApptStores = defineStore({
 
         async createAppt(apptDate, specialInstructions, status, petID, timeslotID, ownerID, groomerID) {
             try {
-                const accessToken = this.accessToken
+                // const accessToken = this.accessToken
+                const accessToken = localStorage.getItem('access_token')
 
                 const options = {
                     method: 'POST',
@@ -76,8 +77,10 @@ export const useApptStores = defineStore({
             }
         },
 
-        async updateAppt(apptDate, specialInstructions, status, ownerID, petID, groomerID, timeslotID) {
+        async updateAppt(apptID, apptDate, specialInstructions, status, ownerID, petID, groomerID, timeslotID) {
             try {
+                const accessToken = localStorage.getItem('access_token')
+
                 const options = {
                     method: 'PUT',
                     headers: {
@@ -95,7 +98,7 @@ export const useApptStores = defineStore({
                     })
                 }
 
-                const response = await fetch('http://localhost:8080/appointments/:apptID', options)
+                const response = await fetch(`http://localhost:8080/appointments/${apptID}`, options)
                 const data = response.json()
 
                 console.log(data)
@@ -105,9 +108,9 @@ export const useApptStores = defineStore({
             }
         },
 
-        async deleteAppt() {
+        async deleteAppt(apptID) {
             try {
-                const accessToken = this.accessToken
+                const accessToken = localStorage.getItem('access_token')
 
                 const options = {
                     method: 'DELETE',
@@ -116,7 +119,7 @@ export const useApptStores = defineStore({
                     }
                 }
 
-                const response = await fetch('http://localhost:8080/appointments/:apptID', options)
+                const response = await fetch(`http://localhost:8080/appointments/${apptID}`, options)
                 const data = response.json()
 
                 console.log(data)
