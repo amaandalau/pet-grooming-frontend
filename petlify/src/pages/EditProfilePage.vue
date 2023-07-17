@@ -14,44 +14,55 @@ import { useAuthStores } from '../stores/auth';
 const router = useRouter()
 const route = useRoute()
 
+const { currentUser } = useAuthStores()
 const authStore = useAuthStores()
 const userStore = useUserStores()
 
 const name = ref(null)
 const email = ref(null)
 const role = ref(null)
-let userID = ref(null)
 
 const editUser = async () => {
-
     const updatedName = name.value
     const updatedEmail = email.value
-    // const password = userStore.getUser().password
 
-    console.log('CP1', updatedName, updatedEmail)
+    console.log('Edit User Checkpoint 1: ', updatedName, updatedEmail)
 
-    await userStore.updateUser(userID.value, updatedName, updatedEmail)
-    
-    console.log('CP2')
-    router.push(`/profile/${route.params.id}`)
+    await userStore.updateUser(updatedName, updatedEmail)
+    console.log('User Updated')
+
+    const currentUser = await authStore.getCurrentUser()
+    const userID = currentUser.id
+    router.push(`/profile/${userID}`)
 }
 
 onMounted(async () => {
-    userID.value = route.params.id
-    const user = await userStore.getUserByID(userID.value)
+    const currentUser = await authStore.getCurrentUser()
+    const userID = currentUser.id
+
+    console.log('On Mounted User ID: ', userID)
+
+    const user = await userStore.getUserByID(userID)
+    console.log('On Mounted User', user)
 
     if(user) {
         name.value = user.name
         email.value = user.email
 
-        if(user.role === 'owner') {
-            return role.value = 'Pet Owner'
-        } else if (user.role === 'groomer') {
-            return role.value = 'Pet Groomer'
-        } else if (user.role === 'admin') {
-            return role.value === 'Admin'
-        } else {
-            return 'User Role'
+        switch(user.role) {
+            case 'owner' :
+                role.value = 'Pet Owner'
+                break;
+            
+            case 'groomer' :
+                role.value = 'Pet Groomer'
+                break;
+            
+            case 'admin' :
+                role.value = 'Admin'
+
+            default :
+                role.value = 'User Role'
         }
     }
 })
