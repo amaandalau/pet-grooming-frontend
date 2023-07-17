@@ -22,10 +22,6 @@ const email = ref(null)
 const role = ref(null)
 let userID = ref(null)
 
-const goToProfile = () => {
-    router.push(`/profile/${route.params.id}`)
-}
-
 const editUser = async () => {
 
     const updatedName = name.value
@@ -91,8 +87,8 @@ onMounted(async () => {
                     </div>
 
                     <div class="flex flex-col justify-between items-center gap-8">
-                        <Input :value="name"/>
-                        <Input :value="email"/>
+                        <Input :value="name" @update:value="name = $event"/>
+                        <Input :value="email" @update:value="email = $event"/>
                         <Input :disabled="true" :value="role"/>
                         <!-- Role cannot be updated -->
 
