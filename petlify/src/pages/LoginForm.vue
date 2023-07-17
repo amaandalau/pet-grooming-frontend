@@ -1,12 +1,16 @@
 <script setup>
-import { ref } from 'vue';
 import Navbar from '../components/Navbar.vue';
+import Footer from '../components/Footer.vue'
+
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStores } from '../stores/auth';
 
 const visible = ref(false)
 const router = useRouter()
-const store = useAuthStores()
+const authStore = useAuthStores()
+
+const { currentUser } = useAuthStores()
 
 const email = ref('')
 const password = ref('')
@@ -15,18 +19,23 @@ const login = async () => {
   const emailValue = email.value
   const passwordValue = password.value
 
-  await store.login(emailValue, passwordValue)
-  console.log('User logged in 1')
+  if(!emailValue || !passwordValue) return
 
-  // router.push('/')
-  router.push('/profile')
+  const userID = await authStore.login(emailValue, passwordValue)
+  console.log('User logged in 1')
+  console.log(currentUser.id)
+
+  if (userID) {
+    router.push(`/profile/${currentUser.id}`)
+  }
 }
 
 </script>
 
 <template>
     <Navbar/>
-    <div class="mt-8">
+
+    <div class="mt-8 min-h-screen">
   
       <v-card
         class="mx-auto pa-12 pb-8"
@@ -77,7 +86,7 @@ const login = async () => {
           class="my-8 bg-black text-white"
           size="large"
           variant="outlined"
-          @click="login"
+          @click="() => { if (email && password) login() }"
         >
           Log In
         </v-btn>
@@ -94,5 +103,7 @@ const login = async () => {
         </v-card-text>
       </v-card>
     </div>
+
+    <Footer/>
   </template>
   
