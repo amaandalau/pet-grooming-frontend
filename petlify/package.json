@@ -13,6 +13,7 @@
     "@mdi/font": "^7.2.96",
     "@mui/icons-material": "^5.13.7",
     "buffer": "^6.0.3",
+    "jose": "^4.14.4",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.1",
     "pinia": "^2.1.4",
