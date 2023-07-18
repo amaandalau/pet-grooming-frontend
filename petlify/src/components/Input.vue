@@ -22,8 +22,8 @@ const emits = defineEmits(['update:value'])
 </script>
 
 <template>
-  <div class="flex flex-col items-center gap-2 w-auto">
-    <label v-if="label !== ''"> {{ label }}</label>
+  <div class="flex flex-col items-start justify-center  gap-2 w-auto">
+    <label v-if="label !== ''" class="text-left"> {{ label }}</label>
     <input 
     type="text"
     :value="value"

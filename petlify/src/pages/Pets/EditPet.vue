@@ -1,26 +1,54 @@
 <script setup>
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue'
+import Input from '@/components/Input.vue'
 import InputNew from '@/components/InputNew.vue';
 import ButtonNew from '@/components/ButtonNew.vue'
 
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { usePetStores } from '../../stores/pets';
+import { createPinia } from 'pinia';
 
 const router = useRouter()
-const store = usePetStores()
+const route = useRoute()
+const petStore = usePetStores()
 
-const goToPetProfile = () => {
-    router.push('/petProfile')
+const petID = ref(null)
+const petName = ref(null)
+const petDOB = ref(null)
+const petSpecies = ref(null)
+const petBreed = ref(null)
+const petColour = ref(null)
+const petWeight = ref(null)
+
+const editPet = async () => {
+
+    const updatedPetName = petName.value
+    const dateOfBirth = petDOB.value
+    const species = petSpecies.value
+    const breed = petBreed.value
+    const updatedPetColour = petColour.value
+    const updatedWeight = petWeight.value
+    
+    await petStore.updatePet(petID.value, updatedPetName, dateOfBirth, species, breed, updatedPetColour, updatedWeight)
+
+    router.push(`/petProfile/${petID.value}`)
 }
 
-const deletePet = async () => {
+onMounted( async () => {
+    const currentPet = await petStore.getPetByID(route.params.id)
+    petID.value = currentPet.id
 
-    await store.deletePet()
-    console.log('Pet Deleted')
-    router.push('/pets')
-}
+    if(currentPet) {
+        petName.value = currentPet.name
+        petDOB.value = currentPet.dateOfBirth
+        petSpecies.value = currentPet.species
+        petBreed.value = currentPet.breed
+        petColour.value = currentPet.color
+        petWeight.value = currentPet.weightInKG
+    }
+})
 
 </script>
 
@@ -40,22 +68,60 @@ const deletePet = async () => {
         <div class="flex flex-col items-center gap-16">
 
             <div class="flex flex-row gap-8">
-                <InputNew :value="name" :show-rules="false"/>
-                <InputNew :readonly="false" value="30 September 2018"/>
+
+                <Input 
+                    label="Pet Name"
+                    placeholder="Pet Name"
+                    :value="petName" 
+                    @update:value="petName = $event"
+                />
+
+                <Input 
+                    label="Date of Birth"
+                    placeholder="Date of Birth"
+                    :value="petDOB" 
+                    :disabled="true"
+                    @update:value="petDOB = $event"
+                />
             </div>
 
             <div class="flex flex-row gap-8">
-                <InputNew :readonly="true" :disabled="true" value="Dog"/>
-                <InputNew :readonly="true" :disabled="true" value="French Bulldog"/>
+
+                <Input 
+                    label="Species"
+                    placeholder="Species"
+                    :value="petSpecies" 
+                    :disabled="true"
+                />
+
+                <Input 
+                    label="Breed"
+                    placeholder="Breed"
+                    :value="petBreed" 
+                    :disabled="true"
+                />
             </div>
 
             <div class="flex flex-row gap-8">
-                <InputNew :readonly="false" value="White with Black Spots"/>
-                <InputNew :readonly="true" value="5.30 KG"/>
+
+                <Input 
+                    label="Colour"
+                    placeholder="Colour"
+                    :value="petColour" 
+                    @update:value="petColour = $event"
+                />
+
+                <Input 
+                    label="Weight"
+                    placeholder="Weight"
+                    :value="petWeight" 
+                    @update:value="petWeight = $event"
+                />
+                
             </div>
 
 
-            <ButtonNew text="Save" rounded="sm" @click="goToPetProfile"/>
+            <ButtonNew text="Save" rounded="sm" @click="editPet"/>
         </div>
 
         <div class="mx-4 my-16 justify-self-end text-right hover:underline hover:text-red-600" @click="deletePet">

@@ -79,21 +79,23 @@ export const usePetStores = defineStore({
                         breed,
                         weightInKG,
                         color,
-                        ownerID: useAuthStores.currentUser.id
+                        ownerID
                     })
                 }
 
                 const response = await fetch('http://localhost:8080/pets/', options)
-                const data = await response.json()
+                const data = response.json()
 
                 console.log(data)
                 console.log('Create Pet - Success - Thrown from Pinia')
+
+                // return data
             } catch (error) {
                 console.error(error)
             }
         },
 
-        async updatePet(petID, name, dateOfBirth, species, breed, color, weightInKG, ownerID) {
+        async updatePet(petID, name, dateOfBirth, species, breed, color, weightInKG) {
 
             try {
                 
@@ -111,7 +113,7 @@ export const usePetStores = defineStore({
                     species,
                     breed,
                     color,
-                    weightInKG,
+                    weightInKG
                 })
             }
 
@@ -120,6 +122,8 @@ export const usePetStores = defineStore({
 
             console.log(data)
             console.log('Update Pet - Success - Thrown from Pinia')
+
+            return data
             } catch (error) {
                 console.error(error)
             }
