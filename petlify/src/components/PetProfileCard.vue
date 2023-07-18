@@ -11,12 +11,6 @@ const authStore = useAuthStores()
 const userStore = useUserStores()
 const petStore = usePetStores()
 
-const goToEditPet = async () => {
-    const currentUser = await authStore.getCurrentUser()
-    const userID = currentUser.id
-
-    router.push('/editPet')
-}
 
 const props = defineProps({
     petName: {

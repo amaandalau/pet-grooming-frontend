@@ -18,13 +18,6 @@ const petStore = usePetStores()
 const router = useRouter()
 
 const petData = ref([])
-const petName = ref(null)
-const petAge = ref(null)
-const petDOB = ref(null)
-const petSpecies = ref(null)
-const petBreed = ref(null)
-const petColour = ref(null)
-const petWeight = ref(null)
 
 const hasPets = computed(() => petData.value.length > 0)
 
@@ -41,8 +34,8 @@ const getUserPets = async () => {
 
 const goToPetProfile = async (petID) => {
 
-    // const pet = await petStore.getPetByID(petID)
-    // console.log('Pet Profile: ', pet)
+    const pet = await petStore.getPetByID(petID)
+    console.log('Pet Profile: ', pet)
 
     router.push(`/petProfile/${petID}`)
 
