@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
+import * as jose from 'jose'
 import { useAuthStores } from "./auth";
-import { inject } from "vue";
 
 export const useUserStores = defineStore({
     id: 'users',
@@ -25,22 +25,26 @@ export const useUserStores = defineStore({
     actions: {
 
         async getUserByID(userID) {
-            try {
-                const options = {
-                    method: 'GET'
+            console.log('USER ID (From Get User By Id)', userID)
+            
+            if(userID) {
+                try {
+                    const options = {
+                        method: 'GET'
+                    }
+                    const response = await fetch(`http://localhost:8080/users/${userID}`, options)
+                    const data = await response.json()
+                    
+                    this.user = data // Set the user information in the state
+                    
+                    console.log('Get User By ID - User ID:' , userID)
+                    console.log('Get User By ID - User Data', data)
+                    console.log('Get user id - thrown from pinia')
+                    
+                    return data
+                } catch (error) {
+                    console.error(error)
                 }
-                const response = await fetch(`http://localhost:8080/users/${userID}`, options)
-                const data = await response.json()
-
-                this.user = data // Set the user information in the state
-
-                console.log('Get User By ID - User ID:' , userID)
-                console.log('Get User By ID - User Data', data)
-                console.log('Get user id - thrown from pinia')
-
-                return data
-            } catch (error) {
-                console.error(error)
             }
         },
 
@@ -67,10 +71,24 @@ export const useUserStores = defineStore({
             }
         },
 
-        async updateUser(userID, name, email, password) {
+        async updateUser(name, email) {
             try {
 
+                const authStore = useAuthStores()
+                const user = await authStore.getCurrentUser()
+                const userID = user.id
+                
+                console.log('User - Update User', user)
+                console.log('★ Update User', user.id)
+
                 const accessToken = localStorage.getItem('access_token')
+                
+                if(!accessToken) throw 'Access token not found'
+
+                // Decode JWT token
+                const decodedToken = jose.decodeJwt(accessToken)
+
+                if(!decodedToken || !decodedToken.id) throw 'Invalid token or missing user ID'
 
                 const options = {
                     method: 'PUT',
@@ -78,7 +96,7 @@ export const useUserStores = defineStore({
                         'Content-Type': 'application/json',
                         Authorization: accessToken
                     },
-                    body: JSON.stringify({name, email, password})
+                    body: JSON.stringify({name, email})
                 }
 
                 const response = await fetch(`http://localhost:8080/users/${userID}`, options)
