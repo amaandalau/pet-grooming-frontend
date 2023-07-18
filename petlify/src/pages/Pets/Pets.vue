@@ -41,6 +41,10 @@ const goToPetProfile = async (petID) => {
 
 }
 
+const goToAddNewPet = () => {
+    router.push('/createPet')
+}
+
 const goToEditPet = (petID) => {
     router.push(`/editPet/${petID}`)
 }
@@ -57,7 +61,7 @@ onMounted(async () => {
     <div class="min-h-screen flex flex-col items-center gap-10">
         <div class="flex flex-row items-center justify-between ">
             <label class="text-2xl font-bold flex-grow-1">My Pets</label>
-            <p class="text-right font-light text-xs hover:cursor-pointer hover:underline">Add New Pet</p>
+            <p class="text-right font-light text-xs hover:cursor-pointer hover:underline" @click="goToAddNewPet">Add New Pet</p>
         </div>
 
         <!-- Pets Gallery -->

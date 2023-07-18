@@ -143,7 +143,7 @@ export const usePetStores = defineStore({
             console.log(data)
             console.log('Pet Deleted Successfully - Thrown from Pinia')
 
-            return data
+            // return data
             } catch (error) {
                 console.error(error)
             }
