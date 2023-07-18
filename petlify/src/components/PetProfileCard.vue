@@ -1,6 +1,7 @@
 <script setup>
 import ButtonNew from '../components/ButtonNew.vue'
 import { useRouter } from 'vue-router';
+import { computed } from 'vue';
 
 const router = useRouter()
 
@@ -8,13 +9,50 @@ const goToEditPet = () => {
     router.push('/editPet')
 }
 
+const props = defineProps({
+    petName: {
+        type: String
+    },
+    age: {
+        type: String
+    },
+    dateOfBirth: {
+        type: String
+    }, 
+    species: {
+        type: String
+    },
+    breed: {
+        type: String
+    },
+    colour: {
+        type: String
+    },
+    weight: {
+        type: Number
+    }
+})
+
+const getAge = computed(() => {
+    const birthDate = new Date(props.dateOfBirth)
+    const today = new Date()
+    const age = today.getFullYear() - birthDate.getFullYear()
+    const monthDiff = today.getMonth() - birthDate.getMonth()
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        return age - 1
+    }
+
+    return age
+})
+
 </script>
 
 <template>
     <div class="border border-black rounded-xl h-full w-80 flex flex-col items-center">
-        <div class="rounded-xl h-64 w-full">
-            <img src="https://images.unsplash.com/photo-1583511666372-62fc211f8377?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZnJlbmNoaWV8ZW58MHwxfDB8fHwy&auto=format&fit=crop&w=1400&q=60" alt=""
-                class="object-cover h-full w-full rounded-t-xl"
+        <div class="rounded-t-xl p-4 h-64 w-full border border-slate-100">
+            <img src="../assets/illustrations//purr-traveler-cat.png " alt=""
+                class="object-contain h-full w-full rounded-t-xl"
             >
         </div>
 
@@ -27,38 +65,38 @@ const goToEditPet = () => {
             <div class="flex flex-col gap-4 mt-2 mb-6">
                 <!-- Details -->
                 <div class="flex flex-row items-center gap-2 mb-4">
-                    <label class="font-semibold text-2xl">Pet Name</label>
-                    <label class="text-sm">5 years old</label>
+                    <label class="font-semibold text-2xl">{{ petName }}</label>
+                    <label class="text-sm">{{ getAge }} years old</label>
                 </div>
 
                 <!-- Date Of Birth -->
                 <div class="flex flex-row items-center">
-                    <label class="w-1/3 font-semibold text-lg">D.O.B</label>
-                    <label class="w-2/3 text-left">30 September 2018</label>
+                    <label class="w-1/3 font-semibold text-md">D.O.B</label>
+                    <label class="w-2/3 text-left">{{ dateOfBirth }}</label>
                 </div>
 
                 <!-- Species -->
                 <div class="flex flex-row items-center">
-                    <label class="w-1/3 font-semibold text-lg">Species</label>
-                    <label class="w-2/3 text-left">Dog</label>
+                    <label class="w-1/3 font-semibold text-md">Species</label>
+                    <label class="w-2/3 text-left">{{ species }}</label>
                 </div>
 
                 <!-- Breed -->
                 <div class="flex flex-row items-center">
-                    <label class="w-1/3 font-semibold text-lg">Breed</label>
-                    <label class="w-2/3 text-left">Nova Scotia Duck Tolling Retriever</label>
+                    <label class="w-1/3 font-semibold text-md">Breed</label>
+                    <label class="w-2/3 text-left">{{ breed }}</label>
                 </div>
 
                 <!-- Color -->
                 <div class="flex flex-row items-center">
-                    <label class="w-1/3 font-semibold text-lg">Colour</label>
-                    <label class="w-2/3">White with Black Spots</label>
+                    <label class="w-1/3 font-semibold text-md">Colour</label>
+                    <label class="w-2/3">{{ colour }}</label>
                 </div>
 
                 <!-- Weight -->
                 <div class="flex flex-row items-center">
-                    <label class="w-1/3 font-semibold text-lg">Weight</label>
-                    <label class="w-2/3 text-left">5.30 KG</label>
+                    <label class="w-1/3 font-semibold text-md">Weight (KG)</label>
+                    <label class="w-2/3 text-left">{{ weight}}</label>
                 </div>
 
             </div>
