@@ -2,10 +2,19 @@
 import ButtonNew from '../components/ButtonNew.vue'
 import { useRouter } from 'vue-router';
 import { computed } from 'vue';
+import { useAuthStores } from '../stores/auth';
+import { useUserStores } from '../stores/users';
+import { usePetStores } from '../stores/pets';
 
 const router = useRouter()
+const authStore = useAuthStores()
+const userStore = useUserStores()
+const petStore = usePetStores()
 
-const goToEditPet = () => {
+const goToEditPet = async () => {
+    const currentUser = await authStore.getCurrentUser()
+    const userID = currentUser.id
+
     router.push('/editPet')
 }
 
@@ -33,6 +42,17 @@ const props = defineProps({
     }
 })
 
+const emits = defineEmits(['petProfileClicked', 'editPetClicked'])
+
+const handleCardClick = () => {
+    emits('petProfileClicked')
+}
+
+const handleEditPetClick = (event) => {
+    event.stopPropagation()
+    emits('editPetClicked')
+}
+
 const getAge = computed(() => {
     const birthDate = new Date(props.dateOfBirth)
     const today = new Date()
@@ -49,7 +69,7 @@ const getAge = computed(() => {
 </script>
 
 <template>
-    <div class="border border-black rounded-xl h-full w-80 flex flex-col items-center">
+    <div class="border border-black rounded-xl h-full w-80 flex flex-col items-center" @click="handleCardClick">
         <div class="rounded-t-xl p-4 h-64 w-full border border-slate-100">
             <img src="../assets/illustrations//purr-traveler-cat.png " alt=""
                 class="object-contain h-full w-full rounded-t-xl"
@@ -58,7 +78,7 @@ const getAge = computed(() => {
 
         <div class="w-full inline-block px-2">
 
-            <div class="my-2 justify-self-end text-right hover:underline" @click="goToEditPet">
+            <div class="my-2 justify-self-end text-right hover:underline" @click="handleEditPetClick">
                 <label class="font-light text-xs hover:cursor-pointer">Edit Pet</label>
             </div>
 

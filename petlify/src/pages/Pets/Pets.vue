@@ -9,10 +9,13 @@ import { computed, onMounted, ref } from 'vue';
 import { useAuthStores } from '../../stores/auth';
 import { useUserStores } from '../../stores/users';
 import { usePetStores } from '../../stores/pets'
+import { useRouter } from 'vue-router';
 
 const authStore = useAuthStores()
 const userStore = useUserStores()
 const petStore = usePetStores()
+
+const router = useRouter()
 
 const petData = ref([])
 const petName = ref(null)
@@ -28,34 +31,29 @@ const hasPets = computed(() => petData.value.length > 0)
 const getUserPets = async () => {
     const currentUser = await authStore.getCurrentUser()
     const userID = currentUser.id
-    
-    // const userPets = await petStore.getPetsByOwnerID(userID)
-    // console.log('Get User Pets: ', userPets)
 
     petData.value = await petStore.getPetsByOwnerID(userID)
-    // const pet = await petStore.getPetsByOwnerID(userID)
 
     const noOfPets = petData.value.length
     console.log('No of Pets', noOfPets)
 
-    // console.log("Pet", pet)
+}
 
-    // if(noOfPets > 0) {
-    //     const pet = petData.value[0]
+const goToPetProfile = async (petID) => {
 
-    //     petName.value = pet.name
-    //     petAge.value = pet.age
-    //     petDOB.value = pet.dateOfBirth
-    //     petSpecies.value = pet.species
-    //     petBreed.value = pet.breed
-    //     petColour.value = pet.color
-    //     petWeight.value = pet.weightInKG
-    // }
+    // const pet = await petStore.getPetByID(petID)
+    // console.log('Pet Profile: ', pet)
+
+    router.push(`/petProfile/${petID}`)
 
 }
 
+const goToEditPet = (petID) => {
+    router.push(`/editPet/${petID}`)
+}
+
 onMounted(async () => {
-   await getUserPets()
+    getUserPets()
 })
 
 </script>
@@ -64,8 +62,9 @@ onMounted(async () => {
     <Navbar/>
 
     <div class="min-h-screen flex flex-col items-center gap-10">
-        <div class="block">
-            <label class="text-2xl font-bold">My Pets</label>
+        <div class="flex flex-row items-center justify-between ">
+            <label class="text-2xl font-bold flex-grow-1">My Pets</label>
+            <p class="text-right font-light text-xs hover:cursor-pointer hover:underline">Add New Pet</p>
         </div>
 
         <!-- Pets Gallery -->
@@ -81,7 +80,9 @@ onMounted(async () => {
                     :breed="pet.breed"
                     :colour="pet.color"
                     :weight="pet.weightInKG"
-                    />
+                    @petProfileClicked="goToPetProfile(pet.id)"
+                    @editPetClicked="goToEditPet(pet.id)"
+                />
                 </div>
             </template>
             

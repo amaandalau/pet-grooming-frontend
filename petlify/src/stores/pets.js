@@ -93,7 +93,7 @@ export const usePetStores = defineStore({
             }
         },
 
-        async updatePet(petID, name, dateOfBirth, species, breed, weightInKG, color) {
+        async updatePet(petID, name, dateOfBirth, species, breed, color, weightInKG, ownerID) {
 
             try {
                 
@@ -110,8 +110,8 @@ export const usePetStores = defineStore({
                     dateOfBirth,
                     species,
                     breed,
+                    color,
                     weightInKG,
-                    color
                 })
             }
 
@@ -142,6 +142,8 @@ export const usePetStores = defineStore({
 
             console.log(data)
             console.log('Pet Deleted Successfully - Thrown from Pinia')
+
+            return data
             } catch (error) {
                 console.error(error)
             }
