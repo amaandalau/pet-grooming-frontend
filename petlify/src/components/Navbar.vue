@@ -5,7 +5,7 @@ import DropdownMenu from './DropdownMenu.vue'
 import ButtonNew from './ButtonNew.vue'
 
 import { useRouter } from 'vue-router'
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { useAuthStores } from '../stores/auth'
 import { useUserStores } from '../stores/users'
 
@@ -25,16 +25,19 @@ const goToSignUp = () => {
     router.push('/signup')
 }
 
-const name = ref(null)
-const email = ref(null)
+const goToPetsList = () => {
+    router.push(`/${userData.id}/pets`)
+}
 
 const userData = reactive({
+    id: null,
     role: null
 })
 
 const getUserData = async () => {
     const user = await authStore.getCurrentUser()
-    // return user
+
+    userData.id = user.id
     userData.role = user.role
 }
 
@@ -61,9 +64,9 @@ onMounted(() => {
         <template v-if="userData.role === 'owner'">
             <div class="flex flex-row items-center justify-end gap-4">
 
-                <NavbarMenu nav-title="My Pets"/>
+                <NavbarMenu nav-title="My Pets" @click="goToPetsList"/>
                 
-                <NavbarMenu nav-title="Appointments"/>
+                <!-- <NavbarMenu nav-title="Appointments"/> -->
                 
                 <DropdownMenu :user="getUserData()"/>
             
