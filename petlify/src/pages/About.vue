@@ -3,12 +3,28 @@ import Navbar from '../components/Navbar.vue';
 import Footer from '../components/Footer.vue'
 import ButtonNew from '../components/ButtonNew.vue'
 import { useRouter } from 'vue-router';
+import { useAuthStores } from '../stores/auth';
+import { onMounted, reactive } from 'vue';
 
 const router = useRouter()
+const authStore = useAuthStores()
 
 const goToSignUp = () => {
     router.push('/signup')
 }
+
+const user = reactive({
+    isLoggedIn: false
+})
+
+const checkUserLoggedIn = async () => {
+    const currentUser = await authStore.getCurrentUser()
+    user.isLoggedIn = !!currentUser
+}
+
+onMounted(() => {
+    checkUserLoggedIn()
+})
 
 </script>
 
@@ -26,7 +42,7 @@ const goToSignUp = () => {
             </p>
         </div>
 
-        <div class="mx-48">
+        <div class="mx-48" v-if="!user.isLoggedIn">
             <ButtonNew text="Sign Up Now" @click="goToSignUp"/>
         </div>
 
