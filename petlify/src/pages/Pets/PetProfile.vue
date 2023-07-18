@@ -1,31 +1,58 @@
 <script setup>
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue'
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+
+import { computed, onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { usePetStores } from '../../stores/pets.js'
 
-
 const router = useRouter()
-const store = usePetStores()
+const route = useRoute()
+const petStore = usePetStores()
+
+const name = ref(null)
+const dob = ref(null)
+const species = ref(null)
+const breed = ref(null)
+const colour = ref(null)
+const weight = ref(null)
+
+const formattedDOB = computed(() => {
+    if(dob.value) {
+        const date = new Date(dob.value)
+        const options = {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        }
+        return date.toLocaleDateString('en-GB', options)
+    }
+
+    return ''
+})
+
+onMounted(async () => {
+    console.log('Route?', route.params.id)
+
+    const petID = route.params.id
+    console.log('Pet Profile PetID: ', petID)
+
+    const pet = await petStore.getPetByID(petID)
+    console.log('Pet Profile:', pet)
+
+    if(pet) {
+        name.value = pet.name
+        dob.value = pet.dateOfBirth
+        species.value = pet.species
+        breed.value = pet.breed
+        colour.value = pet.color
+        weight.value = pet.weightInKG
+    }
+})
 
 const goToEditPet = () => {
-    router.push('/editPet')
+    router.push(`/editPet/${route.params.id}`)
 }
-
-const deletePet = async () => {
-    await store.deletePet()
-    console.log('Pet Deleted')
-    router.push('/pets')
-
-}
-
-const name = ref('Pet Name')
-const age = ref(5)
-const species = ref('Dog')
-const breed = ref('French Bulldog')
-const colour = ref('White with Black Spots')
-const weight = ref('5.30')
 
 </script>
 
@@ -46,16 +73,16 @@ const weight = ref('5.30')
                 <div class="flex flex-col items-center">
 
                     
-                    <div class="border border-black rounded-full h-40 w-40 m-8">
+                    <div class="border-2 border-slate-950  rounded-full h-40 w-40 m-8">
                         <!-- Avatar -->
-                        <img src="https://images.unsplash.com/photo-1600585594245-0eb3fe7f1474?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=930&q=80" alt=""
-                        class="object-fit h-full w-full rounded-full"
+                        <img src="../../assets//illustrations/purr-traveler-cat.png" alt=""
+                        class="object-contain h-full w-full rounded-full"
                         >
                     </div>
                     
                     <div class="flex flex-col items-center gap-2">
                         <label class="font-semibold text-xl">{{ name }}</label>
-                        <label class="font-light text-base">{{ age }} years old</label>
+                        <label class="font-light text-base">{{ formattedDOB }}</label>
                         <label class="mt-4">{{ species }}</label>
                         <label class="mt-4">{{ breed }}</label>
                         <label class="mt-4">{{ colour }}</label>
