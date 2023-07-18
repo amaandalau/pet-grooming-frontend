@@ -1,11 +1,17 @@
 <script setup>
-import { useRouter } from 'vue-router'
 import Logo from './icons/Logo.vue'
 import NavbarMenu from './NavbarMenu.vue'
 import DropdownMenu from './DropdownMenu.vue'
 import ButtonNew from './ButtonNew.vue'
 
+import { useRouter } from 'vue-router'
+import { onMounted, reactive, ref } from 'vue'
+import { useAuthStores } from '../stores/auth'
+import { useUserStores } from '../stores/users'
+
 const router = useRouter()
+const authStore = useAuthStores()
+const userStore = useUserStores()
 
 const goToHome = () => {
     router.push('/')
@@ -18,6 +24,23 @@ const goToAbout = () => {
 const goToSignUp = () => {
     router.push('/signup')
 }
+
+const name = ref(null)
+const email = ref(null)
+
+const userData = reactive({
+    role: null
+})
+
+const getUserData = async () => {
+    const user = await authStore.getCurrentUser()
+    // return user
+    userData.role = user.role
+}
+
+onMounted(() => {
+    getUserData()
+})
 
 </script>
 
@@ -35,25 +58,33 @@ const goToSignUp = () => {
         </div>
 
         <!-- If logged in user is owner -->
-        <template v-if="''">
-            <NavbarMenu nav-title="My Pets"/>
+        <template v-if="userData.role === 'owner'">
+            <div class="flex flex-row items-center justify-end gap-4">
 
-            <NavbarMenu nav-title="Appointments"/>
-
-            <DropdownMenu/>
+                <NavbarMenu nav-title="My Pets"/>
+                
+                <NavbarMenu nav-title="Appointments"/>
+                
+                <DropdownMenu :user="getUserData()"/>
+            
+            </div>
         </template>
 
         <!-- If logged in user is groomer -->
-        <template v-if="''">
-            <NavbarMenu nav-title="Upcoming Appointments"/>
+        <template v-else-if="userData.role === 'groomer'">
+            <div class="flex flex-row items-center justify-end gap-4">
 
-            <NavbarMenu nav-title="My Services"/>
-
-            <DropdownMenu/>
+                <NavbarMenu nav-title="Upcoming Appointments"/>
+                
+                <NavbarMenu nav-title="My Services"/>
+                
+                <DropdownMenu :user="getUserData()"/>
+            
+            </div>
         </template>
 
         <template v-else>
-            <div class="w-1/6">
+            <div class="w-1/8">
                 <ButtonNew @click="goToSignUp" text="Sign Up" rounded="sm" size="large"/>
             </div>
         </template>
