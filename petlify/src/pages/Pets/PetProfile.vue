@@ -5,9 +5,11 @@ import Footer from '@/components/Footer.vue'
 import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { usePetStores } from '../../stores/pets.js'
+import { useAuthStores } from '../../stores/auth';
 
 const router = useRouter()
 const route = useRoute()
+const authStore = useAuthStores()
 const petStore = usePetStores()
 
 const name = ref(null)
@@ -52,6 +54,36 @@ onMounted(async () => {
 
 const goToEditPet = () => {
     router.push(`/editPet/${route.params.id}`)
+}
+
+const deletePet = async () => {
+    // const currentUser = await authStore.getCurrentUser()
+    // const userID = currentUser.id
+
+    // const petID = route.params.id
+    // const pet = await petStore.getPetByID(petID)
+
+    // if(pet && pet.ownerID === userID) {
+    //     await petStore.deletePet(petID)
+
+    //     // router.push(`/${userID}/pets`)
+    //     console.log(pet)
+    // } else {
+    //     console.log('Not allowed to delete pet!')
+    // }
+
+    const currentPet = await petStore.getPetByID(route.params.id)
+    // console.log('Del Pet: ', currentPet, currentPet.id, currentPet.ownerID)
+
+    const currentUser = await authStore.getCurrentUser()
+    // console.log('Current User ID', currentUser.id)
+
+    if(currentPet.ownerID === currentUser.id) {
+        await petStore.deletePet(currentPet.id)
+        console.log('Pet Deleted')
+
+        router.push(`/${currentUser.id}/pets`)
+    }
 }
 
 </script>
