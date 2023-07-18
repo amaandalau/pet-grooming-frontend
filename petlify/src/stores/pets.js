@@ -32,10 +32,12 @@ export const usePetStores = defineStore({
                 }
 
                 const response = await fetch(`http://localhost:8080/pets/users/${userID}`, options)
-                const data = response.json()
+                const data = await response.json()
 
                 console.log(data)
                 console.log('Get Pet By Owner ID - Success - Thrown from pinia')
+
+                return data
             } catch (error) {
                 console.error(error)
             }
@@ -48,10 +50,12 @@ export const usePetStores = defineStore({
                 }
 
                 const response = await fetch(`http://localhost:8080/pets/${petID}`, options)
-                const data = response.json()
+                const data = await response.json()
 
                 console.log(data)
                 console.log('Get Pet By Pet ID - Success - Thrown from Pinia')
+
+                return data
             } catch (error) {
                 console.error(error)
             }
@@ -80,7 +84,7 @@ export const usePetStores = defineStore({
                 }
 
                 const response = await fetch('http://localhost:8080/pets/', options)
-                const data = response.json()
+                const data = await response.json()
 
                 console.log(data)
                 console.log('Create Pet - Success - Thrown from Pinia')
@@ -112,7 +116,7 @@ export const usePetStores = defineStore({
             }
 
             const response = await fetch(`http://localhost:8080/pets/${petID}`, options)
-            const data = response.json()
+            const data = await response.json()
 
             console.log(data)
             console.log('Update Pet - Success - Thrown from Pinia')
@@ -134,7 +138,7 @@ export const usePetStores = defineStore({
             }
 
             const response = await fetch(`http://localhost:8080/pets/${petID}`, options)
-            const data = response.json()
+            const data = await response.json()
 
             console.log(data)
             console.log('Pet Deleted Successfully - Thrown from Pinia')
