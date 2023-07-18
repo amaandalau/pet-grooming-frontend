@@ -8,10 +8,13 @@ import ButtonNew from '@/components/ButtonNew.vue'
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { usePetStores } from '../../stores/pets';
-import { createPinia } from 'pinia';
+import { useUserStores } from '../../stores/users';
+import { useAuthStores } from '../../stores/auth';
 
 const router = useRouter()
 const route = useRoute()
+const authStore = useAuthStores()
+const userStore = useUserStores()
 const petStore = usePetStores()
 
 const petID = ref(null)
@@ -34,6 +37,39 @@ const editPet = async () => {
     await petStore.updatePet(petID.value, updatedPetName, dateOfBirth, species, breed, updatedPetColour, updatedWeight)
 
     router.push(`/petProfile/${petID.value}`)
+}
+
+const deletePet = async () => {
+    // try {
+    //     const currentUser = await authStore.getCurrentUser()
+    //     const userID = currentUser.id
+
+    //     const currentPet = await petStore.getPetByID(route.params.id)
+
+    //     if(currentPet.ownerID === userID) {
+    //         await petStore.deletePet(route.params.id)
+    //         console.log('Pet Deleted Succesfully')
+    //         router.push(`/${userID}/pets`)
+    //     } else {
+    //         console.log('Not authorized lerh')
+    //     }
+
+    // } catch (error) {
+    //     console.error(error)
+    // }
+
+    const currentPet = await petStore.getPetByID(route.params.id)
+    // console.log('Del Pet: ', currentPet, currentPet.id, currentPet.ownerID)
+
+    const currentUser = await authStore.getCurrentUser()
+    // console.log('Current User ID', currentUser.id)
+
+    if(currentPet.ownerID === currentUser.id) {
+        await petStore.deletePet(currentPet.id)
+        console.log('Pet Deleted')
+
+        router.push(`/${currentUser.id}/pets`)
+    }
 }
 
 onMounted( async () => {
@@ -60,8 +96,8 @@ onMounted( async () => {
 
         <div class="border border-black rounded-full h-40 w-40 m-8">
             <!-- Avatar -->
-            <img src="https://images.unsplash.com/photo-1600585594245-0eb3fe7f1474?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=930&q=80" alt=""
-            class="object-fit h-full w-full rounded-full"
+            <img src="../../assets//illustrations//purr-traveler-cat.png" alt=""
+            class="object-contain h-full w-full rounded-full"
             >
         </div>
 

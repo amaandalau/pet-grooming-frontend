@@ -84,12 +84,12 @@ export const usePetStores = defineStore({
                 }
 
                 const response = await fetch('http://localhost:8080/pets/', options)
-                const data = response.json()
+                const data = await response.json()
 
                 console.log(data)
                 console.log('Create Pet - Success - Thrown from Pinia')
 
-                // return data
+                return data
             } catch (error) {
                 console.error(error)
             }
@@ -142,12 +142,13 @@ export const usePetStores = defineStore({
             }
 
             const response = await fetch(`http://localhost:8080/pets/${petID}`, options)
+            console.log('Delete Pet RESPONSE', response)
             const data = await response.json()
 
             console.log(data)
             console.log('Pet Deleted Successfully - Thrown from Pinia')
 
-            // return data
+            return data
             } catch (error) {
                 console.error(error)
             }
