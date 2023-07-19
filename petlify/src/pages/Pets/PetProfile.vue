@@ -72,15 +72,18 @@ const deletePet = async () => {
     //     console.log('Not allowed to delete pet!')
     // }
 
-    const currentPet = await petStore.getPetByID(route.params.id)
-    // console.log('Del Pet: ', currentPet, currentPet.id, currentPet.ownerID)
+    const petID = route.params.id
+    console.log(petID)
+
+    const currentPet = await petStore.getPetByID(petID)
+    console.log('Del Pet: ', currentPet, currentPet.id, currentPet.ownerID)
 
     const currentUser = await authStore.getCurrentUser()
-    // console.log('Current User ID', currentUser.id)
+    console.log('Current User ID', currentUser.id)
 
     if(currentPet.ownerID === currentUser.id) {
         await petStore.deletePet(currentPet.id)
-        console.log('Pet Deleted')
+        console.log('Test Pet Deleted')
 
         router.push(`/${currentUser.id}/pets`)
     }

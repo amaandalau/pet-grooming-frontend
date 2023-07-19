@@ -131,8 +131,11 @@ export const usePetStores = defineStore({
         },
 
         async deletePet(petID) {
+            
             try {
-                const accessToken = localStorage.getItem('acccess_token')
+                console.log('Pet Store Delete Pet', petID)
+                
+                const accessToken = localStorage.getItem('access_token')
 
             const options = {
                 method: 'DELETE',
@@ -142,13 +145,13 @@ export const usePetStores = defineStore({
             }
 
             const response = await fetch(`http://localhost:8080/pets/${petID}`, options)
-            console.log('Delete Pet RESPONSE', response)
+            // console.log('Delete Pet RESPONSE', response)
             const data = await response.json()
 
             console.log(data)
             console.log('Pet Deleted Successfully - Thrown from Pinia')
 
-            return data
+            // return data
             } catch (error) {
                 console.error(error)
             }
