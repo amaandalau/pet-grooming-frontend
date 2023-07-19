@@ -24,6 +24,22 @@ export const useUserStores = defineStore({
 
     actions: {
 
+        async getAllUsers() {
+            try {
+                const options = {
+                    method: 'GET'
+                }
+
+                const response = await fetch(`http://localhost:8080/users`, options)
+                const data = await response.json()
+
+                console.log(data)
+                return data
+            } catch (error) {
+                console.error(error)
+            }
+        },
+
         async getUserByID(userID) {
             console.log('USER ID (From Get User By Id)', userID)
             
