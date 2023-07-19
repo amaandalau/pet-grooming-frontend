@@ -75,7 +75,7 @@ const routes = [
 
     // Pets
     {
-        path: '/pets',
+        path: '/:id/pets',
         name: 'Pets',
         component: () => import('@/pages/Pets/Pets.vue')
     },
@@ -85,17 +85,17 @@ const routes = [
         component: () => import('@/pages/Pets/CreatePet.vue')
     },
     {
-        path: '/editPet',
+        path: '/editPet/:id',
         name: 'Edit Pet Profile',
         component: () => import('@/pages/Pets/EditPet.vue')
     },
     {
-        path: '/petProfile',
+        path: '/petProfile/:id',
         name: 'Pet Profile',
         component: () => import('@/pages/Pets/PetProfile.vue')
     },
     {
-        path: '/createPetAppt',
+        path: '/:petID/createPetAppt',
         name: 'Create Pet Appointment',
         component: () => import('@/pages/Pets/CreatePetAppt.vue')
     },
