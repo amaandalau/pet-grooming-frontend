@@ -4,7 +4,9 @@ export const useTimeslotStores = defineStore({
     id: 'timeslot',
 
     state: () => {
-
+        return {
+            timeslot: null
+        }
     },
 
     getters: {
@@ -29,19 +31,14 @@ export const useTimeslotStores = defineStore({
             }
         },
 
-        async getAllTimeslotsByGroomerID() {
+        async getAllTimeslotsByGroomerID(groomerID) {
             try {
-                const accessToken = this.accessToken
-
                 const options = {
-                    method: 'GET',
-                    headers: {
-                        Authorization: accessToken
-                    }
+                    method: 'GET'
                 }
 
-                const response = await fetch('http://localhost:8080/timeslots/users/:userID', options)
-                const data = response.json()
+                const response = await fetch(`http://localhost:8080/timeslots/users/${groomerID}`, options)
+                const data = await response.json()
 
                 console.log(data)
                 console.log('Get All Timeslots By Groomer ID - Success - Thrown from Pinia')
@@ -50,13 +47,13 @@ export const useTimeslotStores = defineStore({
             }
         },
 
-        async getTimeslotByID() {
+        async getTimeslotByID(timeslotID) {
             try {
                 const options = {
                     method: 'GET'
                 }
 
-                const response = await fetch('http://localhost:8080/timeslots/:timeslotID', options)
+                const response = await fetch(`http://localhost:8080/timeslots/${timeslotID}`, options)
                 const data = response.json()
 
                 console.log(data)
@@ -68,7 +65,7 @@ export const useTimeslotStores = defineStore({
 
         async createTimeslot(timeslots, status, groomerID) {
             try {
-                const accessToken = this.accessToken
+                const accessToken = localStorage.getItem('access_token')
 
                 const options = {
                     method: 'POST',
@@ -91,7 +88,7 @@ export const useTimeslotStores = defineStore({
 
         async updateTimeslot(timeslots, status, groomerID) {
             try {
-                const accessToken = this.accessToken
+                const accessToken = localStorage.getItem('access_token')
 
                 const options = {
                     method: 'PUT',
@@ -114,7 +111,7 @@ export const useTimeslotStores = defineStore({
 
         async deleteTimeslot() {
             try {
-                const accessToken = this.accessToken
+                const accessToken = localStorage.getItem('access_token')
 
                 const options = {
                     method: 'DELETE',
