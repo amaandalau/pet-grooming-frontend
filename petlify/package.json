@@ -12,6 +12,7 @@
     "@heroicons/vue": "^2.0.18",
     "@mdi/font": "^7.2.96",
     "@mui/icons-material": "^5.13.7",
+    "@vuepic/vue-datepicker": "^5.4.0",
     "buffer": "^6.0.3",
     "jose": "^4.14.4",
     "js-cookie": "^3.0.5",
