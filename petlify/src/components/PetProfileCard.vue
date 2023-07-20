@@ -6,12 +6,6 @@ import { useAuthStores } from '../stores/auth';
 import { useUserStores } from '../stores/users';
 import { usePetStores } from '../stores/pets';
 
-const router = useRouter()
-const authStore = useAuthStores()
-const userStore = useUserStores()
-const petStore = usePetStores()
-
-
 const props = defineProps({
     petName: {
         type: String
@@ -36,7 +30,7 @@ const props = defineProps({
     }
 })
 
-const emits = defineEmits(['petProfileClicked', 'editPetClicked'])
+const emits = defineEmits(['petProfileClicked', 'editPetClicked', 'makeApptClicked'])
 
 const handleCardClick = () => {
     emits('petProfileClicked')
@@ -45,6 +39,13 @@ const handleCardClick = () => {
 const handleEditPetClick = (event) => {
     event.stopPropagation()
     emits('editPetClicked')
+}
+
+const handleMakeApptClick = (event) => {
+    if(event.targer === event.currentTarget) {
+        event.stopPropagation()
+        emits('makeApptClicked')
+    }
 }
 
 const getAge = computed(() => {
@@ -114,8 +115,17 @@ const getAge = computed(() => {
                 </div>
 
             </div>
+
+            <!-- If has appointment -->
+            <!-- <template>
+                <div class="flex flex-col">
+                    <label class="text-sm text-center">{{ petName }} has an upcomming appointment!</label>
+
+                    <button class="m-2 px-4 py-2 bg-yellow-300 rounded-md">View Appointment Details</button>
+                </div>
+            </template> -->
             
         </div>
-        <ButtonNew text="Make an appointment" rounded="lg" elevation="0" size="large"/>
+        <ButtonNew @click="handleMakeApptClick" text="Make an appointment" rounded="lg" elevation="0" size="large"/>
     </div>
 </template>
