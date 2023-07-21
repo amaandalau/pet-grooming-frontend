@@ -80,7 +80,7 @@ const routes = [
         component: () => import('@/pages/Pets/Pets.vue')
     },
     {
-        path: '/:petID/createPet',
+        path: '/createPet',
         name: 'Create Pet Profile',
         component: () => import('@/pages/Pets/CreatePet.vue')
     },

@@ -61,8 +61,17 @@ export const usePetStores = defineStore({
             }
         },
 
-        async createPet(name, dateOfBirth, species, breed, weightInKG, color, ownerID) {
+        async createPet(name, dateOfBirth, species, breed, color, weightInKG, ownerID) {
             try {
+                console.log( 'Pet Create:', JSON.stringify({
+                    name,
+                    dateOfBirth,
+                    species,
+                    breed,
+                    color,
+                    weightInKG,
+                    ownerID
+                }))
                 // Retrieve access token from local storage
                 const accessToken = localStorage.getItem('access_token')
 
