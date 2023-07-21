@@ -64,8 +64,8 @@ const getAge = computed(() => {
 </script>
 
 <template>
-    <div class="border border-black rounded-xl h-full w-80 flex flex-col items-center hover:cursor-pointer" @click="handleCardClick">
-        <div class="rounded-t-xl p-4 h-64 w-full border border-slate-100">
+    <div class="border-r border-t border-l border-slate-300 rounded-t-xl h-full w-80 flex flex-col items-center hover:cursor-pointer" @click="handleCardClick">
+        <div class="rounded-t-xl p-4 h-64 w-full border-b border-slate-200">
             <img src="../assets/illustrations//purr-traveler-cat.png " alt=""
                 class="object-contain h-full w-full rounded-t-xl"
             >
@@ -126,6 +126,6 @@ const getAge = computed(() => {
             </template> -->
             
         </div>
-        <ButtonNew @click="handleMakeApptClick" text="Make an appointment" rounded="lg" elevation="0" size="large"/>
+        <!-- <ButtonNew @click="handleMakeApptClick" text="Make an appointment" rounded="lg" elevation="0" size="large"/> -->
     </div>
 </template>
