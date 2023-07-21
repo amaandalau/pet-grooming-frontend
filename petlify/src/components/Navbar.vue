@@ -54,11 +54,11 @@ onMounted(() => {
             <label class="font-semibold text-xl hover:cursor-pointer">Petlify</label>
         </div>
 
-        <div class="flex flex-row items-center justify-end gap-4">
+        <!-- <div class="flex flex-row items-center justify-end gap-4">
             <NavbarMenu nav-title="Home" @click="goToHome"/>
 
             <NavbarMenu nav-title="About" @click="goToAbout"/>
-        </div>
+        </div> -->
 
         <!-- If logged in user is owner -->
         <template v-if="userData.role === 'owner'">
@@ -87,6 +87,12 @@ onMounted(() => {
         </template>
 
         <template v-else>
+            <div class="flex flex-row items-center justify-end gap-4">
+                <NavbarMenu nav-title="Home" @click="goToHome"/>
+
+                <NavbarMenu nav-title="About" @click="goToAbout"/>
+            </div>
+
             <div class="w-1/8">
                 <ButtonNew @click="goToSignUp" text="Sign Up" rounded="sm" size="large"/>
             </div>
