@@ -2,36 +2,124 @@
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue'
 import ButtonNew from '@/components/ButtonNew.vue'
+import SelectDropdown from '../../components/SelectDropdown.vue';
+import PetApptHeader from '../../components/PetApptHeader.vue';
 
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import VueDatePicker from '@vuepic//vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
+
 import { useApptStores } from '@/stores/appointments.js'
+import { useUserStores } from '../../stores/users';
+import { useTimeslotStores } from '../../stores/timeslots'
+import { usePetStores } from '../../stores/pets';
 
 const router = useRouter()
-const store = useApptStores()
+const route = useRoute()
+const userStore = useUserStores()
+const petStore = usePetStores()
+const apptStore = useApptStores()
+const timeslotStore = useTimeslotStores()
 
-const apptDate = ref('')
+const apptDate = ref()
 const specialInstructions = ref('')
-const status = ref('')
-const petID = ref('')
-const timeslotID = ref('')
-const ownerID = ref('')
-const groomerID = ref('')
+const status = ref('pending')
+const petID = ref(null)
+const ownerID = ref(null)
+
+const groomerList = ref([])
+const groomerID = ref(null)
+const groomerName = ref(null)
+const selectedGroomer = ref(null)
+
+const petName = ref(null)
+const petDOB = ref(null)
+const petSpecies = ref(null)
+const petBreed = ref(null)
+const petColour = ref(null)
+const petWeight = ref(null)
+
+const getPetData = async () => {
+
+    const petID = route.params.petID
+    console.log('Get Pet Data PetID', petID)
+
+    const pet = await petStore.getPetByID(petID)
+    console.log('Pet Data', pet)
+
+    petName.value = pet.name
+    petDOB.value = pet.dateOfBirth
+    petSpecies.value = pet.species
+    petBreed.value = pet.breed
+    petColour.value = pet.color
+    petWeight.value = pet.weightInKG
+
+}
+
+const getGroomerList = async () => {
+    try {
+        const users = await userStore.getAllUsers()
+
+        // Filter groomers
+        const groomers = users.filter(user => user.role === 'groomer')
+        
+        // groomerList.value = groomers
+        groomerList.value = groomers.map(groomer => ({
+            name: groomer.name,
+            id: groomer.id
+        }))
+
+        console.log(groomerID.value)
+       
+        console.log('Groomers (Filtered)', groomerList.value)
+
+    } catch (error) {
+        console.error('Failed to fetch groomers', error)
+    }
+}
+
+
+
+const getOwnerID = async () => {
+    const pet = await petStore.getPetByID(route.params.petID)
+    const ownerID = pet.ownerID
+
+    console.log('Get Owner ID', ownerID)
+
+    return ownerID
+}
 
 const createAppt = async () => {
-    const apptDateValue = apptDate.value
-    const specialInstructionsValue = specialInstructions
-    const statusValue = status
-    const petValue = petID
-    const timeslotValue = timeslotID
-    const ownerValue = ownerID
-    const groomerValue = groomerID
 
-    await store.createAppt(apptDate, specialInstructions, status, petID, timeslotID, ownerID, groomerID)
+    const pet = await petStore.getPetByID(route.params.petID)
+    const ownerID = pet.ownerID
+    const petID = parseInt(route.params.petID)
+
+    const apptDateValue = apptDate.value
+    const specialInstructionsValue = specialInstructions.value
+    const statusValue = 'pending'
+    const timeslotValue = 6 // Just using id from dummy data to pass it
+
+
+    console.log('Groomer Name', groomerName.value)
+    const selectedGroomer = groomerList.value.find(groomer => groomer.name === groomerName.value)
+    const groomerIDValue = selectedGroomer ? selectedGroomer.id : null
+
+    console.log('Selected Groomer ID:', groomerIDValue)
+
+    await apptStore.createAppt(apptDateValue, specialInstructionsValue, statusValue, petID, timeslotValue, ownerID, groomerIDValue)
+    console.log('Appt:', apptDateValue, specialInstructionsValue, status, petID, timeslotValue, ownerID, groomerIDValue)
     console.log('Appointment Created')
 
-    router.push('/pets')
+    router.push(`/${ownerID}/pets`)
 }
+
+onMounted(() => {
+    getPetData()
+    getGroomerList()
+    
+})
 
 </script>
 
@@ -39,110 +127,57 @@ const createAppt = async () => {
     <Navbar :user-logged-in="true"/>
     
     <div class="min-h-screen">
-        <div class="py-2">
-            <label class="mx-6 text-xl font-semibold">Make an Appointment</label>
-        </div>
+        <PetApptHeader
+            :header="`Create an Appointment for ${petName}`"
+            sub-header="Appointment Details"
+            :pet-name="petName"
+            :pet-bday="petDOB"
+            :pet-species="petSpecies"
+            :pet-breed="petBreed"
+            :pet-colour="petColour"
+            :pet-weight="petWeight"
+        />
 
-        <!-- Pet Info -->
-        <div class="flex flex-row items-center justify-start">
-            
-            <div class="border border-black rounded-full h-20 w-20 m-8">
-                <!-- Pet Avatar -->
-                <img src="https://images.unsplash.com/photo-1600585594245-0eb3fe7f1474?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=930&q=80" alt=""
-                class="object-fit h-full w-full rounded-full"
-                >
-            </div>
-
-            <div class="w-1/2 border border-blue-500 flex flex-col">
-                <!-- Pet Details -->
-                <div class="flex flex-row items-center justify-between">
-                    <label class="text-xl font-semibold">Pet Name</label>
-                    <label>5 years old</label>
-                </div>
-
-                <div class="flex flex-row items-center justify-between">
-                    <label>Dog</label>
-                    <label>French Bulldog</label>
-                </div>
-
-                <div class="flex flex-row items-center justify-between">
-                    <label>White with Black Spots</label>
-                    <label>5.30 KG</label>
-                </div>
-            </div>
-        </div>
-
-        <!-- <hr class="m-4"> -->
-
-        <!-- Appointment -->
-        <div>
-            <div class="py-2 bg-white drop-shadow-md rounded-lg">
-                <label class="mx-6 text-xl font-semibold">Appointment</label>
-            </div>
-
-            <div class="m-6 flex flex-col">
-                <v-select
-                        v-model="groomer"
-                        clearable
-                        label="Select Groomer"
-                        :items="['Groomer A', 'Groomer B', 'Groomer C']"
-                        variant="outlined"
-                        density="comfortable"
-                    ></v-select>
-
-                <div class="flex flex-row items-center justify-between">
-                    
-                    <!-- Services -->
-                    <div class="flex flex-row flex-wrap">
-                        <v-checkbox
-                            v-model="selected"
-                            label="Nail Clipping"
-                            value="Nail Clipping"
-                            color="primary"    
-                        ></v-checkbox>
-
-                        <v-checkbox
-                            v-model="selected"
-                            label="Bath & Spa"
-                            value="Bath & Spa"
-                            color="primary"    
-                        ></v-checkbox>
-
-                        <v-checkbox
-                            v-model="selected"
-                            label="Ear Cleaning"
-                            value="Ear Cleaning"
-                            color="primary"    
-                        ></v-checkbox>
-                    </div>
-                </div>
-
-                <div class="my-8 flex flex-row items-center justify-between gap-8">
-                    <v-text-field
-                        v-model="apptDate"
-                        label="Appointment Date"
-                        density="comfortable"
-                        placeholder="Select Appointment Date"
-                        variant="outlined"
-                    ></v-text-field>
-                    
-                    <v-select
-                        v-model="timeslot"
-                        clearable
-                        label="Select Timeslot"
-                        :items="['10:00 A.M.', '02:00 P.M.', '16:30 P.M.']"
-                        variant="outlined"
-                        density="comfortable"
-                    ></v-select>
-                </div>
+            <div class="mx-10 my-6 flex flex-col gap-8">
                 
-                <v-textarea label="Special Instructions" variant="outlined"></v-textarea>
+                    <SelectDropdown 
+                        label="Select a Groomer" 
+                        :options="groomerList.map(groomer => groomer.name)"
+                        v-model="groomerName"
+                        :modelValue="groomerName"
+                        @update:value="groomerName"
+                    />
+
+                    <div class="flex flex-col">
+                        <label>Select an Appointment Date</label>
+                        
+                        <VueDatePicker
+                        v-model="apptDate"
+                        :enable-time-picker="false"
+                        :clearable="true"
+                        placeholder="Select an Appointment Date"
+                        :close-on-auto-apply="true"
+                        show-now-button=""
+                        ></VueDatePicker>
+                    </div>
+
+                    <!-- <SelectDropdown 
+                        label="Select a Timeslot"
+                        :options="timeslotList"
+                        v-model="timeslotID"    
+                    /> -->
+                
+                    <v-textarea
+                        v-model="specialInstructions" 
+                        label="Special Instructions" 
+                        variant="outlined">
+                    </v-textarea>
+
                 <ButtonNew text="Make Appointment" @click="createAppt"/>
             </div>
 
 
         </div>
-    </div>
 
     <Footer/>
 </template>
