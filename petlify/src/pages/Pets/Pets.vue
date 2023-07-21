@@ -9,13 +9,14 @@ import { computed, onMounted, ref } from 'vue';
 import { useAuthStores } from '../../stores/auth';
 import { useUserStores } from '../../stores/users';
 import { usePetStores } from '../../stores/pets'
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const authStore = useAuthStores()
 const userStore = useUserStores()
 const petStore = usePetStores()
 
 const router = useRouter()
+const route = useRoute()
 
 const petData = ref([])
 
@@ -49,6 +50,12 @@ const goToEditPet = (petID) => {
     router.push(`/editPet/${petID}`)
 }
 
+const goToMakeAppt = async (petID) => {
+
+    const pet = await petStore.getPetByID(petID)
+    router.push(`/${petID}/createPetAppt`)
+}
+
 onMounted(async () => {
     getUserPets()
 })
@@ -70,16 +77,17 @@ onMounted(async () => {
             <template v-for="pet in petData" :key="pet.id">
                 <div class="flex-shrink-0">
                     <PetProfileCard
-                    :pet-name="pet.name"
-                    :age="pet.age"
-                    :date-of-birth="pet.dateOfBirth"
-                    :species="pet.species"
-                    :breed="pet.breed"
-                    :colour="pet.color"
-                    :weight="pet.weightInKG"
-                    @petProfileClicked="goToPetProfile(pet.id)"
-                    @editPetClicked="goToEditPet(pet.id)"
-                />
+                        :pet-name="pet.name"
+                        :age="pet.age"
+                        :date-of-birth="pet.dateOfBirth"
+                        :species="pet.species"
+                        :breed="pet.breed"
+                        :colour="pet.color"
+                        :weight="pet.weightInKG"
+                        @petProfileClicked="goToPetProfile(pet.id)"
+                        @editPetClicked="goToEditPet(pet.id)"
+                    />
+                    <ButtonNew text="Make an appointment" rounded="lg" @click="goToMakeAppt(pet.id)"/>
                 </div>
             </template>
             
