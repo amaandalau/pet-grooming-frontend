@@ -50,7 +50,6 @@ export const useApptStores = defineStore({
 
         async createAppt(apptDate, specialInstructions, status, petID, timeslotID, ownerID, groomerID) {
             try {
-                // const accessToken = this.accessToken
                 const accessToken = localStorage.getItem('access_token')
 
                 const options = {
@@ -70,7 +69,7 @@ export const useApptStores = defineStore({
                 }
 
                 const response = await fetch('http://localhost:8080/appointments/', options)
-                const data = response.json()
+                const data = await response.json()
 
                 console.log(data)
                 console.log('Create Appt - Success - Thrown from Pinia')

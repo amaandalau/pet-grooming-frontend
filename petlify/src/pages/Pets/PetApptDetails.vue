@@ -127,8 +127,8 @@ const getApptDetails = async () => {
 }
 
 const goToEditAppt = async () => {
-    router.push(`/${route.params.petID}/editPetAppt`)
-    // router.push(`/${route.params.petID}/editPetAppt/${apptID}`)
+    // router.push(`/${route.params.petID}/editPetAppt`)
+    router.push(`/${route.params.petID}/editPetAppt/${route.params.apptID}`)
 }
 
 onMounted(() => {

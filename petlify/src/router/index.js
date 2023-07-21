@@ -80,7 +80,7 @@ const routes = [
         component: () => import('@/pages/Pets/Pets.vue')
     },
     {
-        path: '/createPet',
+        path: '/:petID/createPet',
         name: 'Create Pet Profile',
         component: () => import('@/pages/Pets/CreatePet.vue')
     },
@@ -98,6 +98,17 @@ const routes = [
         path: '/:petID/createPetAppt',
         name: 'Create Pet Appointment',
         component: () => import('@/pages/Pets/CreatePetAppt.vue')
+    },
+    {
+        path: '/:petID/petApptDetails/:apptID',
+        name: 'Pet Appointment Details',
+        component: () => import ('@/pages/Pets/PetApptDetails.vue')
+    },
+    {
+        // path: '/:petID/editPetAppt',
+        path: '/:petID/editPetAppt/:apptID',
+        name: 'Edit Pet Appointment',
+        component: () => import ('@/pages/Pets/EditPetAppt.vue')
     },
 
     // Appointments (Groomer's Dashboard)
