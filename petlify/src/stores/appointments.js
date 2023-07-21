@@ -37,10 +37,12 @@ export const useApptStores = defineStore({
                 }
 
                 const response = await fetch(`http://localhost:8080/appointments/${apptID}`, options)
-                const data = response.json()
+                const data = await response.json()
 
                 console.log(data)
                 console.log('Get Appt By ID - Success - Thrown from Pinia')
+
+                return data
             } catch (error) {
                 console.error(error)
             }
