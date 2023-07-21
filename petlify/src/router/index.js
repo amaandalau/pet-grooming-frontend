@@ -113,7 +113,7 @@ const routes = [
 
     // Appointments (Groomer's Dashboard)
     {
-        path: '/appointments',
+        path: '/:groomerID/appointments',
         name: 'Appointments',
         component: () => import ('@/pages/Appointments/Appointments.vue')
     },

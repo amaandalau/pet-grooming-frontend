@@ -5,10 +5,12 @@ import Footer from '../components/Footer.vue'
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStores } from '../stores/auth';
+import { useUserStores } from '../stores/users';
 
 const visible = ref(false)
 const router = useRouter()
 const authStore = useAuthStores()
+const userStore = useUserStores()
 
 const email = ref('')
 const password = ref('')
@@ -24,7 +26,14 @@ const login = async () => {
   console.log('Login ID Check - ', userID)
 
   if (userID) {
-    router.push(`/profile/${userID}`)
+    const user = await userStore.getUserByID(userID)
+    const userRole = user.role
+
+    if(userRole === 'owner') {
+      router.push(`/${userID}/pets`)
+    } else if (userRole === 'groomer') {
+      router.push(`${userID}/appointments`)
+    }
   }
 }
 
