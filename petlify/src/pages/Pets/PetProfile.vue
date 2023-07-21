@@ -1,6 +1,7 @@
 <script setup>
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue'
+import ButtonNew from '@/components/ButtonNew.vue'
 
 import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -56,6 +57,10 @@ const goToEditPet = () => {
     router.push(`/editPet/${route.params.id}`)
 }
 
+const goToMakeAppt = () => {
+    router.push(`/${route.params.id}/createPetAppt`)
+}
+
 const deletePet = async () => {
 
     const petID = route.params.id
@@ -83,7 +88,7 @@ const deletePet = async () => {
             <div class="flex flex-col w-full">
 
                 <label class="text-center text-2xl font-bold">Pet Profile</label>
-                    <div class="mx-4 my-2 justify-self-end text-right hover:underline" @click="goToEditPet">
+                    <div class="mx-4 my-2 block text-right hover:underline" @click="goToEditPet">
                         <label class="font-light text-sm hover:cursor-pointer">Edit Pet</label>
                     </div>
 
@@ -106,6 +111,11 @@ const deletePet = async () => {
                         <label class="mt-4">{{ weight }} KG</label>
                     </div>
                 </div>
+
+                <div class="w-1/3 flex items-center mx-auto my-6">
+                    <ButtonNew @click="goToMakeAppt" text="Make an appointment" rounded="lg" elevation="0" size="large"/>
+                </div>
+
             </div>
 
             <div class="flex justify-center my-4">
