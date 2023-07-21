@@ -87,8 +87,7 @@ const getPetData = async () => {
 }
 
 const getApptDetails = async () => {
-    // const apptID = route.params.apptID
-    const apptID = 3
+    const apptID = route.params.apptID
     console.log('Appointment ID', apptID)
     const petID = route.params.petID
 
@@ -127,7 +126,6 @@ const getApptDetails = async () => {
 }
 
 const goToEditAppt = async () => {
-    // router.push(`/${route.params.petID}/editPetAppt`)
     router.push(`/${route.params.petID}/editPetAppt/${route.params.apptID}`)
 }
 
