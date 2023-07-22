@@ -223,6 +223,10 @@ const goToApptDetails = async () => {
                 </v-textarea>
 
                 <ButtonNew text="Save Appointment" @click="goToApptDetails" />
+
+                <div class="block m-4 text-center">
+                    <label class="font-light text-red-600 hover:underline hover:cursor-pointer">Delete Appointment</label>
+                </div>
             </div>
 
         </PetApptHeader>
