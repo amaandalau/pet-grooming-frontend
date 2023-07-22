@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 
 const props = defineProps({
     label: {
@@ -9,8 +9,7 @@ const props = defineProps({
         type: String
     },
     options: {
-        type: Array,
-        required: false
+        type: Object,
     },
     value: {
         type: String,
@@ -19,15 +18,27 @@ const props = defineProps({
     disabled: {
         type: Boolean,
         default: false
+    },
+    vModel: {
+        type: String
     }
 })
 
-const selectedValue = ref(props.value)
+const emits = defineEmits()
+// const modelValue = ref(props.value)
 
-watch(() => {
-  // Watch for changes in the value prop and update selectedValue accordingly
-  selectedValue.value = props.value;
-})
+// const selectedValueA = computed(() => props.value)
+
+const selectedValue = computed({
+    // get: () => modelValue.value,
+    get: () => props.value,
+    set: (newValue) => {
+        // modelValue.value = newValue
+        console.log('New Value:', newValue)
+        emits('update:modelValue', newValue)
+    }
+}) 
+
 </script>
 
 <template>
