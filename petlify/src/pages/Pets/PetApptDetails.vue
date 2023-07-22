@@ -17,7 +17,7 @@ const router = useRouter()
 const route = useRoute()
 const userStore = useUserStores()
 const petStore = usePetStores()
-const apptStore = useApptStores();
+const apptStore = useApptStores()
 
 const petName = ref(null);
 const petDOB = ref(null);
@@ -83,6 +83,7 @@ const getPetData = async () => {
     petDOB.value = pet.dateOfBirth
     petSpecies.value = pet.species
     petBreed.value = pet.breed
+    petColour.value = pet.color
     petWeight.value = pet.weightInKG
 }
 
@@ -125,6 +126,22 @@ const getApptDetails = async () => {
     specialInstructions.value = appt.specialInstructions
 }
 
+const upcommingAppt = ref([])
+
+const hasUpcomingAppt = async () => {
+    const today = new Date()
+    const petID = route.params.petID
+
+    const apptList = await apptStore.getAllAppt()
+    console.log('Appt List:', apptList)
+
+    return upcommingAppt.value.some(appt => {
+        return appt.petID === petID && new Date(appt.apptDate) > now
+    })
+
+
+}
+
 const goToEditAppt = async () => {
     router.push(`/${route.params.petID}/editPetAppt/${route.params.apptID}`)
 }
@@ -153,6 +170,12 @@ onMounted(() => {
     <div>
       <div class="py-2 bg-white drop-shadow-md rounded-lg">
         <label class="mx-6 text-xl font-semibold">Appointment Details</label>
+      </div>
+
+      <div class="block text-center m-4" v-if="hasUpcomingAppt()">
+        <label class="font-semibold text-orange-400">
+            {{ petName }} has an upcomming appointment on {{ selectedDate }}!
+        </label>
       </div>
 
       <div class="mx-10 my-6 flex flex-col gap-8">
