@@ -222,7 +222,21 @@ const goToApptDetails = async () => {
                 >
                 </v-textarea>
 
-                <ButtonNew text="Save Appointment" @click="goToApptDetails" />
+                <div class="flex flex-row items-center justify-between gap-8">
+                    <!-- <button class="mx-8 px-8 py-3 border  border-slate-900 rounded-md">Cancel</button> -->
+
+                    <div class="w-1/2">
+                        <ButtonNew text="Cancel" @click="goToApptDetails"
+                        elevation="0"
+                        class="cancel"
+                        />
+                    </div>
+
+                    <div class="w-1/2">
+                        <ButtonNew text="Save Appointment" @click="goToApptDetails" class="default"/>
+                    </div>
+
+                </div>
 
                 <div class="block m-4 text-center">
                     <label class="font-light text-red-600 hover:underline hover:cursor-pointer">Delete Appointment</label>
