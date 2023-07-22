@@ -8,7 +8,6 @@ const props = defineProps({
     },
     class: {
         type: String,
-        default: 'default'
     },
     size: {
         type: String,
@@ -18,6 +17,8 @@ const props = defineProps({
         type: String
     }
 })
+
+const emits = defineEmits(['click'])
 </script>
 
 <template>
@@ -26,6 +27,7 @@ const props = defineProps({
         :size="size" 
         :class="class"
         :elevation="elevation"
+        @click="$emit('click')"
     >
         <span class="button-text">{{ text }}</span>
     </v-btn>
@@ -42,7 +44,7 @@ const props = defineProps({
 }
 
 .link {
-    background-color: transparent;
+    background-color: none;
     border: none;
     color: black;
 }
@@ -50,6 +52,21 @@ const props = defineProps({
 .link:hover {
     cursor: pointer;
     background-color: white;
+    border: none;
+    text-decoration: underline;
+}
+
+.cancel {
+    background: transparent;
+    border: 1px solid black;
+    color: black;
+}
+
+.cancel:hover {
+    background: red;
+    border: 1px solid red;
+    color: white;
+    cursor: pointer;
     text-decoration: underline;
 }
 </style>
