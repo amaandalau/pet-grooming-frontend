@@ -79,17 +79,6 @@ const getGroomerList = async () => {
     }
 }
 
-
-
-const getOwnerID = async () => {
-    const pet = await petStore.getPetByID(route.params.petID)
-    const ownerID = pet.ownerID
-
-    console.log('Get Owner ID', ownerID)
-
-    return ownerID
-}
-
 const createAppt = async () => {
 
     const pet = await petStore.getPetByID(route.params.petID)
@@ -160,12 +149,6 @@ onMounted(() => {
                         show-now-button=""
                         ></VueDatePicker>
                     </div>
-
-                    <!-- <SelectDropdown 
-                        label="Select a Timeslot"
-                        :options="timeslotList"
-                        v-model="timeslotID"    
-                    /> -->
                 
                     <v-textarea
                         v-model="specialInstructions" 
