@@ -29,7 +29,7 @@ const petBreed = ref(null)
 const petColour = ref(null)
 const petWeight = ref(null)
 
-const selectedGroomer = ref(null)
+const apptDate = ref()
 const apptStatus = ref(null)
 const selectedDate = ref(null)
 const specialInstructions = ref(null)
@@ -59,7 +59,10 @@ const toTitleCase = (str) => {
 
 const apptStatusList = statusList.value.map(status => toTitleCase(status))
 
-const groomerList = ref(null)
+const groomerList = ref([])
+const groomerID = ref(null)
+const groomerName = ref(null)
+const selectedGroomer = ref(null)
 
 const getGroomerList = async () => {
     try {
@@ -67,8 +70,14 @@ const getGroomerList = async () => {
 
         // Filter groomers
         const groomers = users.filter(user => user.role === 'groomer')
+        
+        // groomerList.value = groomers
+        groomerList.value = groomers.map(groomer => ({
+            name: groomer.name,
+            id: groomer.id
+        }))
 
-        groomerList.value = groomers.map(groomer => groomer.name)
+        console.log(groomerID.value)
        
         console.log('Groomers (Filtered)', groomerList.value)
 
@@ -138,6 +147,28 @@ const getApptData = async () => {
 
 const editAppt = async () => {
 
+    const pet = await petStore.getPetByID(route.params.petID)
+    const ownerID = pet.ownerID
+    const petID = parseInt(route.params.petID)
+
+    const apptID = route.params.apptID
+    const appt = await apptStore.getApptByID(apptID)
+
+    const apptDateValue = apptDate.value
+    const specialInstructionsValue = specialInstructions.value
+    const status = appt.status
+    const timeslotID = 6 // Just using id from dummy data 
+
+    const selectedGroomer = groomerList.value.find(groomer => groomer.name === groomerName.value)
+    const groomerIDValue = selectedGroomer ? selectedGroomer.id : null
+
+    await apptStore.updateAppt(apptID, apptDateValue, specialInstructionsValue, status, ownerID, petID, groomerIDValue, timeslotID)
+    console.log('Appt Edited')
+    router.push(`/${petID}/petApptDetails/${apptID}`)
+
+}
+
+const cancelAppt = async () => {
     const currentUser = await authStore.getCurrentUser()
     const userID = currentUser.id
     
@@ -146,14 +177,53 @@ const editAppt = async () => {
 
     const appt = await apptStore.getApptByID(apptID)
 
-    const selectedApptDate = selectedDate.value
-    const specialInstructions = specialInstructions.value
-    const updatedStatus = apptStatus.value
+    const selectedApptDate = appt.apptDate
+    const specialInstructions = appt.specialInstructions
+    const updatedStatus = 'cancelled'
     const ownerID = userID
-    const groomerID = ''
+    const groomerID = appt.groomerID
+
     const timeslotID = 6 // Just to bypass updating appt
 
     await apptStore.updateAppt(apptID, selectedApptDate, specialInstructions, updatedStatus, ownerID, petID, groomerID, timeslotID)
+    console.log('Appointment Cancelled')
+}
+
+const upcomingAppt = ref([])
+const apptList = ref([])
+
+const hasUpcomingAppt = async () => {
+    const today = new Date()
+    const petID = route.params.petID
+
+    const apptList = await apptStore.getAllAppt()
+    console.log('Appt List:', apptList)
+
+    return upcomingAppt.value.some(appt => {
+        return appt.petID === petID && new Date(appt.apptDate) > today
+    })
+
+    // -------------------------------------------------------------------------
+    // const today = new Date()
+//     const petID = route.params.petID
+
+//    apptList.value = await apptStore.getAllAppt()
+   
+//     console.log('Appt List', apptList.value)
+
+//     const upcommingAppt = apptList.value.find(appt => {
+//         return appt.petID === petID && new Date(appt.apptDate) > today
+//     })
+
+
+//     if(upcommingAppt) {
+//         return {
+//             status: upcommingAppt.status,
+//             petName: petName,
+//             apptDate: apptDate
+
+//         }
+//     }
 
 }
 
@@ -182,14 +252,39 @@ const goToApptDetails = async () => {
             :pet-colour="petColour"
             :pet-weight="petWeight"
         >
+
+
+      <div class="block text-center m-4" v-if="hasUpcomingAppt()">
+        <label class="font-semibold text-orange-400">
+            {{ petName }} has an upcomming appointment on {{ selectedDate }}!
+        </label>
+      </div>
+
+      <div class="block text-center m-4" v-if="hasUpcomingAppt()">
+    <label v-if="upcomingAppt.status === 'pending'" class="font-semibold text-orange-400">
+        {{ petName }} has an upcoming appointment on {{ apptDate }} in orange text.
+    </label>
+    <label v-else-if="upcomingAppt.status === 'confirmed'" class="font-semibold text-green-400">
+        {{ petName }}'s appointment on {{ apptDate }} is confirmed in green.
+    </label>
+    <label v-else-if="upcomingAppt.status === 'completed'" class="font-semibold text-green-400">
+        {{ petName }}'s appointment has been completed! in green.
+    </label>
+    <label v-else-if="upcomingAppt.status === 'cancelled'" class="font-semibold text-red-400">
+        {{ petName }}'s appointment has been cancelled in red.
+    </label>
+</div>
+
         
             <div class="mx-10 my-6 flex flex-col gap-8">
                 <div class="flex flex-row flex-wrap gap-8 items-center">
 
-                    <SelectDropdown
-                        label="Selected Groomer"
-                        :value="selectedGroomer"
-                        :options="groomerList"
+                    <SelectDropdown 
+                        label="Select a Groomer" 
+                        :options="groomerList.map(groomer => groomer.name)"
+                        v-model="groomerName"
+                        :modelValue="groomerName"
+                        @update:value="groomerName"
                     />
 
                     <SelectDropdown
@@ -226,14 +321,20 @@ const goToApptDetails = async () => {
                     <!-- <button class="mx-8 px-8 py-3 border  border-slate-900 rounded-md">Cancel</button> -->
 
                     <div class="w-1/2">
-                        <ButtonNew text="Cancel" @click="goToApptDetails"
+                        <ButtonNew 
+                        text="Cancel"
                         elevation="0"
                         class="cancel"
+                        @click="cancelAppt"
                         />
                     </div>
 
                     <div class="w-1/2">
-                        <ButtonNew text="Save Appointment" @click="goToApptDetails" class="default"/>
+                        <ButtonNew 
+                            text="Save Appointment" 
+                            class="default"
+                            @click="editAppt"
+                        />
                     </div>
 
                 </div>
