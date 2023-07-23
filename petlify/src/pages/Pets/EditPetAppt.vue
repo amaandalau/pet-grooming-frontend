@@ -162,7 +162,12 @@ const editAppt = async () => {
     const selectedGroomer = groomerList.value.find(groomer => groomer.name === groomerName.value)
     const groomerIDValue = selectedGroomer ? selectedGroomer.id : null
 
-    await apptStore.updateAppt(apptID, apptDateValue, specialInstructionsValue, status, ownerID, petID, groomerIDValue, timeslotID)
+    if(status === 'confirmed' || status === 'in-progress' || status === 'completed') {
+        console.log('Cannot edit appointment')
+    } else {
+        await apptStore.updateAppt(apptID, apptDateValue, specialInstructionsValue, status, ownerID, petID, groomerIDValue, timeslotID)
+    }
+
     console.log('Appt Edited')
     router.push(`/${petID}/petApptDetails/${apptID}`)
 
@@ -177,65 +182,80 @@ const cancelAppt = async () => {
 
     const appt = await apptStore.getApptByID(apptID)
 
-    const selectedApptDate = appt.apptDate
-    const specialInstructions = appt.specialInstructions
+    const selectedApptDate = apptDate.value
+    const specialInstructions = specialInstructions.value
     const updatedStatus = 'cancelled'
     const ownerID = userID
-    const groomerID = appt.groomerID
+    
+    const selectedGroomer = groomerList.value.find(groomer => groomer.name === groomerName.value)
+    const groomerIDValue = selectedGroomer ? selectedGroomer.id : null
 
     const timeslotID = 6 // Just to bypass updating appt
 
-    await apptStore.updateAppt(apptID, selectedApptDate, specialInstructions, updatedStatus, ownerID, petID, groomerID, timeslotID)
+    await apptStore.updateAppt(apptID, selectedApptDate, specialInstructions, updatedStatus, ownerID, petID, groomerIDValue, timeslotID)
     console.log('Appointment Cancelled')
+    
+    router.push(`/${petID}/petApptDetails/${apptID}`)
+}
+
+const reschedAppt = async () => {
+    const currentUser = await authStore.getCurrentUser()
+    const userID = currentUser.id
+    
+    const apptID = route.params.apptID
+    const petID = route.params.petID
+
+    const appt = await apptStore.getApptByID(apptID)
+
+    let selectedApptDate = selectedDate.value
+    let specialInstructionsValue = specialInstructions.value
+    let groomerIDValue = groomerID.value
+
+    const updatedStatus = 'pending'
+    const ownerID = userID
+    const timeslotID = 6
+
+    if(appt.status === 'cancelled') {
+        selectedApptDate = apptDate.value
+        specialInstructionsValue = specialInstructions.value
+
+        const selectedGroomer = groomerList.value.find(groomer => groomer.name === groomerName.value)
+        groomerIDValue = selectedGroomer ? selectedGroomer.id : null
+    }
+
+    await apptStore.updateAppt(apptID, selectedApptDate, specialInstructionsValue, updatedStatus, ownerID, petID, groomerIDValue, timeslotID)
+    console.log('Appointment Rescheduled')
+    router.push(`/${petID}/petApptDetails/${apptID}`)
 }
 
 const upcomingAppt = ref([])
-const apptList = ref([])
+const apptList = ref(null)
 
 const hasUpcomingAppt = async () => {
     const today = new Date()
     const petID = route.params.petID
 
-    const apptList = await apptStore.getAllAppt()
-    console.log('Appt List:', apptList)
+    apptList.value = await apptStore.getAllAppt()
+    console.log('Appt List:', apptList.value)
 
     return upcomingAppt.value.some(appt => {
         return appt.petID === petID && new Date(appt.apptDate) > today
     })
 
-    // -------------------------------------------------------------------------
-    // const today = new Date()
-//     const petID = route.params.petID
-
-//    apptList.value = await apptStore.getAllAppt()
-   
-//     console.log('Appt List', apptList.value)
-
-//     const upcommingAppt = apptList.value.find(appt => {
-//         return appt.petID === petID && new Date(appt.apptDate) > today
+//     upcomingAppt.value = apptList.value.find(appt => {
+//         return appt.petID === petID && new Date(appt.apptDate) > today && appt.status
 //     })
 
-
-//     if(upcommingAppt) {
-//         return {
-//             status: upcommingAppt.status,
-//             petName: petName,
-//             apptDate: apptDate
-
-//         }
-//     }
-
+//     return upcomingAppt.value 
 }
 
 onMounted(() => {
     getPetData()
     getApptData()
     getGroomerList()
+    hasUpcomingAppt()
 })
 
-const goToApptDetails = async () => {
-    router.push(`/${route.params.id}/petApptDetails`)
-}
 </script>
 
 <template>
@@ -254,26 +274,11 @@ const goToApptDetails = async () => {
         >
 
 
-      <div class="block text-center m-4" v-if="hasUpcomingAppt()">
+      <!-- <div class="block text-center m-4" v-if="hasUpcomingAppt()">
         <label class="font-semibold text-orange-400">
             {{ petName }} has an upcomming appointment on {{ selectedDate }}!
         </label>
-      </div>
-
-      <div class="block text-center m-4" v-if="hasUpcomingAppt()">
-    <label v-if="upcomingAppt.status === 'pending'" class="font-semibold text-orange-400">
-        {{ petName }} has an upcoming appointment on {{ apptDate }} in orange text.
-    </label>
-    <label v-else-if="upcomingAppt.status === 'confirmed'" class="font-semibold text-green-400">
-        {{ petName }}'s appointment on {{ apptDate }} is confirmed in green.
-    </label>
-    <label v-else-if="upcomingAppt.status === 'completed'" class="font-semibold text-green-400">
-        {{ petName }}'s appointment has been completed! in green.
-    </label>
-    <label v-else-if="upcomingAppt.status === 'cancelled'" class="font-semibold text-red-400">
-        {{ petName }}'s appointment has been cancelled in red.
-    </label>
-</div>
+      </div> -->
 
         
             <div class="mx-10 my-6 flex flex-col gap-8">
@@ -287,11 +292,10 @@ const goToApptDetails = async () => {
                         @update:value="groomerName"
                     />
 
-                    <SelectDropdown
-                        label="Appointment Status"
-                        sub-label="Status"
-                        :options="apptStatusList"
+                    <Input
+                        label="Status"
                         :value="apptStatus"
+                        :disabled="true"
                     />
 
                     <Input label="Appointment Date" :value="selectedDate" :disabled="true" />
@@ -318,9 +322,8 @@ const goToApptDetails = async () => {
                 </v-textarea>
 
                 <div class="flex flex-row items-center justify-between gap-8">
-                    <!-- <button class="mx-8 px-8 py-3 border  border-slate-900 rounded-md">Cancel</button> -->
 
-                    <div class="w-1/2">
+                    <div class="w-full" v-if="apptStatus === 'Confirmed'">
                         <ButtonNew 
                         text="Cancel"
                         elevation="0"
@@ -329,11 +332,20 @@ const goToApptDetails = async () => {
                         />
                     </div>
 
-                    <div class="w-1/2">
+                    <div class="w-full" v-else-if="apptStatus === 'Pending'">
                         <ButtonNew 
                             text="Save Appointment" 
                             class="default"
                             @click="editAppt"
+                        />
+                    </div>
+
+                    <div class="w-full" v-else-if="apptStatus === 'Cancelled'">
+                        <ButtonNew 
+                            text="Reschedule Appointment"
+                            elevation="0"
+                            class="default"
+                            @click="reschedAppt"
                         />
                     </div>
 
