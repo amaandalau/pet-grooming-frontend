@@ -136,10 +136,8 @@ const hasUpcomingAppt = async () => {
     console.log('Appt List:', apptList)
 
     return upcommingAppt.value.some(appt => {
-        return appt.petID === petID && new Date(appt.apptDate) > now
+        return appt.petID === petID && new Date(appt.apptDate) > today
     })
-
-
 }
 
 const goToEditAppt = async () => {
@@ -180,21 +178,24 @@ onMounted(() => {
 
       <div class="mx-10 my-6 flex flex-col gap-8">
         <div class="flex flex-row flex-wrap gap-8 items-center">
-            <SelectDropdown
+            
+            <Input 
                 label="Selected Groomer"
                 :value="selectedGroomer"
-                :options="groomerList"
-
+                :disabled="true"
             />
 
-            <SelectDropdown
+            <Input
                 label="Appointment Status"
                 :value="apptStatus"
-                :options="apptStatusList"
-
+                :disabled="true"
             />
 
-            <Input label="Appointment Date" :value="selectedDate" :disabled="true" />
+            <Input 
+                label="Appointment Date" 
+                :value="selectedDate" 
+                :disabled="true" 
+            />
         </div>
 
         <v-textarea 
@@ -205,7 +206,7 @@ onMounted(() => {
         >
         </v-textarea>
 
-        <ButtonNew text="Edit Appointment" @click="goToEditAppt" />
+        <ButtonNew text="Edit Appointment" @click="goToEditAppt" class="default"/>
       </div>
     </div>
   </div>
