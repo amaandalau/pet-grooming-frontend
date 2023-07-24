@@ -5,7 +5,7 @@ import PetApptHeader from '@/components/PetApptHeader.vue'
 import Input from '@/components/Input.vue'
 import ButtonNew from '@/components/ButtonNew.vue'
 import SelectDropdown from '@/components/SelectDropdown.vue'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { usePetStores } from '../../stores/pets'
 import { useApptStores } from '../../stores/appointments'
 import { useRoute, useRouter } from 'vue-router'
@@ -64,20 +64,33 @@ const formatStatus = (status) => {
   return status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
 }
 
+const formattedStatus = computed(() => {
+    return statusList.value.map(status => status.charAt(0).toUpperCase() + status.slice(1))
+})
+
 const getApptData = async () => {
     const appt = await apptStore.getApptByID(apptID)
 
     selectedDate.value = formatDate(appt.apptDate)
     specialInstructions.value = appt.specialInstructions
 
-    const apptStatus = formatStatus(appt.status)
+    // const apptStatus = formatStatus(appt.status)
 
-    if(apptStatus) {
-        status.value = apptStatus
-        console.log('Status:', status.value)
+    // if(apptStatus) {
+    //     status.value = apptStatus
+    //     console.log('Status:', status.value)
 
-        selectedStatus.value = status
-    }
+    //     selectedStatus.value = status
+    // }
+
+    // const statusList = ['confirmed', 'in-progress', 'completed']
+    // console.log('Status List', statusList)
+
+    const apptStatus = appt.status
+    console.log('Appt Status', apptStatus)
+
+    selectedStatus.value = formatStatus(apptStatus)
+    
     
 }
 
@@ -86,7 +99,7 @@ const editAppt = async () => {
     const appt = await apptStore.getApptByID(apptID)
     const selectedDateValue = appt.apptDate
     const specialInstructions = appt.specialInstructions
-    const selectedStatus = status.value
+    const apptStatus = selectedStatus.value
     const ownerID = appt.ownerID
     const petID = appt.petID
     
@@ -96,7 +109,7 @@ const editAppt = async () => {
     const timeslotID = 6
 
 
-    await apptStore.updateAppt(apptID,selectedDateValue, specialInstructions, selectedStatus, ownerID, petID, groomerID, timeslotID)
+    await apptStore.updateAppt(apptID,selectedDateValue, specialInstructions, apptStatus, ownerID, petID, groomerID, timeslotID)
     console.log('Appt Updated')
 
     router.push(`/apptDetails/${apptID}`)
@@ -130,8 +143,8 @@ onMounted(() => {
 
                     <SelectDropdown 
                         label="Status" 
-                        :options="statusList"
-                        v-model="status"
+                        :options="formattedStatus"
+                        v-model="selectedStatus"
                     />
 
                     <Input label="Appointment Date" :value="selectedDate" :disabled="true" />
