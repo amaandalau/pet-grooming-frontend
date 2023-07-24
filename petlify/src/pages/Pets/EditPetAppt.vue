@@ -9,7 +9,7 @@ import VueDatePicker from '@vuepic//vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
 import { useRoute, useRouter } from 'vue-router';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeMount } from 'vue';
 import { useApptStores } from '@/stores/appointments'
 import { usePetStores } from '../../stores/pets'
 import { useUserStores } from '../../stores/users'
@@ -140,6 +140,7 @@ const getApptData = async () => {
     
     apptStatus.value = toTitleCase(appt.status)
     selectedDate.value = formattedDate
+    console.log('Selected Date', selectedDate.value)
     specialInstructions.value = appt.specialInstructions
 
         
@@ -183,7 +184,7 @@ const cancelAppt = async () => {
     const appt = await apptStore.getApptByID(apptID)
 
     const selectedApptDate = apptDate.value
-    const specialInstructions = specialInstructions.value
+    const specialInstructionsValue = specialInstructions.value
     const updatedStatus = 'cancelled'
     const ownerID = userID
     
@@ -192,7 +193,7 @@ const cancelAppt = async () => {
 
     const timeslotID = 6 // Just to bypass updating appt
 
-    await apptStore.updateAppt(apptID, selectedApptDate, specialInstructions, updatedStatus, ownerID, petID, groomerIDValue, timeslotID)
+    await apptStore.updateAppt(apptID, selectedApptDate, specialInstructionsValue, updatedStatus, ownerID, petID, groomerIDValue, timeslotID)
     console.log('Appointment Cancelled')
     
     router.push(`/${petID}/petApptDetails/${apptID}`)
@@ -207,7 +208,7 @@ const reschedAppt = async () => {
 
     const appt = await apptStore.getApptByID(apptID)
 
-    let selectedApptDate = selectedDate.value
+    let selectedApptDate = apptDate.value
     let specialInstructionsValue = specialInstructions.value
     let groomerIDValue = groomerID.value
 
@@ -249,10 +250,14 @@ const hasUpcomingAppt = async () => {
 //     return upcomingAppt.value 
 }
 
+onBeforeMount(async () => {
+    await getGroomerList()
+})
+
 onMounted(() => {
     getPetData()
     getApptData()
-    getGroomerList()
+    // getGroomerList()
     hasUpcomingAppt()
 })
 
@@ -305,11 +310,11 @@ onMounted(() => {
                         <label>Select an Appointment Date</label>
                         
                         <VueDatePicker
-                        v-model="selectedDate"
+                        v-model="apptDate"
                         :enable-time-picker="false"
                         :clearable="true"
                         :close-on-auto-apply="true"
-                        :show-now-button="false"
+                        :show-now-button="true"
                         width="400"
                         ></VueDatePicker>
                 </div>

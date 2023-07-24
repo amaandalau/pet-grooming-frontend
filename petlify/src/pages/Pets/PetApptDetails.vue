@@ -170,11 +170,11 @@ onMounted(() => {
         <label class="mx-6 text-xl font-semibold">Appointment Details</label>
       </div>
 
-      <div class="block text-center m-4" v-if="hasUpcomingAppt()">
+      <!-- <div class="block text-center m-4" v-if="hasUpcomingAppt()">
         <label class="font-semibold text-orange-400">
             {{ petName }} has an upcomming appointment on {{ selectedDate }}!
         </label>
-      </div>
+      </div> -->
 
       <div class="mx-10 my-6 flex flex-col gap-8">
         <div class="flex flex-row flex-wrap gap-8 items-center">
