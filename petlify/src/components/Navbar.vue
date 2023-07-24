@@ -48,7 +48,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="bg-transparent flex flex-row items-center justify-between p-4 z-50 drop-shadow-sm">
+    <div class="bg-transparent flex flex-row items-center justify-between p-4 z-100 drop-shadow-sm">
         <!-- <div @click="goToHome" class="flex flex-row justify-start gap-1 hover:cursor-pointer">
             <Logo/>
             <label class="font-semibold text-xl hover:cursor-pointer">Petlify</label>
