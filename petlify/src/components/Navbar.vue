@@ -29,6 +29,10 @@ const goToPetsList = () => {
     router.push(`/${userData.id}/pets`)
 }
 
+const goToAppts = () => {
+    router.push(`/${userData.id}/appointments`)
+}
+
 const userData = reactive({
     id: null,
     role: null
@@ -80,16 +84,16 @@ onMounted(() => {
 
         <!-- If logged in user is groomer -->
         <template v-else-if="userData.role === 'groomer'">
-            <div @click="goToPetsList" class="flex flex-row justify-start gap-1 hover:cursor-pointer">
+            <div @click="goToAppts" class="flex flex-row justify-start gap-1 hover:cursor-pointer">
                 <Logo/>
                 <label class="font-semibold text-xl hover:cursor-pointer">Petlify</label>
             </div>
 
             <div class="flex flex-row items-center justify-end gap-4">
 
-                <NavbarMenu nav-title="Upcoming Appointments"/>
+                <NavbarMenu nav-title="Upcoming Appointments" @click="goToAppts"/>
                 
-                <NavbarMenu nav-title="My Services"/>
+                <!-- <NavbarMenu nav-title="My Services"/> -->
                 
                 <DropdownMenu :user="getUserData()"/>
             
