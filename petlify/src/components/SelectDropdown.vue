@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
 
 const props = defineProps({
     label: {
@@ -11,33 +11,34 @@ const props = defineProps({
     options: {
         type: Object,
     },
-    value: {
+    modelValue: {
         type: String,
         default: null
     },
     disabled: {
         type: Boolean,
         default: false
-    },
-    vModel: {
-        type: String
     }
 })
 
-const emits = defineEmits()
+const emits = defineEmits(['update:modelValue'])
 // const modelValue = ref(props.value)
 
 // const selectedValueA = computed(() => props.value)
 
 const selectedValue = computed({
     // get: () => modelValue.value,
-    get: () => props.value,
+    get: () => props.modelValue,
     set: (newValue) => {
         // modelValue.value = newValue
         console.log('New Value:', newValue)
         emits('update:modelValue', newValue)
     }
 }) 
+
+watchEffect(() => {
+    console.log('SelectDD:', selectedValue.value)
+})
 
 </script>
 

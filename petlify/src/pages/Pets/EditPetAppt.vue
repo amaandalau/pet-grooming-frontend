@@ -126,7 +126,7 @@ const getApptData = async () => {
     const groomer = groomers.find(groomer => groomer.id === groomerID)
 
     if (groomer) {
-        const groomerName = groomer.name
+        groomerName.value = groomer.name
         console.log('Groomer Name', groomerName)
 
         selectedGroomer.value = groomerName
@@ -293,8 +293,6 @@ onMounted(() => {
                         label="Select a Groomer" 
                         :options="groomerList.map(groomer => groomer.name)"
                         v-model="groomerName"
-                        :modelValue="groomerName"
-                        @update:value="groomerName"
                     />
 
                     <Input
