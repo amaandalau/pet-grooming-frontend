@@ -74,7 +74,7 @@ onMounted(() => {
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left text-gray-500">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+        <thead class="text-xs text-white uppercase bg-slate-900">
             <tr>
                 <th scope="col" class="px-6 py-3">Appointment Date</th>
 
@@ -95,7 +95,7 @@ onMounted(() => {
             <tr 
               v-for="(appointment, index) in apptList"
               :key="index" 
-              class="bg-white border-b hover:bg-gray-50">
+              class="odd:bg-slate-100 even:bg-white border-b hover:bg-gray-50">
                 
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                     {{ formatDate(appointment.apptDate) }}
