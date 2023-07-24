@@ -118,7 +118,7 @@ const routes = [
         component: () => import ('@/pages/Appointments/Appointments.vue')
     },
     {
-        path: '/apptDetails',
+        path: '/apptDetails/:apptID',
         name: 'Appointment Details',
         component: () => import('@/pages/Appointments/ApptDetails.vue')
     },

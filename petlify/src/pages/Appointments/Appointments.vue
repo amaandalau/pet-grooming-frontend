@@ -8,7 +8,9 @@ import { useUserStores } from '../../stores/users';
 import { useApptStores } from '../../stores/appointments';
 import { usePetStores } from '../../stores/pets';
 import { useAuthStores } from '../../stores/auth';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 const authStore = useAuthStores()
 const userStore = useUserStores()
 const apptStore = useApptStores()
@@ -24,10 +26,10 @@ const petID = ref(null)
 const formatDate = (dateStr) => {
   const date = new Date(dateStr)
   const day = date.toLocaleString('en-GB', { day: '2-digit'})
-  const month = date.toLocaleString('en-GB', { month: 'short'})
+  const month = date.toLocaleString('en-GB', { month: 'long'})
   const year = date.toLocaleString('en-GB', { year: 'numeric'})
 
-  return `${day}-${month}-${year}`
+  return `${day} ${month} ${year}`
 }
 
 const formatStatus = (status) => {
@@ -55,6 +57,10 @@ const getAllAppt = async () => {
 
 }
 
+const goToApptDetails = (apptID) => {
+  router.push(`/apptDetails/${apptID}`)
+}
+
 onMounted(() => {
   getAllAppt()
 })
@@ -67,8 +73,8 @@ onMounted(() => {
   <div class="min-h-screen m-4">
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <table class="w-full text-sm text-left text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-100">
             <tr>
                 <th scope="col" class="px-6 py-3">Appointment Date</th>
 
@@ -89,9 +95,9 @@ onMounted(() => {
             <tr 
               v-for="(appointment, index) in apptList"
               :key="index" 
-              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+              class="bg-white border-b hover:bg-gray-50">
                 
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                     {{ formatDate(appointment.apptDate) }}
                 </th>
                 <td class="px-6 py-4">
@@ -104,7 +110,7 @@ onMounted(() => {
                     {{ formatStatus(appointment.status) }}
                 </td>
                 <td class="px-6 py-4 text-left">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                    <a @click="goToApptDetails(appointment.id)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:cursor-pointer">Edit</a>
                 </td>
             </tr>
             
