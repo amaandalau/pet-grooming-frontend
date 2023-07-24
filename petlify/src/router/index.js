@@ -125,7 +125,7 @@ const routes = [
     {
         path: '/editAppt/:apptID',
         name: 'Edit Appointment',
-        component: () => import('')
+        component: () => import('@/pages/Appointments/EditAppt.vue')
     },
 
     // Settings
