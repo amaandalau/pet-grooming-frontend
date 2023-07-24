@@ -70,12 +70,13 @@ onMounted(() => {
 <template>
   <Navbar/>
 
-  <div class="min-h-screen mx-4 my-6">
-    <!-- <div class="py-2 bg-white drop-shadow-md rounded-lg">
-        <label class="mx-6 text-xl font-semibold">Upcoming Appointments</label>
-    </div> -->
+  <div class="min-h-screen m-4">
 
-<div class="overflow-x-auto sm:rounded-lg">
+    <div class="my-2 bg-white text-center">
+        <label class="mx-6 text-xl font-semibold">Upcoming Appointments</label>
+    </div>
+
+<div class="overflow-x-auto sm:rounded-lg my-8">
     <table class="w-full text-sm text-left text-gray-500">
         <thead class="text-xs text-white uppercase bg-slate-900">
             <tr>
