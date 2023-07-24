@@ -156,7 +156,7 @@ onMounted(() => {
                         variant="outlined">
                     </v-textarea>
 
-                <ButtonNew text="Make Appointment" @click="createAppt"/>
+                <ButtonNew text="Make Appointment" class="default" @click="createAppt"/>
             </div>
 
 
