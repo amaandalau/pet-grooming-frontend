@@ -27,7 +27,7 @@ import ButtonNew from '../components/ButtonNew.vue';
             ></v-select>
 
             <div class="flex flex-col justify-center items-center gap-2">
-                <ButtonNew text="Sign Up" rounded="sm"/>
+                <ButtonNew text="Sign Up" rounded="sm" class="default" />
 
             <label class="font-light text-slate-600">
                 Have an account? 

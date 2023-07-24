@@ -94,7 +94,7 @@ onMounted(() => {
             </div>
 
             <div class="w-1/8">
-                <ButtonNew @click="goToSignUp" text="Sign Up" rounded="sm" size="large"/>
+                <ButtonNew @click="goToSignUp" text="Sign Up" rounded="sm" size="large" class="default"/>
             </div>
         </template>
     </div>

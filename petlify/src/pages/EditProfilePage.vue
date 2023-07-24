@@ -113,7 +113,7 @@ onMounted(async () => {
                         <Input :disabled="true" :value="role"/>
                         <!-- Role cannot be updated -->
 
-                        <ButtonNew text="Save" rounded="sm" @click="editUser"/>
+                        <ButtonNew text="Save" rounded="sm" class="default" @click="editUser"/>
                     </div>
 
                 </div>

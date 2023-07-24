@@ -113,7 +113,7 @@ const deletePet = async () => {
                 </div>
 
                 <div class="w-1/3 flex items-center mx-auto my-6">
-                    <ButtonNew @click="goToMakeAppt" text="Make an appointment" rounded="lg" elevation="0" size="large"/>
+                    <ButtonNew @click="goToMakeAppt" text="Make an appointment" rounded="lg" class="default" elevation="0" size="large"/>
                 </div>
 
             </div>

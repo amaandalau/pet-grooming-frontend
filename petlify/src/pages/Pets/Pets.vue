@@ -87,7 +87,11 @@ onMounted(async () => {
                         @petProfileClicked="goToPetProfile(pet.id)"
                         @editPetClicked="goToEditPet(pet.id)"
                     />
-                    <ButtonNew text="Make an appointment" rounded="lg" @click="goToMakeAppt(pet.id)"/>
+                    <ButtonNew 
+                        text="Make an appointment" 
+                        rounded="lg"
+                        class="default"
+                        @click="goToMakeAppt(pet.id)"/>
                 </div>
             </template>
             

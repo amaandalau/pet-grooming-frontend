@@ -157,7 +157,7 @@ onMounted( async () => {
             </div>
 
 
-            <ButtonNew text="Save" rounded="sm" @click="editPet"/>
+            <ButtonNew text="Save" rounded="sm" class="default" @click="editPet"/>
         </div>
 
         <div class="mx-4 my-16 justify-self-end text-right hover:underline hover:text-red-600" @click="deletePet">

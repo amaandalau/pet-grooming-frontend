@@ -38,7 +38,7 @@ const goToProfile = () => {
             </div>
 
             <div class="flex flex-col justify-center items-center gap-2">
-                <ButtonNew text="Login" rounded="sm" @click="goToProfile"/>
+                <ButtonNew text="Login" rounded="sm" class="default" @click="goToProfile"/>
                 
                 <label class="font-light text-slate-600">
                 Don't have an account? 
