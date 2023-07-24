@@ -13,6 +13,18 @@ const router = useRouter()
 const authStore = useAuthStores()
 const userStore = useUserStores()
 
+const userData = reactive({
+    id: null,
+    role: null
+})
+
+const getUserData = async () => {
+    const user = await authStore.getCurrentUser()
+
+    userData.id = user.id
+    userData.role = user.role
+}
+
 const goToHome = () => {
     router.push('/')
 }
@@ -29,16 +41,8 @@ const goToPetsList = () => {
     router.push(`/${userData.id}/pets`)
 }
 
-const userData = reactive({
-    id: null,
-    role: null
-})
-
-const getUserData = async () => {
-    const user = await authStore.getCurrentUser()
-
-    userData.id = user.id
-    userData.role = user.role
+const goToApptList = () => {
+    router.push(`/${userData.id}/appointments`)
 }
 
 onMounted(() => {
@@ -80,14 +84,14 @@ onMounted(() => {
 
         <!-- If logged in user is groomer -->
         <template v-else-if="userData.role === 'groomer'">
-            <div @click="goToPetsList" class="flex flex-row justify-start gap-1 hover:cursor-pointer">
+            <div @click="goToApptList" class="flex flex-row justify-start gap-1 hover:cursor-pointer">
                 <Logo/>
                 <label class="font-semibold text-xl hover:cursor-pointer">Petlify</label>
             </div>
 
             <div class="flex flex-row items-center justify-end gap-4">
 
-                <NavbarMenu nav-title="Upcoming Appointments"/>
+                <NavbarMenu nav-title="Upcoming Appointments" @click="goToApptList"/>
                 
                 <NavbarMenu nav-title="My Services"/>
                 
