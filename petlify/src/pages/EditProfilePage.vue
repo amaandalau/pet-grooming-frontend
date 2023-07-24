@@ -80,9 +80,9 @@ onMounted(async () => {
 </script>
 
 <template>
-    <Navbar :userLoggedIn="true"/>
+    <Navbar/>
 
-    <div class="flex flex-row justify-center items-centern">
+    <div class="flex flex-row justify-center">
         <div class="w-1/2 flex items-center justify-center rounded-r-3xl bg-slate-100 drop-shadow-md">
             <!-- Dog Pic -->
             <img src="../assets/illustrations/purr-22.png" alt=""
