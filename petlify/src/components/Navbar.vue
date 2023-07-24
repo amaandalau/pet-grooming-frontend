@@ -49,10 +49,10 @@ onMounted(() => {
 
 <template>
     <div class="bg-transparent flex flex-row items-center justify-between p-4 z-50 drop-shadow-sm">
-        <div @click="goToHome" class="flex flex-row justify-start gap-1 hover:cursor-pointer">
+        <!-- <div @click="goToHome" class="flex flex-row justify-start gap-1 hover:cursor-pointer">
             <Logo/>
             <label class="font-semibold text-xl hover:cursor-pointer">Petlify</label>
-        </div>
+        </div> -->
 
         <!-- <div class="flex flex-row items-center justify-end gap-4">
             <NavbarMenu nav-title="Home" @click="goToHome"/>
@@ -62,6 +62,11 @@ onMounted(() => {
 
         <!-- If logged in user is owner -->
         <template v-if="userData.role === 'owner'">
+            <div @click="goToPetsList" class="flex flex-row justify-start gap-1 hover:cursor-pointer">
+                <Logo/>
+                <label class="font-semibold text-xl hover:cursor-pointer">Petlify</label>
+            </div>
+
             <div class="flex flex-row items-center justify-end gap-4">
 
                 <NavbarMenu nav-title="My Pets" @click="goToPetsList"/>
@@ -75,6 +80,11 @@ onMounted(() => {
 
         <!-- If logged in user is groomer -->
         <template v-else-if="userData.role === 'groomer'">
+            <div @click="goToPetsList" class="flex flex-row justify-start gap-1 hover:cursor-pointer">
+                <Logo/>
+                <label class="font-semibold text-xl hover:cursor-pointer">Petlify</label>
+            </div>
+
             <div class="flex flex-row items-center justify-end gap-4">
 
                 <NavbarMenu nav-title="Upcoming Appointments"/>
@@ -87,6 +97,11 @@ onMounted(() => {
         </template>
 
         <template v-else>
+            <div @click="goToPetsList" class="flex flex-row justify-start gap-1 hover:cursor-pointer">
+                <Logo/>
+                <label class="font-semibold text-xl hover:cursor-pointer">Petlify</label>
+            </div>
+            
             <div class="flex flex-row items-center justify-end gap-4">
                 <NavbarMenu nav-title="Home" @click="goToHome"/>
 
