@@ -50,15 +50,11 @@ const formatApptDate = (dateString, format) => {
     return formattedDate
 }
 
-const statusList = ref(['pending', 'confirmed', 'in-progress', 'completed', 'cancelled'])
-
 const toTitleCase = (str) => {
     return str
         .toLowerCase()
         .replace(/\b\w/g, (match) => match.toUpperCase())
 }
-
-const apptStatusList = statusList.value.map(status => toTitleCase(status))
 
 const groomerList = ref([])
 const groomerID = ref(null)
@@ -233,25 +229,18 @@ const reschedAppt = async () => {
     router.push(`/${petID}/petApptDetails/${apptID}`)
 }
 
-const upcomingAppt = ref([])
-const apptList = ref(null)
+const deleteAppointment = async () => {
+    const apptID = route.params.apptID
 
-const hasUpcomingAppt = async () => {
-    const today = new Date()
-    const petID = route.params.petID
+    await apptStore.deleteAppt(apptID)
 
-    apptList.value = await apptStore.getAllAppt()
-    console.log('Appt List:', apptList.value)
+    console.log('Appt Deleted')
 
-    return upcomingAppt.value.some(appt => {
-        return appt.petID === petID && new Date(appt.apptDate) > today
-    })
+    router.push(`/petProfile/${route.params.petID}`)
+}
 
-//     upcomingAppt.value = apptList.value.find(appt => {
-//         return appt.petID === petID && new Date(appt.apptDate) > today && appt.status
-//     })
-
-//     return upcomingAppt.value 
+const goToPetProfile = () => {
+    router.push(`/petProfile/${route.params.petID}`)
 }
 
 onBeforeMount(async () => {
@@ -261,8 +250,6 @@ onBeforeMount(async () => {
 onMounted(() => {
     getPetData()
     getApptData()
-    // getGroomerList()
-    hasUpcomingAppt()
 })
 
 </script>
@@ -282,15 +269,6 @@ onMounted(() => {
             :pet-weight="petWeight"
             :pet-owner="petOwner"
         >
-
-
-      <!-- <div class="block text-center m-4" v-if="hasUpcomingAppt()">
-        <label class="font-semibold text-orange-400">
-            {{ petName }} has an upcomming appointment on {{ selectedDate }}!
-        </label>
-      </div> -->
-
-        
             <div class="mx-10 my-6 flex flex-col gap-8">
                 <div class="flex flex-row flex-wrap gap-8 items-center">
 
@@ -329,7 +307,7 @@ onMounted(() => {
                 >
                 </v-textarea>
 
-                <div class="flex flex-row items-center justify-between gap-8">
+                <div class="flex flex-col items-center justify-between gap-8">
 
                     <div class="w-full" v-if="apptStatus === 'Confirmed'">
                         <ButtonNew 
@@ -357,10 +335,18 @@ onMounted(() => {
                         />
                     </div>
 
+                    <label @click="goToPetProfile"
+                        class="font-light text-red-600 hover:underline hover:cursor-pointer">
+                        Cancel
+                    </label>
+
                 </div>
 
                 <div class="block m-4 text-center">
-                    <label class="font-light text-red-600 hover:underline hover:cursor-pointer">Delete Appointment</label>
+                    <label @click="deleteAppointment"
+                        class="font-light text-sm text-red-600 hover:font-semibold hover:underline hover:cursor-pointer">
+                        Delete Appointment
+                    </label>
                 </div>
             </div>
 
