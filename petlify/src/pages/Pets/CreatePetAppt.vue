@@ -4,6 +4,7 @@ import Footer from '@/components/Footer.vue'
 import ButtonNew from '@/components/ButtonNew.vue'
 import SelectDropdown from '../../components/SelectDropdown.vue';
 import PetApptHeader from '../../components/PetApptHeader.vue';
+import { ArrowLeftIcon } from "@heroicons/vue/24/outline"
 
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -104,7 +105,11 @@ const createAppt = async () => {
     console.log('Appt:', apptDateValue, specialInstructionsValue, status, petID, timeslotValue, ownerID, groomerIDValue)
     console.log('Appointment Created')
 
-    router.push(`/${ownerID}/pets`)
+    router.push(`/petProfile/${route.params.petID}`)
+}
+
+const goToPetProfile = () => {
+    router.push(`/petProfile/${route.params.petID}`)
 }
 
 onMounted(() => {
@@ -150,17 +155,29 @@ onMounted(() => {
                         :clearable="true"
                         placeholder="Select an Appointment Date"
                         :close-on-auto-apply="true"
-                        show-now-button=""
+                        :show-now-button="true"
+
                         ></VueDatePicker>
                     </div>
                 
                     <v-textarea
                         v-model="specialInstructions" 
                         label="Special Instructions" 
-                        variant="outlined">
-                    </v-textarea>
+                        variant="outlined"
+                        placeholder="Please indicate the type of services you want for your pet"
+                    />
 
-                <ButtonNew text="Make Appointment" class="default" @click="createAppt"/>
+                    <div class="flex flex-col items-center justify-between w-full">
+                        <ButtonNew text="Make Appointment" class="default" @click="createAppt"/>
+
+                        <div class="mt-4 flex flex-row items-center justify-between gap-2 hover:cursor-pointer">
+                            <ArrowLeftIcon class="h-4 w-4"/>
+                            <label @click="goToPetProfile"
+                            class="font-light text-sm text-black hover:cursor-pointer hover:underline">
+                            Back
+                        </label>
+                    </div>
+                    </div>
             </div>
 
 
