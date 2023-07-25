@@ -40,24 +40,6 @@ const editPet = async () => {
 }
 
 const deletePet = async () => {
-    // try {
-    //     const currentUser = await authStore.getCurrentUser()
-    //     const userID = currentUser.id
-
-    //     const currentPet = await petStore.getPetByID(route.params.id)
-
-    //     if(currentPet.ownerID === userID) {
-    //         await petStore.deletePet(route.params.id)
-    //         console.log('Pet Deleted Succesfully')
-    //         router.push(`/${userID}/pets`)
-    //     } else {
-    //         console.log('Not authorized lerh')
-    //     }
-
-    // } catch (error) {
-    //     console.error(error)
-    // }
-
     const currentPet = await petStore.getPetByID(route.params.id)
     // console.log('Del Pet: ', currentPet, currentPet.id, currentPet.ownerID)
 
@@ -70,6 +52,10 @@ const deletePet = async () => {
 
         router.push(`/${currentUser.id}/pets`)
     }
+}
+
+const goToPetProfile = () => {
+    router.push(`/petProfile/${route.params.id}`)
 }
 
 onMounted( async () => {
@@ -94,7 +80,7 @@ onMounted( async () => {
 
         <label class="font-semibold text-2xl">Edit Pet</label>
 
-        <div class="border border-black rounded-full h-40 w-40 m-8">
+        <div class="border-2 border-black rounded-full h-40 w-40 m-8">
             <!-- Avatar -->
             <img src="../../assets//illustrations//purr-traveler-cat.png" alt=""
             class="object-contain h-full w-full rounded-full"
@@ -157,11 +143,21 @@ onMounted( async () => {
             </div>
 
 
-            <ButtonNew text="Save" rounded="sm" class="default" @click="editPet"/>
+            <div class="flex flex-col items-center justify-between gap-4 w-full">
+                <ButtonNew text="Save" rounded="sm" class="default" @click="editPet"/>
+                
+                <label @click="goToPetProfile"
+                        class="font-light text-red-600 hover:underline hover:cursor-pointer">
+                        Cancel
+                </label>
+            </div>
         </div>
 
         <div class="mx-4 my-16 justify-self-end text-right hover:underline hover:text-red-600" @click="deletePet">
-            <label class="font-light text-sm hover:cursor-pointer">Delete Pet</label>
+            <label 
+            class="font-light text-sm text-red-600 hover:font-semibold hover:underline hover:cursor-pointer">
+                Delete Pet
+            </label>
         </div>
     </div>
     <Footer/>
