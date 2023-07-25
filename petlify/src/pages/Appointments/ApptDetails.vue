@@ -126,37 +126,15 @@ onMounted(() => {
                 >
                 </v-textarea>
 
-                <div class="flex flex-row items-center justify-between gap-8">
 
-                    <!-- <div class="w-full" v-if="apptStatus === 'Confirmed'">
-                        <ButtonNew 
-                        text="Cancel"
-                        elevation="0"
-                        class="cancel"
-                        @click="cancelAppt"
-                        />
-                    </div> -->
-
-                    <div class="w-full">
+                <div class="w-full">
                         <ButtonNew 
                             text="Edit Appointment" 
                             class="default"
                             @click="goToEditAppt"
                         />
                     </div>
-
-                    <!-- <div class="w-full" v-else-if="apptStatus === 'Cancelled'">
-                        <ButtonNew 
-                            text="Reschedule Appointment"
-                            elevation="0"
-                            class="default"
-                            @click="reschedAppt"
-                        />
-                    </div> -->
-
-                </div>
             </div>
-
     </div>
 
     <Footer/>
