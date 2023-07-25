@@ -106,6 +106,13 @@ const editAppt = async () => {
     
 }
 
+const cancelEdit = async () => {
+    const currentUser = await authStore.getCurrentUser()
+    const userID = currentUser.id
+
+    router.push(`/${userID}/appointments`)
+}
+
 onMounted(() => {
     getPetData()
     getApptData()
@@ -162,7 +169,7 @@ onMounted(() => {
                 </div>
 
                 <div class="block m-4 text-center">
-                    <label class="font-light text-red-600 hover:underline hover:cursor-pointer">Delete Appointment</label>
+                    <label class="font-light text-red-600 hover:underline hover:cursor-pointer" @click="cancelEdit">Cancel</label>
                 </div>
             </div>
 
