@@ -46,6 +46,12 @@ const deactivateAccount = async () => {
     }
 }
 
+const cancelEdit = async () => {
+    const currentUser = await authStore.getCurrentUser()
+    const userID = currentUser.id
+    router.push(`/profile/${userID}`)
+}
+
 onMounted(async () => {
     const currentUser = await authStore.getCurrentUser()
     const userID = currentUser.id
@@ -117,7 +123,13 @@ onMounted(async () => {
                         </div>
                         <!-- Role cannot be updated -->
 
-                        <ButtonNew text="Save" rounded="sm" class="default" @click="editUser"/>
+                        <div class="flex flex-col gap-4 justify-between items-center w-full">
+                            <ButtonNew text="Save" rounded="sm" class="default" @click="editUser"/>
+                            <label @click="cancelEdit"
+                            class="font-light text-sm text-red-600 hover:font-bold hover:cursor-pointer hover:underline">
+                            Cancel
+                        </label>
+                    </div>
                     </div>
 
                 </div>
