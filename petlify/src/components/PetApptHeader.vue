@@ -1,6 +1,6 @@
 <script setup>
 import DefaultPetAvatar from './DefaultPetAvatar.vue';
-
+import Label from './Label.vue';
 
 const props = defineProps({
     header: {
@@ -10,6 +10,9 @@ const props = defineProps({
         type: String
     },
     petName: {
+        type: String
+    },
+    petOwner: {
         type: String
     },
     petBday: {
@@ -37,30 +40,33 @@ const props = defineProps({
         </div>
         
         <!-- Pet Info -->
-        <div class="flex flex-row items-center justify-start">
+        <div class="flex flex-row items-center justify-start gap-8">
             
             <DefaultPetAvatar/>
-            
-            <div class="w-1/2 border border-blue-500 flex flex-col">
-                <!-- Pet Details -->
-                <div class="flex flex-row items-center justify-between">
-                    <label class="text-xl font-semibold">{{ petName }}</label>
-                    <label>{{ petBday }}</label>
-                </div>
-                
-                <div class="flex flex-row items-center justify-between">
-                    <label>{{ petSpecies }}</label>
-                    <label>{{ petBreed }}</label>
-                </div>
-                
-                <div class="flex flex-row items-center justify-between">
-                    <label>{{ petColour }}</label>
-                    <label>{{ petWeight }} KG</label>
+
+            <div class="flex flex-col items-start justify-between gap-8">
+                <Label label-title="Pet's Name" :label-value="petName"/>
+                <Label label-title="Pet's Owner" :label-value="petOwner"/>
+
+            </div>
+
+            <div class="ml-8">
+                <div class="flex flex-col items-center justify-between gap-8">
+                    <div class="flex flex-row items-center justify-between gap-20">
+                        <Label label-title="Species" :label-value="petSpecies"/>
+                        <Label label-title="Breed" :label-value="petBreed"/>
+                    </div>
+                    
+                    <div class="flex flex-row items-center justify-between gap-20">
+                        <Label label-title="Colour" :label-value="petColour"/>
+                        <Label label-title="Weight (KG)" :label-value="petWeight"/>
+                    </div>
                 </div>
             </div>
+
         </div>
         
-        <div class="py-2 bg-white drop-shadow-md rounded-lg">
+        <div class="py-2 bg-transparent border-b rounded-lg">
             <label class="mx-6 text-xl font-semibold">{{ subHeader }}</label>
         </div>
     </div>
