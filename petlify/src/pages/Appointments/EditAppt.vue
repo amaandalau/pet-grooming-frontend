@@ -45,7 +45,7 @@ const getPetData = async () => {
 }
 
 // APPT 
-const statusList = ref(['confirmed', 'in-progress', 'completed'])
+const statusList = ref(['pending', 'confirmed', 'in-progress', 'completed', 'cancelled'])
 const status = ref(null)
 const selectedStatus = ref(null)
 const selectedDate = ref(null)
@@ -67,31 +67,17 @@ const formatStatus = (status) => {
 const formattedStatus = computed(() => {
     return statusList.value.map(status => status.charAt(0).toUpperCase() + status.slice(1))
 })
-
 const getApptData = async () => {
     const appt = await apptStore.getApptByID(apptID)
 
     selectedDate.value = formatDate(appt.apptDate)
     specialInstructions.value = appt.specialInstructions
 
-    // const apptStatus = formatStatus(appt.status)
-
-    // if(apptStatus) {
-    //     status.value = apptStatus
-    //     console.log('Status:', status.value)
-
-    //     selectedStatus.value = status
-    // }
-
-    // const statusList = ['confirmed', 'in-progress', 'completed']
-    // console.log('Status List', statusList)
-
+    // THIS WORKS DONT KACAU
     const apptStatus = appt.status
     console.log('Appt Status', apptStatus)
 
     selectedStatus.value = formatStatus(apptStatus)
-    
-    
 }
 
 const editAppt = async () => {
@@ -160,15 +146,6 @@ onMounted(() => {
 
                 <div class="flex flex-row items-center justify-between gap-8">
 
-                    <!-- <div class="w-full" v-if="apptStatus === 'Confirmed'">
-                        <ButtonNew 
-                        text="Cancel"
-                        elevation="0"
-                        class="cancel"
-                        @click="cancelAppt"
-                        />
-                    </div> -->
-
                     <div class="w-full">
                         <ButtonNew 
                             text="Save Appointment" 
@@ -176,15 +153,6 @@ onMounted(() => {
                             @click="editAppt"
                         />
                     </div>
-
-                    <!-- <div class="w-full" v-else-if="apptStatus === 'Cancelled'">
-                        <ButtonNew 
-                            text="Reschedule Appointment"
-                            elevation="0"
-                            class="default"
-                            @click="reschedAppt"
-                        />
-                    </div> -->
 
                 </div>
 
