@@ -58,13 +58,22 @@ const goToPetProfile = () => {
     router.push(`/petProfile/${route.params.id}`)
 }
 
+const formatDate = (dateStr) => {
+  const date = new Date(dateStr)
+  const day = date.toLocaleString('en-GB', { day: '2-digit'})
+  const month = date.toLocaleString('en-GB', { month: 'long'})
+  const year = date.toLocaleString('en-GB', { year: 'numeric'})
+
+  return `${day} ${month} ${year}`
+}
+
 onMounted( async () => {
     const currentPet = await petStore.getPetByID(route.params.id)
     petID.value = currentPet.id
 
     if(currentPet) {
         petName.value = currentPet.name
-        petDOB.value = currentPet.dateOfBirth
+        petDOB.value = formatDate(currentPet.dateOfBirth)
         petSpecies.value = currentPet.species
         petBreed.value = currentPet.breed
         petColour.value = currentPet.color
