@@ -137,19 +137,6 @@ const goToEditAppt = (apptID) => {
     router.push(`/${route.params.id}/editPetAppt/${apptID}`)
 }
 
-const deletePet = async () => {
-  const petID = route.params.id;
-
-  const currentPet = await petStore.getPetByID(petID);
-
-  const currentUser = await authStore.getCurrentUser();
-
-  if (currentPet.ownerID === currentUser.id) {
-    await petStore.deletePet(currentPet.id);
-
-    router.push(`/${currentUser.id}/pets`);
-  }
-};
 </script>
 
 <template>
@@ -165,6 +152,7 @@ const deletePet = async () => {
     <PetApptHeader
         sub-header="Appointment History"
         :pet-name="petName"
+        :pet-bday="formatDate(petDOB)"
         :pet-species="petSpecies"
         :pet-breed="petBreed"
         :pet-colour="petColour"
