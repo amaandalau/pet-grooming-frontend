@@ -1,6 +1,7 @@
 <script setup>
 import Navbar from '../components/Navbar.vue';
 import Footer from '../components/Footer.vue'
+import Label from '../components/Label.vue';
 
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -75,7 +76,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <Navbar :user-logged-in="true"/>
+    <Navbar/>
 
     <div class="flex flex-row justify-center items-center min-h-screen">
         <div class="w-1/2 h-screen flex items-center justify-center rounded-r-3xl bg-slate-100 drop-shadow-md">
@@ -95,17 +96,17 @@ onMounted(async () => {
                 <div class="flex flex-col items-center">
 
                     
-                    <div class="border border-black rounded-full h-40 w-40 m-8">
+                    <div class="border-2 border-black rounded-full h-40 w-40 m-8">
                         <!-- Avatar -->
                         <img src="../assets//illustrations//purr-half-cat-1.png" alt=""
                         class="object-contain h-full w-full rounded-full"
                         >
                     </div>
                     
-                    <div class="flex flex-col items-center gap-2" v-if="currentUser">
-                        <label class="font-semibold text-xl">{{ name }}</label>
-                        <label class="font-light text-base">{{ email }}</label>
-                        <label class="mt-4">{{ role }}</label>
+                    <div class="flex flex-col items-start gap-8" v-if="currentUser">
+                        <Label label-title="Name" :label-value="name"/>
+                        <Label label-title="Email" :label-value="email"/>
+                        <Label label-title="Role" :label-value="role"/>
                     </div>
                 </div>
             </div>
