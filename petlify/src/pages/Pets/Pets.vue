@@ -65,10 +65,10 @@ onMounted(async () => {
 <template>
     <Navbar/>
 
-    <div class="min-h-screen flex flex-col items-center gap-10">
-        <div class="flex flex-row items-center justify-between ">
-            <label class="text-2xl font-bold flex-grow-1">My Pets</label>
-            <p class="text-right font-light text-xs hover:cursor-pointer hover:underline" @click="goToAddNewPet">Add New Pet</p>
+    <div class="min-h-screen flex flex-col gap-10">
+        <div class="flex flex-row items-center justify-between ml-14 mr-8">
+            <label class="inline text-2xl font-bold flex-grow-1">My Pets</label>
+            <p class="inline text-right font-light text-xs hover:cursor-pointer hover:underline" @click="goToAddNewPet">Add New Pet</p>
         </div>
 
         <!-- Pets Gallery -->
