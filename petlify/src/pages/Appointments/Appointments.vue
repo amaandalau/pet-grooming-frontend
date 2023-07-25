@@ -1,7 +1,6 @@
 <script setup>
 import Navbar from '@/components/Navbar.vue'
 import Footer from '@/components/Footer.vue'
-import ButtonNew from '@/components/ButtonNew.vue'
 
 import { onMounted, ref } from 'vue'
 import { useUserStores } from '../../stores/users';
@@ -36,12 +35,35 @@ const formatStatus = (status) => {
   return status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
 }
 
+const statusColor = (status) => {
+  switch (status) {
+    case 'pending': 
+      return 'text-yellow-500'
+    
+    case 'confirmed':
+      return 'text-blue-500'
+
+    case 'in-progress':
+      return 'text-purple-500'
+
+    case 'completed':
+      return 'text-green-500'
+    
+    case 'cancelled':
+      return 'text-red-500'
+    
+    default:
+      return 'text-black'
+  }
+}
+
 const getAllAppt = async () => {
   const currentUser = await authStore.getCurrentUser()
   const userID = currentUser.id
 
   const appointments = await apptStore.getAllAppt()
   apptList.value = appointments.filter((appointment) => appointment.groomerID === userID)
+  apptList.value.sort((a, b) => new Date(b.apptDate) - new Date(a.apptDate))
 
   for(const appointment of apptList.value) {
     const pet = await petStore.getPetByID(appointment.petID)
@@ -53,16 +75,19 @@ const getAllAppt = async () => {
 
   console.log('Appt List (Filtered)', apptList.value)
 
-  apptList.value.sort((a, b) => new Date(b.apptDate) - new Date(a.apptDate))
-
 }
 
 const goToApptDetails = (apptID) => {
   router.push(`/apptDetails/${apptID}`)
 }
 
-onMounted(() => {
-  getAllAppt()
+const goToEditAppt = (apptID) => {
+  router.push(`/editAppt/${apptID}`)
+}
+
+
+onMounted( async () => {
+  await getAllAppt()
 })
 
 </script>
@@ -73,7 +98,8 @@ onMounted(() => {
   <div class="min-h-screen m-4">
 
     <div class="my-2 bg-white text-center">
-        <label class="mx-6 text-xl font-semibold">Upcoming Appointments</label>
+        <label class="mx-6 text-2xl font-semibold">Upcoming Appointments</label>
+        <p class="font-light text-sm my-2">This table is sorted based on the latest appointment dates</p>
     </div>
 
 <div class="overflow-x-auto sm:rounded-lg my-8">
@@ -99,23 +125,30 @@ onMounted(() => {
             <tr 
               v-for="(appointment, index) in apptList"
               :key="index" 
-              class="odd:bg-slate-100 even:bg-white border-b hover:bg-gray-50">
+              class="odd:bg-slate-50 even:bg-white border-b hover:bg-gray-50 hover:cursor-pointer"
+              @click="goToApptDetails(appointment.id)"
+            >
                 
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                     {{ formatDate(appointment.apptDate) }}
-                </th>
-                <td class="px-6 py-4">
-                    {{ appointment.petName }}
-                </td>
-                <td class="px-6 py-4">
-                    {{ appointment.ownerName }}
-                </td>
-                <td class="px-6 py-4">
-                    {{ formatStatus(appointment.status) }}
-                </td>
-                <td class="px-6 py-4 text-left">
-                    <a @click="goToApptDetails(appointment.id)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:cursor-pointer">Edit</a>
-                </td>
+              </th>
+
+              <td class="px-6 py-4">
+                  {{ appointment.petName }}
+              </td>
+
+              <td class="px-6 py-4">
+                  {{ appointment.ownerName }}
+              </td>
+
+              <td class="px-6 py-4 font-semibold" 
+              :class="statusColor(appointment.status)">
+                  {{ formatStatus(appointment.status) }}
+              </td>
+
+              <td class="px-6 py-4 text-left">
+                  <a @click.stop="goToEditAppt(appointment.id)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:cursor-pointer">Edit</a>
+              </td>
             </tr>
             
         </tbody>
