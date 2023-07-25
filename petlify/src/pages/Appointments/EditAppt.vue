@@ -27,6 +27,7 @@ const petSpecies = ref(null)
 const petBreed = ref(null)
 const petColour = ref(null)
 const petWeight = ref(null)
+const petOwner = ref(null)
 
 const apptID = route.params.apptID
 
@@ -35,6 +36,8 @@ const getPetData = async () => {
 
     const petID = appt.petID
     const pet = await petStore.getPetByID(petID)
+    const owner = await userStore.getUserByID(pet.ownerID)
+    const ownerName = owner.name
 
     petName.value = pet.name
     petDOB.value = pet.dateOfBirth
@@ -42,6 +45,7 @@ const getPetData = async () => {
     petBreed.value = pet.breed
     petColour.value = pet.color
     petWeight.value = pet.weightInKG
+    petOwner.value = ownerName
 }
 
 // APPT 
@@ -122,6 +126,7 @@ onMounted(() => {
             :pet-breed="petBreed"
             :pet-colour="petColour"
             :pet-weight="petWeight"
+            :pet-owner="petOwner"
         />
         
             <div class="mx-10 my-6 flex flex-col gap-8">
