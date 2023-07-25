@@ -100,7 +100,7 @@ onMounted(async () => {
                 <div class="flex flex-col items-center">
 
                     
-                    <div class="border border-black rounded-full h-40 w-40 m-8">
+                    <div class="border-2 border-black rounded-full h-40 w-40 m-8">
                         <!-- Avatar -->
                         <img src="../assets//illustrations/purr-half-cat-1.png" alt=""
                         class="object-contain h-full w-full rounded-full"
@@ -110,7 +110,11 @@ onMounted(async () => {
                     <div class="flex flex-col justify-between items-center gap-8">
                         <Input :value="name" @update:value="name = $event"/>
                         <Input :value="email" @update:value="email = $event"/>
-                        <Input :disabled="true" :value="role"/>
+
+                        <div class="flex flex-col gap-1">
+                            <Input :disabled="true" :value="role"/>
+                            <p class="text-xs font-light italic">Role cannot be updated</p>
+                        </div>
                         <!-- Role cannot be updated -->
 
                         <ButtonNew text="Save" rounded="sm" class="default" @click="editUser"/>
