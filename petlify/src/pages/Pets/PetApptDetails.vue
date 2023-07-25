@@ -6,6 +6,7 @@ import Input from "@/components/Input.vue";
 import InputNew from '@/components/InputNew.vue'
 import ButtonNew from '@/components/ButtonNew.vue'
 import SelectDropdown from "../../components/SelectDropdown.vue";
+import { ArrowLeftIcon } from "@heroicons/vue/24/outline"
 
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -148,6 +149,10 @@ const goToEditAppt = async () => {
     router.push(`/${route.params.petID}/editPetAppt/${route.params.apptID}`)
 }
 
+const goToPetProfile = () => {
+    router.push(`/petProfile/${route.params.petID}`)
+}
+
 onMounted(() => {
     getPetData()
     getGroomerList()
@@ -161,6 +166,7 @@ onMounted(() => {
   <div class="min-h-screen">
     <PetApptHeader
       :header="`${petName}'s Appointment Details`"
+      sub-header="Appointment Details"
       :pet-name="petName"
       :pet-bday="petDOB"
       :pet-species="petSpecies"
@@ -171,15 +177,7 @@ onMounted(() => {
     />
 
     <div>
-      <div class="py-2 bg-white drop-shadow-md rounded-lg">
-        <label class="mx-6 text-xl font-semibold">Appointment Details</label>
-      </div>
 
-      <!-- <div class="block text-center m-4" v-if="hasUpcomingAppt()">
-        <label class="font-semibold text-orange-400">
-            {{ petName }} has an upcomming appointment on {{ selectedDate }}!
-        </label>
-      </div> -->
 
       <div class="mx-10 my-6 flex flex-col gap-8">
         <div class="flex flex-row flex-wrap gap-8 items-center">
@@ -211,7 +209,17 @@ onMounted(() => {
         >
         </v-textarea>
 
-        <ButtonNew text="Edit Appointment" @click="goToEditAppt" class="default"/>
+        <div class="flex flex-col w-full items-center justify-between gap-4">
+            <ButtonNew text="Edit Appointment" @click="goToEditAppt" class="default"/>
+
+            <div class="mt-4 flex flex-row items-center justify-between gap-2 hover:cursor-pointer">
+                <ArrowLeftIcon class="h-4 w-4"/>
+                <label @click="goToPetProfile"
+                class="font-light text-sm text-black hover:cursor-pointer hover:underline">
+                Back
+            </label>
+        </div>
+        </div>
       </div>
     </div>
   </div>
