@@ -25,12 +25,15 @@ const petSpecies = ref(null)
 const petBreed = ref(null)
 const petColour = ref(null)
 const petWeight = ref(null)
+const petOwner = ref(null)
 
 const getPetData = async () => {
     const apptID = route.params.apptID
     const appt = await apptStore.getApptByID(apptID)
     const petID = appt.petID
     const pet = await petStore.getPetByID(petID)
+    const owner = await userStore.getUserByID(pet.ownerID)
+    const ownerName = owner.name
 
     petName.value = pet.name
     petDOB.value = pet.dateOfBirth
@@ -38,6 +41,7 @@ const getPetData = async () => {
     petBreed.value = pet.breed
     petColour.value = pet.color
     petWeight.value = pet.weightInKG
+    petOwner.value = ownerName
 
 }
 
@@ -94,6 +98,7 @@ onMounted(() => {
             :pet-breed="petBreed"
             :pet-colour="petColour"
             :pet-weight="petWeight"
+            :pet-owner="petOwner"
         />
 
 
