@@ -28,7 +28,7 @@ const props = defineProps({
         type: String
     },
     petWeight: {
-        type: Number
+        type: [Number, String]
     }
 })
 </script>
