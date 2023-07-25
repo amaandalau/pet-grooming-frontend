@@ -40,30 +40,26 @@ const props = defineProps({
         </div>
         
         <!-- Pet Info -->
-        <div class="flex flex-row items-center justify-start gap-8">
-            
-            <DefaultPetAvatar/>
-
-            <div class="flex flex-col items-start justify-between gap-8">
-                <Label label-title="Pet's Name" :label-value="petName"/>
-                <Label label-title="Pet's Owner" :label-value="petOwner"/>
-
+        <div class="flex flex-row items-center justify-start gap-10">
+            <div>
+                <DefaultPetAvatar/>
             </div>
 
-            <div class="ml-8">
-                <div class="flex flex-col items-center justify-between gap-8">
-                    <div class="flex flex-row items-center justify-between gap-20">
-                        <Label label-title="Species" :label-value="petSpecies"/>
-                        <Label label-title="Breed" :label-value="petBreed"/>
-                    </div>
-                    
-                    <div class="flex flex-row items-center justify-between gap-20">
-                        <Label label-title="Colour" :label-value="petColour"/>
-                        <Label label-title="Weight (KG)" :label-value="petWeight"/>
-                    </div>
+            <div class="flex flex-col items-start justify-between gap-10">
+                <div class="flex flex-row items-start justify-between gap-16">
+                    <!-- Top Row -->
+                    <Label label-title="Birthday" :label-value="petBday"/>
+                    <Label label-title="Breed" :label-value="petBreed"/>
+                    <Label label-title="Species" :label-value="petSpecies"/>
+                </div>
+
+                <div class="flex flex-row items-start justify-between gap-16">
+                    <!-- Bottom Row -->
+                    <Label label-title="Colour" :label-value="petColour"/>
+                    <Label label-title="Weight (KG)" :label-value="petWeight"/>
+                    <Label label-title="Owner" :label-value="petOwner"/>
                 </div>
             </div>
-
         </div>
         
         <div class="py-2 bg-transparent border-b rounded-lg">
