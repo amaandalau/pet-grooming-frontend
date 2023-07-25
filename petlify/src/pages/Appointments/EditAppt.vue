@@ -98,7 +98,7 @@ const editAppt = async () => {
     await apptStore.updateAppt(apptID,selectedDateValue, specialInstructions, apptStatus, ownerID, petID, groomerID, timeslotID)
     console.log('Appt Updated')
 
-    router.push(`/apptDetails/${apptID}`)
+    router.push(`/${userID}/appointments`)
     
 }
 
