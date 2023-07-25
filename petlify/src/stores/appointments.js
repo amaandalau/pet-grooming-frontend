@@ -50,6 +50,24 @@ export const useApptStores = defineStore({
             }
         },
 
+        async getApptByPetID(petID) {
+            try {
+                const options = {
+                    method: 'GET'
+                }
+
+                const response = await fetch(`http://localhost:8080/appointments/pet/${petID}`, options)
+                const data = await response.json()
+
+                console.log(data)
+                console.log('Get Appointments By Pet ID')
+
+                return data
+            } catch (error) {
+                console.error(error)
+            }
+        },
+
         async createAppt(apptDate, specialInstructions, status, petID, timeslotID, ownerID, groomerID) {
             try {
                 const accessToken = localStorage.getItem('access_token')
