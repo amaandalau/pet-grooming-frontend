@@ -22,6 +22,15 @@ const petData = ref([])
 
 const hasPets = computed(() => petData.value.length > 0)
 
+const formatDate = (dateStr) => {
+  const date = new Date(dateStr)
+  const day = date.toLocaleString('en-GB', { day: '2-digit'})
+  const month = date.toLocaleString('en-GB', { month: 'long'})
+  const year = date.toLocaleString('en-GB', { year: 'numeric'})
+
+  return `${day} ${month} ${year}`
+}
+
 const getUserPets = async () => {
     const currentUser = await authStore.getCurrentUser()
     const userID = currentUser.id
@@ -79,7 +88,7 @@ onMounted(async () => {
                     <PetProfileCard
                         :pet-name="pet.name"
                         :age="pet.age"
-                        :date-of-birth="pet.dateOfBirth"
+                        :date-of-birth="formatDate(pet.dateOfBirth)"
                         :species="pet.species"
                         :breed="pet.breed"
                         :colour="pet.color"
