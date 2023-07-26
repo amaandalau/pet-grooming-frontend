@@ -133,16 +133,13 @@ const getApptDetails = async () => {
 
 const upcommingAppt = ref([])
 
-const hasUpcomingAppt = async () => {
-    const today = new Date()
-    const petID = route.params.petID
+const formatDate = (dateStr) => {
+  const date = new Date(dateStr)
+  const day = date.toLocaleString('en-GB', { day: '2-digit'})
+  const month = date.toLocaleString('en-GB', { month: 'long'})
+  const year = date.toLocaleString('en-GB', { year: 'numeric'})
 
-    const apptList = await apptStore.getAllAppt()
-    console.log('Appt List:', apptList)
-
-    return upcommingAppt.value.some(appt => {
-        return appt.petID === petID && new Date(appt.apptDate) > today
-    })
+  return `${day} ${month} ${year}`
 }
 
 const goToEditAppt = async () => {
@@ -168,7 +165,7 @@ onMounted(() => {
       :header="`${petName}'s Appointment Details`"
       sub-header="Appointment Details"
       :pet-name="petName"
-      :pet-bday="petDOB"
+      :pet-bday="formatDate(petDOB)"
       :pet-species="petSpecies"
       :pet-breed="petBreed"
       :pet-colour="petColour"
@@ -196,7 +193,7 @@ onMounted(() => {
 
             <Input 
                 label="Appointment Date" 
-                :value="selectedDate" 
+                :value="formatDate(selectedDate)" 
                 :disabled="true" 
             />
         </div>

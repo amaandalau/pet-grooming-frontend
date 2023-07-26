@@ -52,6 +52,15 @@ const formatApptDate = (dateString, format) => {
     return formattedDate
 }
 
+const formatDate = (dateStr) => {
+  const date = new Date(dateStr)
+  const day = date.toLocaleString('en-GB', { day: '2-digit'})
+  const month = date.toLocaleString('en-GB', { month: 'long'})
+  const year = date.toLocaleString('en-GB', { year: 'numeric'})
+
+  return `${day} ${month} ${year}`
+}
+
 const toTitleCase = (str) => {
     return str
         .toLowerCase()
@@ -264,7 +273,7 @@ onMounted(() => {
             :header="`${petName}'s Appointment Details`"
             sub-header="Edit Appointment Details"
             :pet-name="petName"
-            :pet-bday="petDOB"
+            :pet-bday="formatDate(petDOB)"
             :pet-species="petSpecies"
             :pet-breed="petBreed"
             :pet-colour="petColour"
@@ -286,7 +295,7 @@ onMounted(() => {
                         :disabled="true"
                     />
 
-                    <Input label="Appointment Date" :value="selectedDate" :disabled="true" />
+                    <Input label="Appointment Date" :value="formatDate(selectedDate)" :disabled="true" />
                 </div>
 
                 <div class="flex flex-col gap-2">

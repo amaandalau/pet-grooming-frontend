@@ -42,6 +42,15 @@ const petColour = ref(null)
 const petWeight = ref(null)
 const petOwner = ref(null)
 
+const formatDate = (dateStr) => {
+  const date = new Date(dateStr)
+  const day = date.toLocaleString('en-GB', { day: '2-digit'})
+  const month = date.toLocaleString('en-GB', { month: 'long'})
+  const year = date.toLocaleString('en-GB', { year: 'numeric'})
+
+  return `${day} ${month} ${year}`
+}
+
 const getPetData = async () => {
 
     const petID = route.params.petID
@@ -128,7 +137,7 @@ onMounted(() => {
             :header="`Create an Appointment for ${petName}`"
             sub-header="Appointment Details"
             :pet-name="petName"
-            :pet-bday="petDOB"
+            :pet-bday="formatDate(petDOB)"
             :pet-species="petSpecies"
             :pet-breed="petBreed"
             :pet-colour="petColour"
