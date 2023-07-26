@@ -270,7 +270,7 @@ onMounted(() => {
             :pet-colour="petColour"
             :pet-weight="petWeight"
             :pet-owner="petOwner"
-        >
+        />
             <div class="mx-10 my-6 flex flex-col gap-8">
                 <div class="flex flex-row flex-wrap gap-8 items-center">
 
@@ -370,7 +370,6 @@ onMounted(() => {
             </div>
         </div>
 
-        </PetApptHeader>
     </div>
 
     <Footer/>
