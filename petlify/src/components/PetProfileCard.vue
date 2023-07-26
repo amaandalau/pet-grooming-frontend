@@ -41,13 +41,6 @@ const handleEditPetClick = (event) => {
     emits('editPetClicked')
 }
 
-const handleMakeApptClick = (event) => {
-    if(event.targer === event.currentTarget) {
-        event.stopPropagation()
-        emits('makeApptClicked')
-    }
-}
-
 const getAge = computed(() => {
     const birthDate = new Date(props.dateOfBirth)
     const today = new Date()
