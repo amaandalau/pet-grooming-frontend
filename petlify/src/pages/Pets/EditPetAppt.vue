@@ -5,6 +5,8 @@ import PetApptHeader from '@/components/PetApptHeader.vue'
 import Input from '@/components/Input.vue'
 import ButtonNew from '@/components/ButtonNew.vue'
 import SelectDropdown from '@/components/SelectDropdown.vue'
+import { ArrowLeftIcon } from "@heroicons/vue/24/outline"
+
 import VueDatePicker from '@vuepic//vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
@@ -309,21 +311,31 @@ onMounted(() => {
 
                 <div class="flex flex-col items-center justify-between gap-8">
 
-                    <div class="w-full" v-if="apptStatus === 'Confirmed'">
+                    <div class="w-full flex flex-col items-center gap-4" v-if="apptStatus === 'Confirmed'">
                         <ButtonNew 
-                        text="Cancel"
+                        text="Cancel Appointment"
                         elevation="0"
                         class="cancel"
                         @click="cancelAppt"
                         />
+
+                        <label @click="goToPetProfile" 
+                        class="font-light text-red-600 hover:underline hover:cursor-pointer">
+                        Cancel Edit
+                    </label>
                     </div>
 
-                    <div class="w-full" v-else-if="apptStatus === 'Pending'">
+                    <div class="w-full flex flex-col items-center gap-4" v-else-if="apptStatus === 'Pending'">
                         <ButtonNew 
                             text="Save Appointment" 
                             class="default"
                             @click="editAppt"
                         />
+
+                        <label @click="goToPetProfile" 
+                        class="font-light text-red-600 hover:underline hover:cursor-pointer">
+                        Cancel Edit
+                    </label>
                     </div>
 
                     <div class="w-full" v-else-if="apptStatus === 'Cancelled'">
@@ -335,12 +347,19 @@ onMounted(() => {
                         />
                     </div>
 
-                    <label @click="goToPetProfile"
+                    <!-- <label @click="goToPetProfile" 
                         class="font-light text-red-600 hover:underline hover:cursor-pointer">
                         Cancel Edit
-                    </label>
+                    </label> -->
 
-                </div>
+                    <div class="mt-4 flex flex-row items-center justify-between gap-2 hover:cursor-pointer" v-if="apptStatus === 'In-Progress' || apptStatus === 'Completed'">
+                        <ArrowLeftIcon class="h-4 w-4"/>
+                            <label @click="goToPetProfile"
+                                class="font-light text-sm text-black hover:cursor-pointer hover:underline">
+                                Back
+                            </label>
+
+                    </div>
 
                 <div class="block m-4 text-center">
                     <label @click="deleteAppointment"
@@ -349,6 +368,7 @@ onMounted(() => {
                     </label>
                 </div>
             </div>
+        </div>
 
         </PetApptHeader>
     </div>
