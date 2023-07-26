@@ -60,7 +60,7 @@ export const useAuthStores = defineStore({
                 //     ...userData
                 // }
 
-                console.log('Get Current User', userDetails)
+                // console.log('Get Current User', userDetails)
                 return userDetails
             } catch (error) {
                 console.error(error)
