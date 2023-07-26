@@ -45,6 +45,16 @@ const getUserData = async () => {
     userData.role = user.role
 }
 
+const setLogoRoute = () => {
+    if(userData.role === 'owner') {
+        goToPetsList()
+    } else if (userData.role === 'groomer') {
+        goToAppts()
+    } else {
+        goToHome()
+    }
+}
+
 onMounted(() => {
     getUserData()
 })
@@ -53,68 +63,40 @@ onMounted(() => {
 
 <template>
     <div class="bg-transparent flex flex-row items-center justify-between p-4 z-100 drop-shadow-sm">
-        <!-- <div @click="goToHome" class="flex flex-row justify-start gap-1 hover:cursor-pointer">
+        <div @click="setLogoRoute" class="flex flex-row justify-start gap-1 hover:cursor-pointer">
             <Logo/>
             <label class="font-semibold text-xl hover:cursor-pointer">Petlify</label>
-        </div> -->
+        </div>
 
-        <!-- <div class="flex flex-row items-center justify-end gap-4">
-            <NavbarMenu nav-title="Home" @click="goToHome"/>
-
-            <NavbarMenu nav-title="About" @click="goToAbout"/>
-        </div> -->
-
-        <!-- If logged in user is owner -->
-        <template v-if="userData.role === 'owner'">
-            <div @click="goToPetsList" class="flex flex-row justify-start gap-1 hover:cursor-pointer">
-                <Logo/>
-                <label class="font-semibold text-xl hover:cursor-pointer">Petlify</label>
-            </div>
-
-            <div class="flex flex-row items-center justify-end gap-4">
-
+        <div class="flex flex-row items-center justify-end gap-4">
+             <!-- If logged in user is owner -->
+            <template v-if="userData.role === 'owner'">
                 <NavbarMenu nav-title="My Pets" @click="goToPetsList"/>
-                
-                <!-- <NavbarMenu nav-title="Appointments"/> -->
-                
+                                
                 <DropdownMenu :user="getUserData()"/>
             
-            </div>
-        </template>
+            </template>
 
-        <!-- If logged in user is groomer -->
-        <template v-else-if="userData.role === 'groomer'">
-            <div @click="goToAppts" class="flex flex-row justify-start gap-1 hover:cursor-pointer">
-                <Logo/>
-                <label class="font-semibold text-xl hover:cursor-pointer">Petlify</label>
-            </div>
-
-            <div class="flex flex-row items-center justify-end gap-4">
+                <!-- If logged in user is groomer -->
+            <template v-else-if="userData.role === 'groomer'">
 
                 <NavbarMenu nav-title="Upcoming Appointments" @click="goToAppts"/>
-                
-                <!-- <NavbarMenu nav-title="My Services"/> -->
-                
+                            
                 <DropdownMenu :user="getUserData()"/>
-            
-            </div>
-        </template>
+                
+            </template>
 
-        <template v-else>
-            <div @click="goToPetsList" class="flex flex-row justify-start gap-1 hover:cursor-pointer">
-                <Logo/>
-                <label class="font-semibold text-xl hover:cursor-pointer">Petlify</label>
-            </div>
-            
-            <div class="flex flex-row items-center justify-end gap-4">
+            <template v-else>
+
                 <NavbarMenu nav-title="Home" @click="goToHome"/>
 
                 <NavbarMenu nav-title="About" @click="goToAbout"/>
-            </div>
 
             <div class="w-1/8">
                 <ButtonNew @click="goToSignUp" text="Sign Up" rounded="sm" size="large" class="default"/>
             </div>
         </template>
+
+        </div>
     </div>
 </template>
