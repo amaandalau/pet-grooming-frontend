@@ -115,17 +115,7 @@ const getAge = computed(() => {
                 </div>
 
             </div>
-
-            <!-- If has appointment -->
-            <!-- <template>
-                <div class="flex flex-col">
-                    <label class="text-sm text-center">{{ petName }} has an upcomming appointment!</label>
-
-                    <button class="m-2 px-4 py-2 bg-yellow-300 rounded-md">View Appointment Details</button>
-                </div>
-            </template> -->
             
         </div>
-        <!-- <ButtonNew @click="handleMakeApptClick" text="Make an appointment" rounded="lg" elevation="0" size="large"/> -->
     </div>
 </template>
