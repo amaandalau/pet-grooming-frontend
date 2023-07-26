@@ -5,6 +5,7 @@ import Label from '../../components/Label.vue'
 import ButtonNew from "@/components/ButtonNew.vue";
 import DefaultPetAvatar from '../../components/DefaultPetAvatar.vue'
 import PetApptHeader from '../../components/PetApptHeader.vue'
+import EmptyState from '../../components/EmptyState.vue'
 
 import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -170,10 +171,10 @@ const goToEditAppt = (apptID) => {
 
     <div class="overflow-x-auto sm:rounded-lg my-6 mx-10">
         
-        <p class="m-1 italic font-light text-xs">Please contact your groomer to arrange type of services and your timeslot</p>
-        <p class="m-1 italic font-light text-xs">*Newer appointment dates will be shown first</p>
+        <p v-if="apptList.length > 0" class="m-1 italic font-light text-xs">Please contact your groomer to arrange type of services and your timeslot</p>
+        <p v-if="apptList.length > 0" class="m-1 italic font-light text-xs">*Newer appointment dates will be shown first</p>
     
-        <table class="w-full text-sm text-left text-gray-500">
+        <table v-if="apptList.length > 0" class="w-full text-sm text-left text-gray-500">
         
             <thead class="text-xs text-white uppercase bg-slate-900">
             <tr>
@@ -216,9 +217,12 @@ const goToEditAppt = (apptID) => {
                   <a @click.stop="goToEditAppt(appointment.id)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline hover:cursor-pointer">Edit</a>
               </td>
             </tr>
-            
         </tbody>
     </table>
+
+    <div v-else>
+      <EmptyState :text="`${petName} has no appointments yet`"/>
+    </div>
 </div>
   </div>
   <Footer />
