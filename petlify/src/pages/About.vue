@@ -43,7 +43,7 @@ onMounted(() => {
         </div>
 
         <div class="mx-48" v-if="!user.isLoggedIn">
-            <ButtonNew text="Sign Up Now" @click="goToSignUp"/>
+            <ButtonNew text="Sign Up Now" class="default" @click="goToSignUp"/>
         </div>
 
     </div>
