@@ -337,7 +337,7 @@ onMounted(() => {
 
                     <label @click="goToPetProfile"
                         class="font-light text-red-600 hover:underline hover:cursor-pointer">
-                        Cancel
+                        Cancel Edit
                     </label>
 
                 </div>
