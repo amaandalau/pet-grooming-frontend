@@ -81,8 +81,8 @@ const login = async () => {
         ></v-text-field>
 
         <a
-            class="text-caption text-slate-800 font-light hover:underline"
-            href="/forgotPassword"
+            class="text-caption text-slate-800 font-light hover:cursor-default"
+            href="#"
             rel="noopener noreferrer"
           >
             Forgot login password?</a>
