@@ -24,7 +24,7 @@ const goToResetPwd = () => {
         <div class="flex flex-col gap-16">
             <InputNew label="Email" :show-rules="true" placeholder="Enter your email"/>
 
-            <ButtonNew text="Reset password" rounded="sm" @click="goToResetPwd"/>
+            <ButtonNew text="Reset password" rounded="sm" class="default" @click="goToResetPwd"/>
 
             <router-link to="/login">
                 <div class="flex justify-center">
