@@ -30,37 +30,12 @@ export const useAuthStores = defineStore({
 
                 if(!decodedToken || !decodedToken.id) throw 'Invalid token or missing user ID'
 
-                // Extract user details from the decoded token
-                // const userDetails = {
-                //     id: decodedToken.payload.id,
-                //     email: decodedToken.payload.email,
-                //     role: decodedToken.payload.role
-                // }
-
                 const userDetails = {
                     id: decodedToken.id,
                     email: decodedToken.email,
                     role: decodedToken.role
                 }
-
-                // const response = await fetch('http://localhost:8080/auth/me', {
-                //     method: 'GET',
-                //     headers: {
-                //         Authorization: accessToken
-                //     }
-                // })
-
-                // if(!response.ok) throw 'Failed to fetch current user'
-
-                // const userData = await response.json()
-
-                // // Return merged details
-                // return {
-                //     ...userDetails,
-                //     ...userData
-                // }
-
-                // console.log('Get Current User', userDetails)
+                
                 return userDetails
             } catch (error) {
                 console.error(error)
