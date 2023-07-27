@@ -107,10 +107,12 @@ onMounted(async () => {
         </div>
 
         <template v-else>
-            <div class="flex flex-col justify-between gap-4">
+            <div class="flex flex-col items-center justify-between gap-4">
                 <EmptyState text="You have no pets yet"/>
 
-                <ButtonNew text="Create New Pet"/>
+                <div class="w-1/3 flex items-center">
+                    <ButtonNew text="Create New Pet" class="default" @click="goToAddNewPet"/>
+                </div>
             </div>
         </template>
     </div>
