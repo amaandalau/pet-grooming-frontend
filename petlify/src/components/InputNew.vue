@@ -19,6 +19,17 @@ const props = defineProps({
     },
     placeholder: {
       type: String
+    },
+    readonly: {
+      type: Boolean,
+      default: false
+    }, 
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    value: {
+      type: String
     }
 })
 
@@ -90,18 +101,32 @@ const getFieldRules = (label) => {
     }
 }
 
+const updateFieldValue = (inputValue) => {
+  if (label === 'Email') {
+    email.value = inputValue
+  } else if (label === 'Password') {
+    password.value = inputValue
+  } else {
+    name.value = inputValue
+  }
+}
+
 
 </script>
 <template>
      <v-text-field
+              :value="value"
               :v-model="getFieldValue(label)"
               :rules="getFieldRules(label)"
               :counter="showCounter ? 10 : undefined"
               :label="label"
               :variant="variant"
               :placeholder="placeholder"
+              :readonly="readonly"
+              :disabled="disabled"
               required
               class="fixed-text-field"
+              @update:value="updateFieldValue"
     ></v-text-field>
   </template>
 
