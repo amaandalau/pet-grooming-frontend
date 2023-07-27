@@ -1,6 +1,7 @@
 <script setup>
 import Navbar from '@/components/Navbar.vue'
 import Footer from '@/components/Footer.vue'
+import EmptyState from '../../components/EmptyState.vue'
 
 import { onMounted, ref } from 'vue'
 import { useUserStores } from '../../stores/users';
@@ -103,7 +104,7 @@ onMounted( async () => {
     </div>
 
 <div class="overflow-x-auto sm:rounded-lg my-8">
-    <table class="w-full text-sm text-left text-gray-500">
+    <table v-if="apptList.length > 0" class="w-full text-sm text-left text-gray-500">
         <thead class="text-xs text-white uppercase bg-slate-900">
             <tr>
                 <th scope="col" class="px-6 py-3">Appointment Date</th>
@@ -153,6 +154,10 @@ onMounted( async () => {
             
         </tbody>
     </table>
+
+    <div v-else>
+      <EmptyState :text="`No appointments yet`"/>
+    </div>
 </div>
 
 
