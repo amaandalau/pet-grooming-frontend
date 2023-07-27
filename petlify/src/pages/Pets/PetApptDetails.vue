@@ -33,30 +33,22 @@ const apptStatus = ref(null);
 const selectedDate = ref(null)
 const specialInstructions = ref(null)
 
-const formatApptDate = (dateString, format) => {
-    const dateObj = new Date(dateString)
-
-    const day = dateObj.getDate().toString().padStart(2, '0')
-    const month = (dateObj.getMonth() + 1).toString().padStart(2, '0')
-    const year = dateObj.getFullYear()
-
-    const formattedDate = format
-        .replace('DD', day)
-        .replace('MM', month)
-        .replace('YYYY', year)
-
-    return formattedDate
-}
-
 const statusList = ref(['pending', 'confirmed', 'in-progress', 'completed', 'cancelled'])
+
+const formatDate = (dateStr) => {
+  const date = new Date(dateStr)
+  const day = date.toLocaleString('en-GB', { day: '2-digit'})
+  const month = date.toLocaleString('en-GB', { month: 'long'})
+  const year = date.toLocaleString('en-GB', { year: 'numeric'})
+
+  return `${day} ${month} ${year}`
+}
 
 const toTitleCase = (str) => {
     return str
         .toLowerCase()
         .replace(/\b\w/g, (match) => match.toUpperCase())
 }
-
-const apptStatusList = statusList.value.map(status => toTitleCase(status))
 
 const groomerList = ref(null)
 
@@ -121,25 +113,10 @@ const getApptDetails = async () => {
     } else {
         console.log('Groomer Not Found')
     }
-
-    const date = appt.apptDate
-    const customFormat = 'DD-MM-YYYY'
-    const formattedDate = formatApptDate(date, customFormat)
     
     apptStatus.value = toTitleCase(appt.status)
-    selectedDate.value = formattedDate
+    selectedDate.value = formatDate(appt.apptDate)
     specialInstructions.value = appt.specialInstructions
-}
-
-const upcommingAppt = ref([])
-
-const formatDate = (dateStr) => {
-  const date = new Date(dateStr)
-  const day = date.toLocaleString('en-GB', { day: '2-digit'})
-  const month = date.toLocaleString('en-GB', { month: 'long'})
-  const year = date.toLocaleString('en-GB', { year: 'numeric'})
-
-  return `${day} ${month} ${year}`
 }
 
 const goToEditAppt = async () => {
@@ -193,7 +170,7 @@ onMounted(() => {
 
             <Input 
                 label="Appointment Date" 
-                :value="formatDate(selectedDate)" 
+                :value="selectedDate" 
                 :disabled="true" 
             />
         </div>
