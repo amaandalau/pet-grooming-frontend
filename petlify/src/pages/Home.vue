@@ -49,10 +49,16 @@ const homeRoute = computed(() => {
                     <ButtonNew text="Get Started" rounded="sm" class="default"/>
                 </router-link>
                 <div class="mt-4">
-                    <label class="font-light text-sm">
+                    <!-- <label class="font-light text-sm">
                         Already have an account? 
                         <a class="hover:underline hover:cursor-pointer" href="/login">Log in</a>
-                    </label> 
+                    </label>  -->
+                    <v-card-text class="text-center text-slate-700 font-light">
+        Have an account?
+        <a class="text-black hover:underline" href="/login" rel="noopener noreferrer">
+          Log in
+        </a>
+      </v-card-text>
                 </div>
             </div>
         </template>
