@@ -79,7 +79,7 @@ export const userReviewStore = defineStore({
                     })
                 }
 
-                const response = await fetch('http://localhost:8080/reviews', options)
+                const response = await fetch('https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/reviews', options)
                 const data = response.json()
 
                 console.log(data)
@@ -108,7 +108,7 @@ export const userReviewStore = defineStore({
                     })
                 }
 
-                const response = await fetch('http://localhost:8080/reviews/:reviewID', options)
+                const response = await fetch('https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/reviews/:reviewID', options)
                 const data = await response.json()
 
                 console.log(data)
@@ -129,7 +129,7 @@ export const userReviewStore = defineStore({
                     }
                 }
 
-                const response = await fetch('http://localhost:8080/reviews/:reviewID', options)
+                const response = await fetch('https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/reviews/:reviewID', options)
                 const data = response.json()
 
                 console.log(data)

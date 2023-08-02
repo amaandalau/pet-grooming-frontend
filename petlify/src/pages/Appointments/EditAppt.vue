@@ -96,7 +96,7 @@ const editAppt = async () => {
     const currentUser = await authStore.getCurrentUser()
     const userID = currentUser.id
     const groomerID = userID
-    const timeslotID = 6
+    const timeslotID = 1
 
 
     await apptStore.updateAppt(apptID,selectedDateValue, specialInstructions, apptStatus, ownerID, petID, groomerID, timeslotID)

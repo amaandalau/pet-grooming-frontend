@@ -101,7 +101,7 @@ const createAppt = async () => {
     const apptDateValue = apptDate.value
     const specialInstructionsValue = specialInstructions.value
     const statusValue = 'pending'
-    const timeslotValue = 6 // Just using id from dummy data to pass it
+    const timeslotValue = 1 // Just using id from dummy data to pass it
 
 
     console.log('Groomer Name', groomerName.value)

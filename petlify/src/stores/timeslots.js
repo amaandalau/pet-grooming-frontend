@@ -21,7 +21,7 @@ export const useTimeslotStores = defineStore({
                     method: 'GET'
                 }
     
-                const response = await fetch('http://localhost:8080/timeslots/', options)
+                const response = await fetch('https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/timeslots/', options)
                 const data = response.json()
     
                 console.log(data)
@@ -37,7 +37,7 @@ export const useTimeslotStores = defineStore({
                     method: 'GET'
                 }
 
-                const response = await fetch(`http://localhost:8080/timeslots/users/${groomerID}`, options)
+                const response = await fetch(`https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/timeslots/users/${groomerID}`, options)
                 const data = await response.json()
 
                 console.log(data)
@@ -53,7 +53,7 @@ export const useTimeslotStores = defineStore({
                     method: 'GET'
                 }
 
-                const response = await fetch(`http://localhost:8080/timeslots/${timeslotID}`, options)
+                const response = await fetch(`https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/timeslots/${timeslotID}`, options)
                 const data = response.json()
 
                 console.log(data)
@@ -76,7 +76,7 @@ export const useTimeslotStores = defineStore({
                     body: JSON.stringify({timeslots, status, groomerID})
                 }
 
-                const response = await fetch('http://localhost:8080/timeslots/', options)
+                const response = await fetch('https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/timeslots/', options)
                 const data = response.json()
 
                 console.log(data)
@@ -99,7 +99,7 @@ export const useTimeslotStores = defineStore({
                     body: JSON.stringify({timeslots, status, groomerID})
                 }
 
-                const response = await fetch('http://localhost:8080/timeslots/:timeslotID', options)
+                const response = await fetch('https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/timeslots/:timeslotID', options)
                 const data = response.json()
 
                 console.log(data)
@@ -120,7 +120,7 @@ export const useTimeslotStores = defineStore({
                     }
                 }
 
-                const response = await fetch('http://localhost:8080/timeslots/:timeslotID', options)
+                const response = await fetch('https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/timeslots/:timeslotID', options)
                 const data = response.json()
 
                 console.log(data)

@@ -30,7 +30,8 @@ export const useUserStores = defineStore({
                     method: 'GET'
                 }
 
-                const response = await fetch(`http://localhost:8080/users`, options)
+                // const response = await fetch(`http://localhost:8080/users`, options)
+                const response = await fetch(`https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/users`, options)
                 const data = await response.json()
 
                 console.log(data)
@@ -48,7 +49,8 @@ export const useUserStores = defineStore({
                     const options = {
                         method: 'GET'
                     }
-                    const response = await fetch(`http://localhost:8080/users/${userID}`, options)
+                    // const response = await fetch(`http://localhost:8080/users/${userID}`, options)
+                    const response = await fetch(`https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/users/${userID}`, options)
                     const data = await response.json()
                     
                     this.user = data // Set the user information in the state
@@ -77,7 +79,8 @@ export const useUserStores = defineStore({
                     body: JSON.stringify({email, password, role, isVerified})
                 }
 
-                const response = await fetch('http://localhost:8080/users', options)
+                // const response = await fetch('http://localhost:8080/users', options)
+                const response = await fetch('https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/users', options)
                 const data = await response.json()
 
                 console.log('User Data', data)
@@ -115,7 +118,8 @@ export const useUserStores = defineStore({
                     body: JSON.stringify({name, email})
                 }
 
-                const response = await fetch(`http://localhost:8080/users/${userID}`, options)
+                // const response = await fetch(`http://localhost:8080/users/${userID}`, options)
+                const response = await fetch(`https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/users/${userID}`, options)
                 const data = response.json()
 
                 console.log(data)
@@ -136,7 +140,8 @@ export const useUserStores = defineStore({
                     }
                 }
 
-                const response = await fetch(`http://localhost:8080/users/${userID}`, options)
+                // const response = await fetch(`http://localhost:8080/users/${userID}`, options)
+                const response = await fetch(`https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/users/${userID}`, options)
                 const data = response.json()
 
                 console.log(data)

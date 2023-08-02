@@ -35,6 +35,8 @@ const getUserPets = async () => {
     const currentUser = await authStore.getCurrentUser()
     const userID = currentUser.id
 
+    console.log(userID)
+
     petData.value = await petStore.getPetsByOwnerID(userID)
 
     const noOfPets = petData.value.length

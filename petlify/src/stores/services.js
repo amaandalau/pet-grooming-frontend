@@ -19,7 +19,7 @@ export const useServicesStores = defineStore({
                     method: 'GET'
                 }
 
-                const response = await fetch('http://localhost:8080/services', options)
+                const response = await fetch('https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/services', options)
                 const data = response.json()
 
                 console.log(data)
@@ -29,13 +29,13 @@ export const useServicesStores = defineStore({
             }
         },
 
-        async getServiceByID() {
+        async getServiceByID(serviceID) {
             try {
                 const options = {
                     method: 'GET'
                 }
 
-                const response = await fetch('http://localhost:8080/services/:serviceID', options)
+                const response = await fetch(`https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/services/${serviceID}`, options)
                 const data = response.json()
 
                 console.log(data)
@@ -58,7 +58,7 @@ export const useServicesStores = defineStore({
                     body: JSON.stringify({services, groomerID})
                 }
 
-                const response = await fetch('http://localhost:8080/services/', options)
+                const response = await fetch('https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/services/', options)
                 const data = response.json()
 
                 console.log(data)
@@ -81,7 +81,7 @@ export const useServicesStores = defineStore({
                     body: JSON.stringify({services, groomerID})
                 }
 
-                const response = await fetch('http://localhost:80080/services/:serviceID', options)
+                const response = await fetch('https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/services/:serviceID', options)
                 const data = response.json()
 
                 console.log(data)
@@ -91,7 +91,7 @@ export const useServicesStores = defineStore({
             }
         },
 
-        async deleteService() {
+        async deleteService(serviceID) {
             try {
                 const accessToken = this.accessToken
 
@@ -102,7 +102,7 @@ export const useServicesStores = defineStore({
                     }
                 }
 
-                const response = await fetch('http://localhost:8080/services/:serviceID', options)
+                const response = await fetch(`https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/services/${serviceID}`, options)
                 const data = response.json()
 
                 console.log(data)

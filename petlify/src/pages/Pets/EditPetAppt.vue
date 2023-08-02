@@ -149,7 +149,7 @@ const editAppt = async () => {
     const apptDateValue = apptDate.value
     const specialInstructionsValue = specialInstructions.value
     const status = appt.status
-    const timeslotID = 6 // Just using id from dummy data 
+    const timeslotID = 1 // Just using id from dummy data 
 
     const selectedGroomer = groomerList.value.find(groomer => groomer.name === groomerName.value)
     const groomerIDValue = selectedGroomer ? selectedGroomer.id : null

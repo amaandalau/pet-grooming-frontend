@@ -31,7 +31,8 @@ export const usePetStores = defineStore({
                     method: 'GET'
                 }
 
-                const response = await fetch(`http://localhost:8080/pets/users/${userID}`, options)
+                // const response = await fetch(`http://localhost:8080/pets/users/${userID}`, options)
+                const response = await fetch(`https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/pets/users/${userID}`, options)
                 const data = await response.json()
 
                 console.log(data)
@@ -49,7 +50,8 @@ export const usePetStores = defineStore({
                     method: 'GET'
                 }
 
-                const response = await fetch(`http://localhost:8080/pets/${petID}`, options)
+                // const response = await fetch(`http://localhost:8080/pets/${petID}`, options)
+                const response = await fetch(`https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/pets/${petID}`, options)
                 const data = await response.json()
 
                 console.log(data)
@@ -92,7 +94,8 @@ export const usePetStores = defineStore({
                     })
                 }
 
-                const response = await fetch('http://localhost:8080/pets/', options)
+                // const response = await fetch('http://localhost:8080/pets/', options)
+                const response = await fetch('https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/pets/', options)
                 const data = await response.json()
 
                 console.log(data)
@@ -126,7 +129,8 @@ export const usePetStores = defineStore({
                 })
             }
 
-            const response = await fetch(`http://localhost:8080/pets/${petID}`, options)
+            // const response = await fetch(`http://localhost:8080/pets/${petID}`, options)
+            const response = await fetch(`https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/pets/${petID}`, options)
             const data = await response.json()
 
             console.log(data)
@@ -151,7 +155,8 @@ export const usePetStores = defineStore({
                 }
             }
 
-            const response = await fetch(`http://localhost:8080/pets/${petID}`, options)
+            // const response = await fetch(`http://localhost:8080/pets/${petID}`, options)
+            const response = await fetch(`https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/pets/${petID}`, options)
             const data = await response.json()
 
             console.log(data)

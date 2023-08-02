@@ -19,7 +19,8 @@ export const useApptStores = defineStore({
                     method: 'GET'
                 }
     
-                const response = await fetch('http://localhost:8080/appointments', options)
+                // const response = await fetch('http://localhost:8080/appointments', options)
+                const response = await fetch('https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/appointments', options)
                 const data = await response.json()
     
                 console.log(data)
@@ -38,7 +39,8 @@ export const useApptStores = defineStore({
                     method: 'GET'
                 }
 
-                const response = await fetch(`http://localhost:8080/appointments/${apptID}`, options)
+                // const response = await fetch(`http://localhost:8080/appointments/${apptID}`, options)
+                const response = await fetch(`https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/appointments/${apptID}`, options)
                 const data = await response.json()
 
                 console.log(data)
@@ -56,7 +58,8 @@ export const useApptStores = defineStore({
                     method: 'GET'
                 }
 
-                const response = await fetch(`http://localhost:8080/appointments/pet/${petID}`, options)
+                // const response = await fetch(`http://localhost:8080/appointments/pet/${petID}`, options)
+                const response = await fetch(`https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/appointments/pet/${petID}`, options)
                 const data = await response.json()
 
                 console.log(data)
@@ -88,7 +91,8 @@ export const useApptStores = defineStore({
                         groomerID})
                 }
 
-                const response = await fetch('http://localhost:8080/appointments/', options)
+                // const response = await fetch('http://localhost:8080/appointments/', options)
+                const response = await fetch('https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/appointments/', options)
                 const data = await response.json()
 
                 console.log(data)
@@ -119,7 +123,7 @@ export const useApptStores = defineStore({
                     })
                 }
 
-                const response = await fetch(`http://localhost:8080/appointments/${apptID}`, options)
+                const response = await fetch(`https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/appointments/${apptID}`, options)
                 const data = await response.json()
 
                 console.log(data)
@@ -140,7 +144,7 @@ export const useApptStores = defineStore({
                     }
                 }
 
-                const response = await fetch(`http://localhost:8080/appointments/${apptID}`, options)
+                const response = await fetch(`https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/appointments/${apptID}`, options)
                 const data = response.json()
 
                 console.log(data)

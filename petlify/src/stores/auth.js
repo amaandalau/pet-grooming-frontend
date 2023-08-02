@@ -50,7 +50,8 @@ export const useAuthStores = defineStore({
                     body: JSON.stringify({name, email, password, role})
                 }
 
-                const response = await fetch('http://localhost:8080/auth/register', options)
+                // const response = await fetch('http://localhost:8080/auth/register', options)
+                const response = await fetch('https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/auth/register', options)
                 const data = await response.json()
 
                 console.log(data)
@@ -68,7 +69,8 @@ export const useAuthStores = defineStore({
                     body: JSON.stringify({email, password})
                 }
 
-                const response = await fetch('http://localhost:8080/auth/login', options)
+                // const response = await fetch('http://localhost:8080/auth/login', options)
+                const response = await fetch('https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/auth/login', options)
                 const data = await response.json()
 
                 const accessToken = data.accessToken
@@ -101,7 +103,8 @@ export const useAuthStores = defineStore({
                     body: JSON.stringify({email})
                 }
 
-                const response = await fetch('http://localhost:8080/auth/forgotPwd', options)
+                // const response = await fetch('http://localhost:8080/auth/forgotPwd', options)
+                const response = await fetch('https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/auth/forgotPwd', options)
                 const data = await response.json()
 
                 console.log(data)
@@ -119,7 +122,8 @@ export const useAuthStores = defineStore({
                     body: JSON.stringify({newPassword, resetToken})
                 }
 
-                const response = await fetch('http://localhost:8080/auth/resetPwd', options)
+                // const response = await fetch('http://localhost:8080/auth/resetPwd', options)
+                const response = await fetch('https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/auth/resetPwd', options)
                 const data = await response.json()
 
                 console.log(data)
@@ -142,7 +146,8 @@ export const useAuthStores = defineStore({
                     body: JSON.stringify({currentPassword, newPassword})
                 }
 
-                const response = await fetch('http://localhost:8080/auth/changePwd', options)
+                // const response = await fetch('http://localhost:8080/auth/changePwd', options)
+                const response = await fetch('https://pet-grooming-appt-system-api-dev-4-tkytgwdwfa-as.a.run.app/auth/changePwd', options)
                 const data = await response.json()
 
                 console.log(data)
