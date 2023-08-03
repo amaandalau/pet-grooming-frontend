@@ -1,8 +1,10 @@
 <script setup>
+import image from '@/assets/illustrations/default.png'
+
 const props = defineProps({
     src: {
         type: String,
-        default: '/src/assets/illustrations/default.png'
+        default: image
     },
     alt: {
         type: String
